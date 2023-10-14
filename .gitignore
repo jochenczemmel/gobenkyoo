@@ -2,3 +2,7 @@
 # vim swap file
 *.swp
 
+# test coverage files
+testcoverage.html
+testcoverage.txt
+
