@@ -6,20 +6,18 @@ import "github.com/jochenczemmel/gobenkyoo/content"
 // Book represents a book with lessons. It is optionally
 // a volume of a series/collection of books.
 type Book[T content.Card] struct {
-	title         string               // the title of the book
-	lessons       []Lesson[T]          // the lessons in the book
-	lessonByTitle map[string]Lesson[T] // the lessons in the book
+	title         string                // the title of the book
+	lessons       []*Lesson[T]          // the lessons in the book
+	lessonByTitle map[string]*Lesson[T] // the lessons in the book
 }
 
 // New returns a new book with the given title.
 func New[T content.Card](title string, lessons ...Lesson[T]) Book[T] {
 	result := Book[T]{
 		title:         title,
-		lessonByTitle: map[string]Lesson[T]{},
+		lessonByTitle: map[string]*Lesson[T]{},
 	}
-	for _, l := range lessons {
-		result.AddLesson(l)
-	}
+	result.AddLesson(lessons...)
 	return result
 }
 
@@ -30,34 +28,40 @@ func (b Book[T]) Title() string {
 
 // Lessons returns all lessons in the book in the provided order.
 func (b Book[T]) Lessons() []Lesson[T] {
-	// return a copy of the slice
-	result := make([]Lesson[T], len(b.lessons))
-	copy(result, b.lessons)
+	result := make([]Lesson[T], 0, len(b.lessons))
+	for _, l := range b.lessons {
+		result = append(result, *l)
+	}
 	return result
 }
 
 // AddLesson adds lessons to the book. The order of the lessons
-// is preserved.
+// is preserved. If the lesson already exists,
 func (b *Book[T]) AddLesson(lessons ...Lesson[T]) {
-	for _, lesson := range lessons {
-		foundLesson, ok := b.lessonByTitle[lesson.Title()]
+
+	for _, l := range lessons {
+		lesson := l
+		_, ok := b.lessonByTitle[lesson.Title()]
 		if ok {
-			foundLesson.Add(lesson.Content()...)
-			b.lessonByTitle[lesson.Title()] = foundLesson
 			return
 		}
-		b.lessonByTitle[lesson.Title()] = lesson
-		b.lessons = append(b.lessons, lesson)
+		b.lessonByTitle[lesson.Title()] = &lesson
+		b.lessons = append(b.lessons, &lesson)
 	}
 }
 
-/*
 // Lesson returns the lesson with the given title.
-// It returns false if it is not found.
-func (b Book) Lesson(title string) (Lesson, bool) {
+// If it is not found, it returns an empty Lesson and false.
+func (b Book[T]) Lesson(title string) (Lesson[T], bool) {
 	lesson, ok := b.lessonByTitle[title]
-	return lesson, ok
+	if !ok {
+		return Lesson[T]{}, false
+	}
+	return *lesson, true
 }
 
-
+/*
+// SetLesson changes the value of an existing Lesson.
+func (b *Book[T]) SetLesson(lessons ...Lesson[T]) {
+}
 */

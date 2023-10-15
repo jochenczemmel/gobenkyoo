@@ -24,7 +24,7 @@ func TestBook(t *testing.T) {
 
 	t.Run("empty book", func(t *testing.T) {
 
-		book := books.New[content.Card](bookTitle)
+		book := books.New[DummyCard](bookTitle)
 		got := book.Title()
 		if got != bookTitle {
 			t.Errorf("ERROR: got %s, want %s", got, bookTitle)
@@ -37,31 +37,64 @@ func TestBook(t *testing.T) {
 	})
 
 	t.Run("initial content", func(t *testing.T) {
-
 		book := books.New(bookTitle, lessons...)
-		got := book.Lessons()
-		gotTitles := []string{}
-		for _, l := range got {
-			gotTitles = append(gotTitles, l.Title())
-		}
-
-		if diff := cmp.Diff(gotTitles, wantLessonTitles); diff != "" {
-			t.Errorf("ERROR: got- want+%s\n", diff)
-		}
+		compareLessonTitles(t, book.Lessons(), wantLessonTitles)
 	})
 
 	t.Run("add content", func(t *testing.T) {
-
-		book := books.New[content.Card](bookTitle)
+		book := books.New[DummyCard](bookTitle)
 		book.AddLesson(lessons...)
-		got := book.Lessons()
-		gotTitles := []string{}
-		for _, l := range got {
-			gotTitles = append(gotTitles, l.Title())
+		compareLessonTitles(t, book.Lessons(), wantLessonTitles)
+	})
+
+	t.Run("add duplicates", func(t *testing.T) {
+		book := books.New(bookTitle, lessons...)
+		book.AddLesson(lessons...)
+		compareLessonTitles(t, book.Lessons(), wantLessonTitles)
+	})
+
+	t.Run("add more content", func(t *testing.T) {
+		book := books.New(bookTitle, lessons...)
+		book.AddLesson(
+			books.NewLesson[DummyCard]("lesson4", bookTitle),
+		)
+		compareLessonTitles(t, book.Lessons(),
+			append(wantLessonTitles, "lesson4"),
+		)
+	})
+
+	t.Run("get lesson by title", func(t *testing.T) {
+		book := books.New(bookTitle, lessons...)
+		cases := []struct {
+			name  string
+			title string
+			want  bool
+		}{
+			{name: "found", title: "lesson2", want: true},
+			{name: "not found", title: "not found", want: false},
 		}
 
-		if diff := cmp.Diff(gotTitles, wantLessonTitles); diff != "" {
-			t.Errorf("ERROR: got- want+%s\n", diff)
+		for _, c := range cases {
+			t.Run(c.name, func(t *testing.T) {
+				_, got := book.Lesson(c.title)
+				if got != c.want {
+					t.Errorf("ERROR: got %v, want %v", got, c.want)
+				}
+			})
 		}
+
+		compareLessonTitles(t, book.Lessons(), wantLessonTitles)
 	})
+}
+
+func compareLessonTitles[T content.Card](t *testing.T, got []books.Lesson[T], want []string) {
+	t.Helper()
+	gotTitles := []string{}
+	for _, l := range got {
+		gotTitles = append(gotTitles, l.Title())
+	}
+
+	if diff := cmp.Diff(gotTitles, want); diff != "" {
+		t.Errorf("ERROR: got- want+%s\n", diff)
+	}
 }
