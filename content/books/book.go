@@ -45,6 +45,7 @@ func (b *Book[T]) AddLesson(lessons ...Lesson[T]) {
 		if ok {
 			return
 		}
+		lesson.SetBookTitle(b.title)
 		b.lessonByTitle[lesson.Title()] = &lesson
 		b.lessons = append(b.lessons, &lesson)
 	}
@@ -61,7 +62,8 @@ func (b Book[T]) Lesson(title string) (Lesson[T], bool) {
 }
 
 /*
+// TODO: is it necessary to change a lesson or set to a certain position?
 // SetLesson changes the value of an existing Lesson.
-func (b *Book[T]) SetLesson(lessons ...Lesson[T]) {
+func (b *Book[T]) SetLesson(lessons Lesson[T], position int) {
 }
 */

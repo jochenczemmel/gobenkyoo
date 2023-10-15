@@ -12,9 +12,9 @@ func TestBook(t *testing.T) {
 
 	bookTitle := "book1"
 	lessons := []books.Lesson[DummyCard]{
-		books.NewLesson[DummyCard]("lesson1", bookTitle),
-		books.NewLesson[DummyCard]("lesson2", bookTitle),
-		books.NewLesson[DummyCard]("lesson3", bookTitle),
+		books.NewLesson[DummyCard]("lesson1", ""),
+		books.NewLesson[DummyCard]("lesson2", ""),
+		books.NewLesson[DummyCard]("lesson3", ""),
 	}
 	wantLessonTitles := []string{
 		"lesson1",
@@ -66,24 +66,37 @@ func TestBook(t *testing.T) {
 	t.Run("get lesson by title", func(t *testing.T) {
 		book := books.New(bookTitle, lessons...)
 		cases := []struct {
-			name  string
-			title string
-			want  bool
+			name          string
+			title         string
+			want          bool
+			wantBookTitle string
 		}{
-			{name: "found", title: "lesson2", want: true},
-			{name: "not found", title: "not found", want: false},
+			{
+				name:          "found",
+				title:         "lesson2",
+				want:          true,
+				wantBookTitle: bookTitle,
+			},
+			{
+				name:          "not found",
+				title:         "not found",
+				want:          false,
+				wantBookTitle: "",
+			},
 		}
 
 		for _, c := range cases {
 			t.Run(c.name, func(t *testing.T) {
-				_, got := book.Lesson(c.title)
+				foundLesson, got := book.Lesson(c.title)
 				if got != c.want {
 					t.Errorf("ERROR: got %v, want %v", got, c.want)
 				}
+				gotTitle := foundLesson.BookTitle()
+				if gotTitle != c.wantBookTitle {
+					t.Errorf("ERROR: got %q, want %q", gotTitle, c.wantBookTitle)
+				}
 			})
 		}
-
-		compareLessonTitles(t, book.Lessons(), wantLessonTitles)
 	})
 }
 

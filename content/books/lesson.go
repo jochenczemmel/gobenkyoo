@@ -31,6 +31,11 @@ func (l Lesson[T]) Title() string {
 	return l.title
 }
 
+// SetBookTitle sets the title of the book that contains the lesson.
+func (l *Lesson[T]) SetBookTitle(title string) {
+	l.bookTitle = title
+}
+
 // BookTitle returns the title of the book that contains the lesson.
 func (l Lesson[T]) BookTitle() string {
 	return l.bookTitle
