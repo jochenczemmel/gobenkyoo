@@ -43,19 +43,19 @@ func TestBook(t *testing.T) {
 
 	t.Run("add content", func(t *testing.T) {
 		book := books.New[DummyCard](bookTitle)
-		book.AddLesson(lessons...)
+		book.AppendLesson(lessons...)
 		compareLessonTitles(t, book.Lessons(), wantLessonTitles)
 	})
 
 	t.Run("add duplicates", func(t *testing.T) {
 		book := books.New(bookTitle, lessons...)
-		book.AddLesson(lessons...)
+		book.AppendLesson(lessons...)
 		compareLessonTitles(t, book.Lessons(), wantLessonTitles)
 	})
 
 	t.Run("add more content", func(t *testing.T) {
 		book := books.New(bookTitle, lessons...)
-		book.AddLesson(
+		book.AppendLesson(
 			books.NewLesson[DummyCard]("lesson4", bookTitle),
 		)
 		compareLessonTitles(t, book.Lessons(),

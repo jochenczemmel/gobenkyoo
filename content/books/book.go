@@ -17,7 +17,7 @@ func New[T content.Card](title string, lessons ...Lesson[T]) Book[T] {
 		title:         title,
 		lessonByTitle: map[string]*Lesson[T]{},
 	}
-	result.AddLesson(lessons...)
+	result.AppendLesson(lessons...)
 	return result
 }
 
@@ -35,9 +35,9 @@ func (b Book[T]) Lessons() []Lesson[T] {
 	return result
 }
 
-// AddLesson adds lessons to the book. The order of the lessons
+// AppendLesson adds lessons to the book. The order of the lessons
 // is preserved. If the lesson already exists,
-func (b *Book[T]) AddLesson(lessons ...Lesson[T]) {
+func (b *Book[T]) AppendLesson(lessons ...Lesson[T]) {
 
 	for _, l := range lessons {
 		lesson := l
