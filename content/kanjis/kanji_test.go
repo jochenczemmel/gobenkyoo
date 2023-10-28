@@ -7,47 +7,34 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 )
 
-func TestKanjiEmpty(t *testing.T) {
+func TestKanjiInfo(t *testing.T) {
 
 	testCases := []struct {
-		name                                 string
-		card                                 kanjis.Card
-		wantRune                             rune
-		wantId, wantString, wantDescriptor   string
-		wantNumber, wantLen, wantStrokeCount int
-		wantReading, wantKana, wantMeaning   []string
+		name                               string
+		card                               kanjis.Card
+		wantRune                           rune
+		wantID, wantString, wantDescriptor string
+		wantNumber, wantStrokeCount        int
 	}{
 		{
-			name:        "uninitialized",
-			wantReading: []string{},
-			wantKana:    []string{},
-			wantMeaning: []string{},
+			name: "uninitialized",
 		},
 		{
-			name:        "empty",
-			card:        kanjis.NewBuilder(' ').Build(),
-			wantRune:    ' ',
-			wantReading: []string{},
-			wantKana:    []string{},
-			wantMeaning: []string{},
+			name:     "empty",
+			card:     kanjis.NewBuilder(' ').Build(),
+			wantRune: ' ',
 		},
 		{
 			name: "kata_hoo",
 			card: kanjis.
 				NewBuilder('方').
-				AddDetailsKana("HOO", "ホー", "Richtung", "Art und Weise, etwas zu tun").
-				AddDetails("kata", "Person", "Art und Weise, etwas zu tun").
 				Build(),
 			wantRune:        '方',
-			wantId:          "方",
+			wantID:          "方",
 			wantString:      "方 (4h0.1/70)",
 			wantDescriptor:  "4h0.1",
 			wantNumber:      70,
-			wantLen:         2,
 			wantStrokeCount: 4,
-			wantReading:     []string{"HOO", "kata"},
-			wantKana:        []string{"ホー", "かた"},
-			wantMeaning:     []string{"Richtung", "Art und Weise, etwas zu tun", "Person"},
 		},
 	}
 
@@ -58,8 +45,8 @@ func TestKanjiEmpty(t *testing.T) {
 				t.Errorf("ERROR: got %c, want %c", gotRune, c.wantRune)
 			}
 			got := c.card.ID()
-			if got != c.wantId {
-				t.Errorf("ERROR: got %q, want %q", got, c.wantId)
+			if got != c.wantID {
+				t.Errorf("ERROR: got %q, want %q", got, c.wantID)
 			}
 			got = c.card.String()
 			if got != c.wantString {
@@ -73,13 +60,54 @@ func TestKanjiEmpty(t *testing.T) {
 			if gotNum != c.wantNumber {
 				t.Errorf("ERROR: got %v, want %v", gotNum, c.wantNumber)
 			}
-			gotNum = len(c.card.Details())
-			if gotNum != c.wantLen {
-				t.Errorf("ERROR: got %v, want %v", gotNum, c.wantLen)
-			}
 			gotNum = c.card.StrokeCount()
 			if gotNum != c.wantStrokeCount {
 				t.Errorf("ERROR: got %v, want %v", gotNum, c.wantStrokeCount)
+			}
+		})
+	}
+}
+
+func TestKanjiDetails(t *testing.T) {
+
+	testCases := []struct {
+		name                               string
+		card                               kanjis.Card
+		wantLen                            int
+		wantReading, wantKana, wantMeaning []string
+	}{
+		{
+			name:        "uninitialized",
+			wantReading: []string{},
+			wantKana:    []string{},
+			wantMeaning: []string{},
+		},
+		{
+			name:        "empty",
+			card:        kanjis.NewBuilder(' ').Build(),
+			wantReading: []string{},
+			wantKana:    []string{},
+			wantMeaning: []string{},
+		},
+		{
+			name: "kata_hoo",
+			card: kanjis.
+				NewBuilder('方').
+				AddDetailsKana("HOO", "ホー", "Richtung", "Art und Weise, etwas zu tun").
+				AddDetails("kata", "Person", "Art und Weise, etwas zu tun").
+				Build(),
+			wantLen:     2,
+			wantReading: []string{"HOO", "kata"},
+			wantKana:    []string{"ホー", "かた"},
+			wantMeaning: []string{"Richtung", "Art und Weise, etwas zu tun", "Person"},
+		},
+	}
+
+	for _, c := range testCases {
+		t.Run(c.name, func(t *testing.T) {
+			gotNum := len(c.card.Details())
+			if gotNum != c.wantLen {
+				t.Errorf("ERROR: got %v, want %v", gotNum, c.wantLen)
 			}
 			if diff := cmp.Diff(c.card.Readings(), c.wantReading); diff != "" {
 				t.Errorf("ERROR: got-, want+\n%s", diff)

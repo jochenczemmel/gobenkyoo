@@ -23,6 +23,7 @@ func Extract(text string) []rune {
 			}
 		}
 	}
+
 	return result
 }
 
@@ -38,5 +39,6 @@ func ToKana(romaji string) string {
 	if unicode.IsUpper([]rune(romaji)[0]) {
 		return kana.RomajiToKatakana(kana.NormalizeRomaji(lowcase))
 	}
+
 	return kana.RomajiToHiragana(kana.NormalizeRomaji(lowcase))
 }

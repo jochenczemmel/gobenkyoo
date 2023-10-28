@@ -65,5 +65,6 @@ func (l Lesson[T]) Contains(card T) bool {
 // ContainsID returns true if the given id is in the lesson.
 func (l Lesson[T]) ContainsID(id string) bool {
 	_, ok := l.uniqContent[id]
+
 	return ok
 }

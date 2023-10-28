@@ -8,8 +8,8 @@
 // In the learning process, the hint is supposed to be presented
 // with the question, the explanation is supposed to be presented
 // with the answer. This hint can be used to add precision to the quest,
-// the explanation can be used to display addional variants, special cases,
-// caveats etc.
+// the explanation can be used to display additional variants,
+// special cases, caveats etc.
 //
 // Each entry has a unique id.
 package words
@@ -38,8 +38,8 @@ type Card struct {
 	naiForm  string // nai-form
 }
 
-// new returns a new word with the given id.
-func new(id string) Card {
+// newCard returns a newCard word with the given id.
+func newCard(id string) Card {
 	return Card{id: id}
 }
 
@@ -48,7 +48,7 @@ func new(id string) Card {
 // return c.id == ""
 // }
 
-// ID returns the id
+// ID returns the id.
 func (c Card) ID() string {
 	return c.id
 }

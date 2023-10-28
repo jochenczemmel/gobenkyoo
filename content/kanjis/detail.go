@@ -23,6 +23,7 @@ func newDetail(reading string, meanings ...string) Detail {
 		uniqueMeanings: map[string]bool{},
 	}
 	result.addMeanings(meanings...)
+
 	return result
 }
 
@@ -31,6 +32,7 @@ func newDetail(reading string, meanings ...string) Detail {
 func newDetailKana(reading, kana string, meanings ...string) Detail {
 	result := newDetail(reading, meanings...)
 	result.readingKana = kana
+
 	return result
 }
 
@@ -72,5 +74,6 @@ func (d Detail) ReadingKana() string {
 	if d.readingKana == "" {
 		return ToKana(d.reading)
 	}
+
 	return d.readingKana
 }

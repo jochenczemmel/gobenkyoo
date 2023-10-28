@@ -2,6 +2,15 @@
 TMP_FILE=testcoverage.txt
 COVERAGE_FILE=testcoverage.html
 
+all: cover vulncheck lint
+
+# vulnerability check
+vulncheck:
+	govulncheck ./...
+
+# static code analysis
+lint:
+	golangci-lint run
 
 # run unit test
 test:
@@ -16,5 +25,5 @@ cover:
 	go test -cover -coverprofile $(TMP_FILE) ./...
 	go tool cover -html=$(TMP_FILE) -o $(COVERAGE_FILE)
 
-.PHONY: test testv cover
+.PHONY: all vulncheck lint test testv cover
 

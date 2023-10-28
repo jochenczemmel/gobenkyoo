@@ -8,7 +8,7 @@ type Builder struct {
 // NewBuilder creates a new Content object.
 func NewBuilder(kanji rune) *Builder {
 	return &Builder{
-		kanji: new(kanji),
+		kanji: newCard(kanji),
 	}
 }
 
@@ -16,6 +16,7 @@ func NewBuilder(kanji rune) *Builder {
 func (b *Builder) AddDetails(
 	reading string, meanings ...string) *Builder {
 	b.kanji.addDetails(newDetail(reading, meanings...))
+
 	return b
 }
 
@@ -24,6 +25,7 @@ func (b *Builder) AddDetails(
 func (b *Builder) AddDetailsKana(
 	reading, kana string, meanings ...string) *Builder {
 	b.kanji.addDetails(newDetailKana(reading, kana, meanings...))
+
 	return b
 }
 

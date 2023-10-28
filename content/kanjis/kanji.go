@@ -20,10 +20,10 @@ type Card struct {
 	uniqDetails map[string]Detail
 }
 
-// new returns a new initialized Kanji object with
+// newCard returns a newCard initialized Kanji object with
 // the provided rune.
-// Other packages should use Builder to build a new Kanji.
-func new(kanji rune) Card {
+// Other packages should use Builder to build a newCard Kanji.
+func newCard(kanji rune) Card {
 	return Card{
 		kanji:       kanji,
 		uniqDetails: map[string]Detail{},
@@ -35,7 +35,7 @@ func new(kanji rune) Card {
 // return c.kanji == 0
 // }
 
-// Rune returns the Kanji as a Rune
+// Rune returns the Kanji as a Rune.
 func (c Card) Rune() rune {
 	return c.kanji
 }
@@ -51,18 +51,20 @@ func (c Card) String() string {
 		}
 		result += ")"
 	}
+
 	return result
 }
 
-// ID returns the kanji id as string
+// ID returns the kanji id as string.
 func (c Card) ID() string {
 	if c.kanji == '\x00' || c.kanji == ' ' {
 		return ""
 	}
+
 	return string(c.kanji)
 }
 
-// Descriptor returns the Classification for the 79 radical system
+// Descriptor returns the Classification for the 79 radical system.
 func (c Card) Descriptor() string {
 	return kanji2Descriptor[c.kanji]
 }
@@ -73,19 +75,21 @@ func (c Card) StrokeCount() int {
 	first, last, unused := 0, 0, ""
 	fmt.Sscanf(kanji2Descriptor[c.kanji],
 		"%d%1s%d.%d", &first, &unused, &last)
+
 	return first + last
 }
 
-// Number returns the Hadamitzky Number
+// Number returns the Hadamitzky Number.
 func (c Card) Number() int {
 	number, ok := kanji2Nummer[c.kanji]
 	if !ok {
 		return 0
 	}
+
 	return number
 }
 
-// Details returns the list of details
+// Details returns the list of details.
 func (c Card) Details() []Detail {
 	return c.details
 }
@@ -105,7 +109,7 @@ func (c *Card) addDetails(details ...Detail) {
 	}
 }
 
-// Meanings returns a distinct List of all Meanings
+// Meanings returns a distinct List of all Meanings.
 func (c Card) Meanings() []string {
 	result := []string{}
 	found := map[string]bool{}
@@ -117,6 +121,7 @@ func (c Card) Meanings() []string {
 			}
 		}
 	}
+
 	return result
 }
 
@@ -131,6 +136,7 @@ func (c Card) Readings() []string {
 			result = append(result, reading)
 		}
 	}
+
 	return result
 }
 
@@ -150,6 +156,7 @@ func (c Card) ReadingsKana() []string {
 			result = append(result, reading)
 		}
 	}
+
 	return result
 }
 
@@ -165,6 +172,7 @@ func (c Card) HasRadical(radical rune) bool {
 			return true
 		}
 	}
+
 	return false
 }
 
