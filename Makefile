@@ -24,6 +24,7 @@ testv:
 cover:
 	go test -cover -coverprofile $(TMP_FILE) ./...
 	go tool cover -html=$(TMP_FILE) -o $(COVERAGE_FILE)
+	echo "firefox $(COVERAGE_FILE) &"
 
 .PHONY: all vulncheck lint test testv cover
 
