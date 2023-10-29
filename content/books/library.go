@@ -86,6 +86,8 @@ func (l *Library) BookTitles() []string {
 
 /*
 
+// TODO: refactor, add tests
+
 // LessonsUntil returns all the lessons up to the (and including)
 // the requested ones, even if it spans multiple books of the
 // same series.
@@ -100,21 +102,5 @@ func (lib Library) LessonsUntil(book, lesson string) []Lesson {
 	}
 
 	return []Lesson{}
-}
-
-
-// sortLessons returns the sorted lessons of a
-// boot series.
-func sortLessons(booklist []Book) []Lesson {
-
-	result := []Lesson{}
-	sort.Slice(booklist, func(i, j int) bool {
-		return booklist[i].Volume() <
-			booklist[j].Volume()
-	})
-	for _, book := range booklist {
-		result = append(result, book.Lessons()...)
-	}
-	return result
 }
 */
