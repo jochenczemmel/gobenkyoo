@@ -1,69 +1,74 @@
 package books
 
-import "github.com/jochenczemmel/gobenkyoo/content"
-
-// Lesson reprents a single lesson within a book.
-// It contains a list of cards.
-type Lesson[T content.Card] struct {
+// Lesson represents a single lesson within a book.
+type Lesson struct {
 	title       string
 	bookTitle   string
-	content     []T
+	content     []string
 	uniqContent map[string]bool
 }
 
 // NewLesson returns a new Lesson object with the
-// given titles and optionally with unique content.
-func NewLesson[T content.Card](title, booktitle string, content ...T) Lesson[T] {
-	lesson := Lesson[T]{
+// given title.
+func NewLesson(title, booktitle string, ids ...string) Lesson {
+	lesson := Lesson{
 		title:       title,
 		bookTitle:   booktitle,
+		content:     []string{},
 		uniqContent: map[string]bool{},
 	}
-	for _, c := range content {
-		lesson.Add(c)
-	}
+	lesson.Add(ids...)
 
 	return lesson
 }
 
 // Title returns the title of the lesson.
-func (l Lesson[T]) Title() string {
+func (l Lesson) Title() string {
 	return l.title
 }
 
-// SetBookTitle sets the title of the book that contains the lesson.
-func (l *Lesson[T]) SetBookTitle(title string) {
-	l.bookTitle = title
-}
-
 // BookTitle returns the title of the book that contains the lesson.
-func (l Lesson[T]) BookTitle() string {
+func (l Lesson) BookTitle() string {
 	return l.bookTitle
 }
 
-// Content returns the list of cards.
-func (l Lesson[T]) Content() []T {
-	return l.content
+// SetTitle sets the title of the lesson.
+func (l *Lesson) SetTitle(title string) {
+	l.title = title
 }
 
-// Add adds Cards to the lesson, duplicates are ignored.
-func (l *Lesson[T]) Add(cards ...T) {
-	for _, card := range cards {
-		if _, ok := l.uniqContent[card.ID()]; ok {
+// SetBookTitle sets the title of the book that contains the lesson.
+func (l *Lesson) SetBookTitle(title string) {
+	l.bookTitle = title
+}
+
+// Add adds ids to the lesson. Duplicates are ignored.
+func (l *Lesson) Add(ids ...string) {
+	if l.uniqContent == nil {
+		l.uniqContent = map[string]bool{}
+	}
+	for _, id := range ids {
+		if l.uniqContent[id] {
 			continue
 		}
-		l.content = append(l.content, card)
-		l.uniqContent[card.ID()] = true
+		l.content = append(l.content, id)
+		l.uniqContent[id] = true
 	}
 }
 
-// Contains returns true if the given Card is in the lesson.
-func (l Lesson[T]) Contains(card T) bool {
-	return l.ContainsID(card.ID())
+// Content returns the Content (= id-list) of the lesson.
+func (l Lesson) Content() []string {
+	if l.content == nil {
+		return []string{}
+	}
+	result := make([]string, len(l.content))
+	copy(result, l.content)
+
+	return result
 }
 
-// ContainsID returns true if the given id is in the lesson.
-func (l Lesson[T]) ContainsID(id string) bool {
+// Contains returns true if the given id is in the lesson.
+func (l Lesson) Contains(id string) bool {
 	_, ok := l.uniqContent[id]
 
 	return ok
