@@ -1,11 +1,6 @@
 // Package books provides informaion about Books, Lessons and Content.
 package books
 
-type Series struct {
-	SeriesTitle string // the title of the book collection
-	Books       []*Book
-}
-
 // Book represents a book with lessons. It is optionally
 // a volume of a series/collection of books.
 type Book struct {
