@@ -27,6 +27,8 @@ linters-settings:
     max-distance: 10
     ignore-names:
       - c
+      - i
+      - j
       - err
 
   wsl:

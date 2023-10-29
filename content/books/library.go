@@ -18,6 +18,7 @@ func NewLibrary(booklist ...*Book) Library {
 		lib.booksByTitle[book.Title] = book
 	}
 	lib.sortBooks()
+
 	return lib
 }
 
@@ -70,6 +71,7 @@ func (l *Library) sortBooks() {
 		if l.bookList[i].Volume > l.bookList[j].Volume {
 			return false
 		}
+
 		return l.bookList[i].Title < l.bookList[j].Title
 	})
 }

@@ -7,8 +7,8 @@ import (
 )
 
 func TestWordCard(t *testing.T) {
-	const id = "id1"
-	word := words.NewBuilder(id).
+	const id1 = "id1"
+	word := words.NewBuilder(id1).
 		SetContent(
 			"分かります",
 			"わかります",
@@ -27,7 +27,7 @@ func TestWordCard(t *testing.T) {
 		name           string
 		variable, want string
 	}{
-		{"Identifier", word.Identifier, id},
+		{"Identifier", word.Identifier, id1},
 		{"Nihongo", word.Nihongo, "分かります"},
 		{"Kana", word.Kana, "わかります"},
 		{"Romaji", word.Romaji, "wakarimasu"},
@@ -51,8 +51,8 @@ func TestWordCard(t *testing.T) {
 
 	t.Run("ID()", func(t *testing.T) {
 		got := word.ID()
-		if got != id {
-			t.Errorf("ERROR: got %q, want %q", got, id)
+		if got != id1 {
+			t.Errorf("ERROR: got %q, want %q", got, id1)
 		}
 	})
 }

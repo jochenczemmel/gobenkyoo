@@ -8,49 +8,49 @@ import (
 )
 
 var allBooks = []*books.Book{
-	&books.Book{
+	{
 		Title: "200 quick and easy phrases  for japanese conversation",
 	},
-	&books.Book{
+	{
 		Title: "88 basic patterns for japanese conversation",
 	},
-	&books.Book{
+	{
 		Title: "first foreign japanese",
 	},
-	&books.Book{
+	{
 		Title: "how to speak osaka dialect",
 	},
-	&books.Book{
+	{
 		Title:       "minna no nihongo sho 1",
 		SeriesTitle: "minna no nihongo",
 		Volume:      1,
 	},
-	&books.Book{
+	{
 		Title:       "minna no nihongo sho 2",
 		SeriesTitle: "minna no nihongo",
 		Volume:      2,
 	},
-	&books.Book{
+	{
 		Title:       "minna no nihongo chuu 1",
 		SeriesTitle: "minna no nihongo",
 		Volume:      3,
 	},
-	&books.Book{
+	{
 		Title:       "minna no nihongo chuu 2",
 		SeriesTitle: "minna no nihongo",
 		Volume:      4,
 	},
-	&books.Book{
+	{
 		Title:       "nihongo de doozo 1",
 		SeriesTitle: "nihongo de doozo",
 		Volume:      1,
 	},
-	&books.Book{
+	{
 		Title:       "nihongo de doozo 2",
 		SeriesTitle: "nihongo de doozo",
 		Volume:      2,
 	},
-	&books.Book{
+	{
 		Title:       "nihongo e yookoso",
 		SeriesTitle: "nihongo e yookoso",
 	},
@@ -62,6 +62,7 @@ var bookComparer = cmp.Comparer(func(x, y *books.Book) bool {
 		x.Volume == y.Volume {
 		return true
 	}
+
 	return false
 })
 
@@ -140,7 +141,7 @@ func TestLibraryBySeriesTitle(t *testing.T) {
 
 	seriesTitle = "nihongo e yookoso"
 	want = []*books.Book{
-		&books.Book{
+		{
 			Title:       "nihongo e yookoso",
 			SeriesTitle: "nihongo e yookoso",
 		},
@@ -152,12 +153,12 @@ func TestLibraryBySeriesTitle(t *testing.T) {
 
 	seriesTitle = "nihongo de doozo"
 	want = []*books.Book{
-		&books.Book{
+		{
 			Title:       "nihongo de doozo 1",
 			SeriesTitle: "nihongo de doozo",
 			Volume:      1,
 		},
-		&books.Book{
+		{
 			Title:       "nihongo de doozo 2",
 			SeriesTitle: "nihongo de doozo",
 			Volume:      2,
