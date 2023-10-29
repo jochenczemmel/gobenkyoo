@@ -16,90 +16,40 @@ package words
 
 // Card represents a single word or a sentence.
 // If the word is a verb, the three forms should be filled.
+// To create a Card, the words.Builder can be used.
 type Card struct {
-	// unique id of the card
-	id string
+	// unique Identifier of the card
+	Identifier string
 
 	// content
-	nihongo string // content as written in Japanese
-	kana    string // content written in Kana
-	romaji  string // content written in Romaji
-	meaning string // meaning in the learners language
+	Nihongo string // content as written in Japanese
+	Kana    string // content written in Kana
+	Romaji  string // content written in Romaji
+	Meaning string // meaning in the learners language
 
 	// additional infos, might be empty
-	hint        string // hint
-	explanation string // explanantion
-	contentType string // free text
+	Hint        string // hint
+	Explanation string // explanantion
+	ContentType string // free text
 
 	// only filled for verbs
 	// nihongo contains the masu-form
-	dictForm string // dictionary-form
-	teForm   string // te-form
-	naiForm  string // nai-form
+	DictForm string // dictionary-form
+	TeForm   string // te-form
+	NaiForm  string // nai-form
 }
 
-// newCard returns a newCard word with the given id.
-func newCard(id string) Card {
-	return Card{id: id}
+// New returns a New word with the given id.
+func New(id string) Card {
+	return Card{Identifier: id}
 }
-
-// IsEmpty checks if the it is an empty Content object.
-// func (c Card) IsEmpty() bool {
-// return c.id == ""
-// }
 
 // ID returns the id.
 func (c Card) ID() string {
-	return c.id
+	return c.Identifier
 }
 
-// Nihongo returns the Nihongo value.
-func (c Card) Nihongo() string {
-	return c.nihongo
-}
-
-// Kana returns the Kana value.
-func (c Card) Kana() string {
-	return c.kana
-}
-
-// Romaji returns the Romaji value.
-func (c Card) Romaji() string {
-	return c.romaji
-}
-
-// Meaning returns the Meaning.
-func (c Card) Meaning() string {
-	return c.meaning
-}
-
-// Hint returns the hint.
-func (c Card) Hint() string {
-	return c.hint
-}
-
-// Explanation returns the explanation.
-func (c Card) Explanation() string {
-	return c.explanation
-}
-
-// DictForm returns the dictionary form
-// (verbs only).
-func (c Card) DictForm() string {
-	return c.dictForm
-}
-
-// TeForm returns the te-form (verbs only).
-func (c Card) TeForm() string {
-	return c.teForm
-}
-
-// GetNaiForm returns the nai-form (verbs only).
-func (c Card) NaiForm() string {
-	return c.naiForm
-}
-
-// ContentType returns the type of the content.
-func (c Card) ContentType() string {
-	return c.contentType
-}
+// IsEmpty returns true if it is an empty object.
+// func (c Card) IsEmpty() bool {
+// return c.Identifier == ""
+// }

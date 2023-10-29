@@ -7,8 +7,8 @@ import (
 )
 
 func TestWordCard(t *testing.T) {
-
-	word := words.NewBuilder("id1").
+	const id = "id1"
+	word := words.NewBuilder(id).
 		SetContent(
 			"分かります",
 			"わかります",
@@ -24,11 +24,10 @@ func TestWordCard(t *testing.T) {
 		Build()
 
 	cases := []struct {
-		name       string
-		callGetter func() string
-		want       string
+		name           string
+		variable, want string
 	}{
-		{"ID", word.ID, "id1"},
+		{"Identifier", word.Identifier, id},
 		{"Nihongo", word.Nihongo, "分かります"},
 		{"Kana", word.Kana, "わかります"},
 		{"Romaji", word.Romaji, "wakarimasu"},
@@ -43,10 +42,17 @@ func TestWordCard(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			got := c.callGetter()
+			got := c.variable
 			if got != c.want {
 				t.Errorf("ERROR: got %q, want %q", got, c.want)
 			}
 		})
 	}
+
+	t.Run("ID()", func(t *testing.T) {
+		got := word.ID()
+		if got != id {
+			t.Errorf("ERROR: got %q, want %q", got, id)
+		}
+	})
 }
