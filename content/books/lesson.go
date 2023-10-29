@@ -2,8 +2,8 @@ package books
 
 // Lesson represents a single lesson within a book.
 type Lesson struct {
-	title       string
-	bookTitle   string
+	Title       string
+	BookTitle   string
 	content     []string
 	uniqContent map[string]bool
 }
@@ -12,34 +12,14 @@ type Lesson struct {
 // given title.
 func NewLesson(title, booktitle string, ids ...string) Lesson {
 	lesson := Lesson{
-		title:       title,
-		bookTitle:   booktitle,
+		Title:       title,
+		BookTitle:   booktitle,
 		content:     []string{},
 		uniqContent: map[string]bool{},
 	}
 	lesson.Add(ids...)
 
 	return lesson
-}
-
-// Title returns the title of the lesson.
-func (l Lesson) Title() string {
-	return l.title
-}
-
-// BookTitle returns the title of the book that contains the lesson.
-func (l Lesson) BookTitle() string {
-	return l.bookTitle
-}
-
-// SetTitle sets the title of the lesson.
-func (l *Lesson) SetTitle(title string) {
-	l.title = title
-}
-
-// SetBookTitle sets the title of the book that contains the lesson.
-func (l *Lesson) SetBookTitle(title string) {
-	l.bookTitle = title
 }
 
 // Add adds ids to the lesson. Duplicates are ignored.

@@ -53,45 +53,13 @@ func (b *Book) Add(lessons ...*Lesson) {
 		b.lessonByTitle = map[string]*Lesson{}
 	}
 	for _, lesson := range lessons {
-		title := lesson.Title()
-		_, ok := b.lessonByTitle[title]
+		_, ok := b.lessonByTitle[lesson.Title]
 		if ok {
-			b.lessonByTitle[title] = lesson
+			b.lessonByTitle[lesson.Title] = lesson
 
 			continue
 		}
-		b.lessonByTitle[title] = lesson
-		b.lessons = append(b.lessons, title)
+		b.lessonByTitle[lesson.Title] = lesson
+		b.lessons = append(b.lessons, lesson.Title)
 	}
 }
-
-// // SetTitle sets the book title.
-// func (b *Book) SetTitle(title string) {
-// 	b.title = title
-// }
-//
-// // SetSeriesTitle sets the book series title.
-// func (b *Book) SetSeriesTitle(title string) {
-// 	b.seriesTitle = title
-// }
-//
-// // SetVolume sets the book series volume.
-// func (b *Book) SetVolume(volume int) {
-// 	b.volume = volume
-// }
-//
-// // Title returns the book title.
-// func (b Book) Title() string {
-// 	return b.title
-// }
-//
-// // SeriesTitle returns the title of the series
-// // in which the book is contained.
-// func (b Book) SeriesTitle() string {
-// 	return b.seriesTitle
-// }
-//
-// // VolumeNumber returns the number of the book in the series.
-// func (b Book) VolumeNumber() int {
-// 	return b.volume
-// }

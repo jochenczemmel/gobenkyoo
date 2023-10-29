@@ -11,39 +11,6 @@ var card1, card2, card3 = "card1", "card2", "card3"
 var book1 = "book1"
 var lesson1 = "lesson1"
 
-func TestLessonMetadata(t *testing.T) {
-	testCases := []struct {
-		name                     string
-		lesson                   books.Lesson
-		wantTitle, wantBookTitle string
-	}{{
-		name: "uninitialized",
-	}, {
-		name:          "empty",
-		lesson:        books.NewLesson(lesson1, book1),
-		wantTitle:     lesson1,
-		wantBookTitle: book1,
-	}, {
-		name:          "filled",
-		lesson:        books.NewLesson(lesson1, book1, card1, card2, card3),
-		wantTitle:     lesson1,
-		wantBookTitle: book1,
-	}}
-
-	for _, c := range testCases {
-		t.Run(c.name, func(t *testing.T) {
-			if got := c.lesson.Title(); got != c.wantTitle {
-				t.Errorf("ERROR: got %v, want %v", got, c.wantTitle)
-			}
-
-			if got := c.lesson.BookTitle(); got != c.wantBookTitle {
-				t.Errorf("ERROR: got %v, want %v", got, c.wantBookTitle)
-			}
-
-		})
-	}
-}
-
 func TestLessonContent(t *testing.T) {
 	testCases := []struct {
 		name        string
@@ -91,26 +58,6 @@ func TestLessonContent(t *testing.T) {
 			}
 		})
 	}
-}
-
-func TestLessonUninitialized(t *testing.T) {
-	t.Run("set title", func(t *testing.T) {
-		var lesson books.Lesson
-		lesson.SetTitle(lesson1)
-		got := lesson.Title()
-		if got != lesson1 {
-			t.Errorf("ERROR: got %v, want %v", got, lesson1)
-		}
-	})
-
-	t.Run("set booktitle", func(t *testing.T) {
-		var lesson books.Lesson
-		lesson.SetBookTitle(book1)
-		got := lesson.BookTitle()
-		if got != book1 {
-			t.Errorf("ERROR: got %v, want %v", got, book1)
-		}
-	})
 }
 
 func TestLessonAdd(t *testing.T) {
