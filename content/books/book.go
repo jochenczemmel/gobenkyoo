@@ -1,73 +1,95 @@
 // Package books provides informaion about Books, Lessons and Content.
 package books
 
-import "github.com/jochenczemmel/gobenkyoo/content"
+type series struct {
+	seriesTitle string // the title of the book collection
+	Books       []*Book
+}
 
 // Book represents a book with lessons. It is optionally
 // a volume of a series/collection of books.
-type Book[T content.Card] struct {
-	title         string                // the title of the book
-	lessons       []*Lesson[T]          // the lessons in the book
-	lessonByTitle map[string]*Lesson[T] // the lessons in the book
+type Book struct {
+	title         string             // the title of the book
+	seriesTitle   string             // the title of the book collection
+	volume        int                // the volume number in the collection
+	lessons       []string           // the ordered lessons titles
+	lessonByTitle map[string]*Lesson // the lessons by title
 }
 
 // New returns a new book with the given title.
-func New[T content.Card](title string, lessons ...Lesson[T]) Book[T] {
-	result := Book[T]{
+func New(title, seriestitle string) Book {
+	book := Book{
 		title:         title,
-		lessonByTitle: map[string]*Lesson[T]{},
+		seriesTitle:   title,
+		lessons:       []string{},
+		lessonByTitle: map[string]*Lesson{},
 	}
-	result.AppendLesson(lessons...)
+	if seriestitle != "" {
+		book.seriesTitle = seriestitle
+	}
 
-	return result
+	return book
 }
 
 // Title returns the book title.
-func (b Book[T]) Title() string {
+func (b Book) Title() string {
 	return b.title
 }
 
-// Lessons returns all lessons in the book in the provided order.
-func (b Book[T]) Lessons() []Lesson[T] {
-	result := make([]Lesson[T], 0, len(b.lessons))
-	for _, l := range b.lessons {
-		result = append(result, *l)
+// SeriesTitle returns the title of the series
+// in which the book is contained.
+func (b Book) SeriesTitle() string {
+	return b.seriesTitle
+}
+
+// VolumeNumber returns the number of the book in the series.
+func (b Book) VolumeNumber() int {
+	return b.volume
+}
+
+// Lessons returns all lessons in the book in the
+// provided order.
+func (b Book) Lessons() []*Lesson {
+	if b.lessons == nil || b.lessonByTitle == nil {
+		return []*Lesson{}
+	}
+	result := make([]*Lesson, len(b.lessons))
+	for _, title := range b.lessons {
+		result = append(result, b.lessonByTitle[title])
 	}
 
 	return result
 }
 
-// TODO: how should this work?
-// AppendLesson adds lessons to the book. The order of the lessons
-// is preserved.
-func (b *Book[T]) AppendLesson(lessons ...Lesson[T]) {
-
-	for _, l := range lessons {
-		lesson := l
-		_, ok := b.lessonByTitle[lesson.Title()]
+// Add adds lessons to the book. The order of the lessons
+// is preserved. If the lesson already exists, it is replaced.
+func (b *Book) Add(lessons ...*Lesson) {
+	if b.lessonByTitle == nil {
+		b.lessonByTitle = map[string]*Lesson{}
+	}
+	for _, lesson := range lessons {
+		title := lesson.Title()
+		_, ok := b.lessonByTitle[title]
 		if ok {
-			return
+			b.lessonByTitle[title] = lesson
+			continue
 		}
-		lesson.SetBookTitle(b.title)
-		b.lessonByTitle[lesson.Title()] = &lesson
-		b.lessons = append(b.lessons, &lesson)
+		b.lessonByTitle[title] = lesson
+		b.lessons = append(b.lessons, title)
 	}
 }
 
-// Lesson returns the lesson with the given title.
-// If it is not found, it returns an empty Lesson and false.
-func (b Book[T]) Lesson(title string) (Lesson[T], bool) {
-	lesson, ok := b.lessonByTitle[title]
-	if !ok {
-		return Lesson[T]{}, false
-	}
-
-	return *lesson, true
+// SetTitle sets the book title.
+func (b *Book) SetTitle(title string) {
+	b.title = title
 }
 
-/*
-// TODO: is it necessary to change a lesson or set to a certain position?
-// SetLesson changes the value of an existing Lesson.
-func (b *Book[T]) SetLesson(lessons Lesson[T], position int) {
+// SetSeriesTitle sets the book series title.
+func (b *Book) SetSeriesTitle(title string) {
+	b.seriesTitle = title
 }
-*/
+
+// SetVolume sets the book series volume.
+func (b *Book) SetVolume(volume int) {
+	b.volume = volume
+}
