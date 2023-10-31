@@ -1,5 +1,7 @@
 package books
 
+import "fmt"
+
 // Lesson represents a single lesson within a book.
 type Lesson struct {
 	Title       string
@@ -20,6 +22,11 @@ func NewLesson(title, booktitle string, ids ...string) Lesson {
 	lesson.Add(ids...)
 
 	return lesson
+}
+
+// String displays the lesson metadata.
+func (l *Lesson) String() string {
+	return fmt.Sprintf("%s (%s)", l.Title, l.BookTitle)
 }
 
 // Add adds ids to the lesson. Duplicates are ignored.

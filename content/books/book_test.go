@@ -18,28 +18,32 @@ func TestBookGetters(t *testing.T) {
 	emptyBook.Add(&lesson1, &lesson2, &lesson3)
 
 	testCases := []struct {
-		name    string
-		book    books.Book
-		wantLen int
+		name       string
+		book       books.Book
+		wantLen    int
+		wantString string
 	}{
 		{
 			name:    "uninitialized",
 			wantLen: 0,
 		},
 		{
-			name:    "empty",
-			book:    books.New(book1, series1),
-			wantLen: 0,
+			name:       "empty",
+			book:       books.New(book1, series1, 1),
+			wantLen:    0,
+			wantString: "book1 (0 lessons) (series1 #1)",
 		},
 		{
-			name:    "one lesson",
-			book:    books.New(book1, series1, &lesson1),
-			wantLen: 1,
+			name:       "one lesson",
+			book:       books.New(book1, series1, 1, &lesson1),
+			wantLen:    1,
+			wantString: "book1 (1 lessons) (series1 #1)",
 		},
 		{
-			name:    "three lessons",
-			book:    books.New(book1, series1, &lesson1, &lesson2, &lesson3),
-			wantLen: 3,
+			name:       "three lessons",
+			book:       books.New(book1, series1, 1, &lesson1, &lesson2, &lesson3),
+			wantLen:    3,
+			wantString: "book1 (3 lessons) (series1 #1)",
 		},
 		{
 			name:    "empty book three lessons",
@@ -48,11 +52,12 @@ func TestBookGetters(t *testing.T) {
 		},
 		{
 			name: "duplicate lessons",
-			book: books.New(book1, series1,
+			book: books.New(book1, series1, 1,
 				&lesson1, &lesson2, &lesson3,
 				&lesson1, &lesson2, &lesson3,
 			),
-			wantLen: 3,
+			wantLen:    3,
+			wantString: "book1 (3 lessons) (series1 #1)",
 		},
 	}
 
@@ -60,6 +65,9 @@ func TestBookGetters(t *testing.T) {
 		t.Run(c.name, func(t *testing.T) {
 			if got := len(c.book.Lessons()); got != c.wantLen {
 				t.Errorf("ERROR: got %v, want %v", got, c.wantLen)
+			}
+			if got := c.book.String(); got != c.wantString {
+				t.Errorf("ERROR: got %q, want %q", got, c.wantString)
 			}
 		})
 	}

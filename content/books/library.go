@@ -1,6 +1,8 @@
 package books
 
-import "sort"
+import (
+	"sort"
+)
 
 // Library represents a list of books.
 type Library struct {
@@ -86,23 +88,42 @@ func (l *Library) BookTitles() []string {
 	return result
 }
 
-/*
+// LessonsUntil returns all lessons from a series until the
+// provided lesson (included). If the lesson is not found,
+// all lessons are returned. If the book is not found, an empty
+// list is returned.
+func (l Library) LessonsUntil(booktitle, lessontitle string) []*Lesson {
+	result := []*Lesson{}
+	foundBook, ok := l.booksByTitle[booktitle]
+	if !ok {
+		return result
+	}
 
-// TODO: refactor, add tests
+	// if the book is part of a series, get all books, if not,
+	// use the found book.
+	bookList := []*Book{foundBook}
+	if foundBook.SeriesTitle != "" {
+		bookList = l.BySeriesTitle(foundBook.SeriesTitle)
+	}
 
-// LessonsUntil returns all the lessons up to the (and including)
-// the requested ones, even if it spans multiple books of the
-// same series.
-func (lib Library) LessonsUntil(book, lesson string) []Lesson {
+	found := false
 
-	for _, lessonList := range lib.lessonsBySeries {
-		for i, l := range lessonList {
-			if l.BookTitle() == book && l.Title() == lesson {
-				return lessonList[:i+1]
+	// find the lessons of all books, cumulate lessons.
+LOOP:
+	for _, book := range bookList {
+		for _, lesson := range book.Lessons() {
+			result = append(result, lesson)
+			if lesson.Title == lessontitle &&
+				lesson.BookTitle == booktitle {
+				found = true
+				break LOOP
 			}
 		}
 	}
 
-	return []Lesson{}
+	if !found {
+		return []*Lesson{}
+	}
+
+	return result
 }
-*/

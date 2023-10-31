@@ -1,6 +1,8 @@
 // Package books provides informaion about Books, Lessons and Content.
 package books
 
+import "fmt"
+
 // Book represents a book with lessons. It is optionally
 // a volume of a series/collection of books.
 type Book struct {
@@ -12,10 +14,11 @@ type Book struct {
 }
 
 // New returns a new book with the given title.
-func New(title, seriestitle string, lessons ...*Lesson) Book {
+func New(title, seriestitle string, volume int, lessons ...*Lesson) Book {
 	book := Book{
 		Title:         title,
 		SeriesTitle:   title,
+		Volume:        volume,
 		lessons:       []string{},
 		lessonByTitle: map[string]*Lesson{},
 	}
@@ -25,6 +28,18 @@ func New(title, seriestitle string, lessons ...*Lesson) Book {
 	book.Add(lessons...)
 
 	return book
+}
+
+// String returns the metadata of the book as a single string.
+func (b Book) String() string {
+	if b.Title == "" {
+		return ""
+	}
+	result := fmt.Sprintf("%s (%d lessons)", b.Title, len(b.lessons))
+	if b.Volume > 0 {
+		result += fmt.Sprintf(" (%s #%d)", b.SeriesTitle, b.Volume)
+	}
+	return result
 }
 
 // Lessons returns all lessons in the book in the

@@ -1,6 +1,7 @@
 package books_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -115,4 +116,13 @@ func TestLessonAdd(t *testing.T) {
 			}
 		}
 	})
+}
+
+func TestLessonString(t *testing.T) {
+	lesson := books.NewLesson(lesson1, book1)
+	got := lesson.String()
+	want := fmt.Sprintf("%s (%s)", lesson1, book1)
+	if got != want {
+		t.Errorf("ERROR: got %q, want %q", got, want)
+	}
 }
