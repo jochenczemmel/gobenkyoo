@@ -14,6 +14,8 @@
 // Each entry has a unique id.
 package words
 
+import "fmt"
+
 // Card represents a single word or a sentence.
 // If the word is a verb, the three forms should be filled.
 // To create a Card, the words.Builder can be used.
@@ -47,6 +49,15 @@ func New(id string) Card {
 // ID returns the id.
 func (c Card) ID() string {
 	return c.Identifier
+}
+
+// String returns the id.
+func (c Card) String() string {
+	if c.Identifier == "" {
+		return ""
+	}
+
+	return fmt.Sprintf("%s: %q", c.Identifier, c.Nihongo)
 }
 
 // IsEmpty returns true if it is an empty object.

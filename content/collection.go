@@ -22,10 +22,11 @@ func NewCollection[T Card](title string, cards ...T) Collection[T] {
 // If the id exists already in the Collection, it is not added.
 func (c *Collection[T]) Add(cards ...T) {
 	for _, card := range cards {
-		if _, ok := c.uniqueContent[card.ID()]; !ok {
-			c.cardList = append(c.cardList, card)
-			c.uniqueContent[card.ID()] = card
+		if _, ok := c.uniqueContent[card.ID()]; ok {
+			continue
 		}
+		c.cardList = append(c.cardList, card)
+		c.uniqueContent[card.ID()] = card
 	}
 }
 
