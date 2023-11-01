@@ -116,6 +116,7 @@ LOOP:
 			if lesson.Title == lessontitle &&
 				lesson.BookTitle == booktitle {
 				found = true
+
 				break LOOP
 			}
 		}

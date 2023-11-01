@@ -1,3 +1,6 @@
+#
+# https://golangci-lint.run/
+#
 
 run:
   timeout: 5m
@@ -34,6 +37,15 @@ linters-settings:
   wsl:
     allow-separated-leading-comment: false
 
+  ireturn:
+    allow:
+      - anon
+      - error
+      - empty
+      - stdlib
+      - generic
+      # generic interface names
+      - ^(E|K|L|T|V)$
 
 linters:
   enable:

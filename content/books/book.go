@@ -39,6 +39,7 @@ func (b Book) String() string {
 	if b.Volume > 0 {
 		result += fmt.Sprintf(" (%s #%d)", b.SeriesTitle, b.Volume)
 	}
+
 	return result
 }
 

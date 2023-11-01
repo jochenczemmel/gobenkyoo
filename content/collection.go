@@ -17,6 +17,7 @@ func NewCollection[T Card](title, booktitle string, cards ...T) Collection[T] {
 		uniqueContent: map[string]T{},
 	}
 	result.Add(cards...)
+
 	return result
 }
 

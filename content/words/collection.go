@@ -14,5 +14,6 @@ func NewCollection(title, booktitle string, cards ...Card) Collection {
 	result := Collection{
 		Collection: content.NewCollection[Card](title, booktitle, cards...),
 	}
+
 	return result
 }
