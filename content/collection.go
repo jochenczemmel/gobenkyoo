@@ -3,15 +3,17 @@ package content
 // Collection represents a set of word.Content objects.
 type Collection[T Card] struct {
 	Title         string
+	BookTitle     string
 	cardList      []T
 	uniqueContent map[string]T
 }
 
 // NewCollection returns a new Collection object with the given titles
 // and with the optionally provided Cards.
-func NewCollection[T Card](title string, cards ...T) Collection[T] {
+func NewCollection[T Card](title, booktitle string, cards ...T) Collection[T] {
 	result := Collection[T]{
 		Title:         title,
+		BookTitle:     booktitle,
 		uniqueContent: map[string]T{},
 	}
 	result.Add(cards...)

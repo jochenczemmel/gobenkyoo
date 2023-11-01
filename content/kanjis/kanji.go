@@ -15,7 +15,7 @@ import (
 // Card holds the Kanji as a rune, the meanings and the
 // readings, an optional hint and an optional explanation.
 type Card struct {
-	kanji       rune
+	Kanji       rune
 	details     []Detail
 	uniqDetails map[string]Detail
 }
@@ -25,7 +25,7 @@ type Card struct {
 // Other packages should use Builder to build a newCard Kanji.
 func newCard(kanji rune) Card {
 	return Card{
-		kanji:       kanji,
+		Kanji:       kanji,
 		uniqDetails: map[string]Detail{},
 	}
 }
@@ -37,16 +37,16 @@ func newCard(kanji rune) Card {
 
 // Rune returns the Kanji as a Rune.
 func (c Card) Rune() rune {
-	return c.kanji
+	return c.Kanji
 }
 
 // String returns a string representation containing the kanji,
 // the descriptor and optionally the number.
 func (c Card) String() string {
 	result := c.ID()
-	if d, ok := kanji2Descriptor[c.kanji]; ok {
+	if d, ok := kanji2Descriptor[c.Kanji]; ok {
 		result += fmt.Sprintf(" (%s", d)
-		if number, ok := kanji2Nummer[c.kanji]; ok {
+		if number, ok := kanji2Nummer[c.Kanji]; ok {
 			result += fmt.Sprintf("/%d", number)
 		}
 		result += ")"
@@ -57,23 +57,23 @@ func (c Card) String() string {
 
 // ID returns the kanji id as string.
 func (c Card) ID() string {
-	if c.kanji == '\x00' || c.kanji == ' ' {
+	if c.Kanji == '\x00' || c.Kanji == ' ' {
 		return ""
 	}
 
-	return string(c.kanji)
+	return string(c.Kanji)
 }
 
 // Descriptor returns the Classification for the 79 radical system.
 func (c Card) Descriptor() string {
-	return kanji2Descriptor[c.kanji]
+	return kanji2Descriptor[c.Kanji]
 }
 
 // StrokeCount returns the number of strokes of the kanji.
 func (c Card) StrokeCount() int {
 
 	first, last, unused := 0, 0, ""
-	fmt.Sscanf(kanji2Descriptor[c.kanji],
+	fmt.Sscanf(kanji2Descriptor[c.Kanji],
 		"%d%1s%d.%d", &first, &unused, &last)
 
 	return first + last
@@ -81,7 +81,7 @@ func (c Card) StrokeCount() int {
 
 // Number returns the Hadamitzky Number.
 func (c Card) Number() int {
-	number, ok := kanji2Nummer[c.kanji]
+	number, ok := kanji2Nummer[c.Kanji]
 	if !ok {
 		return 0
 	}
@@ -163,7 +163,7 @@ func (c Card) ReadingsKana() []string {
 // HasRadical returns true if the given radical
 // is part of the kanji on the card.
 func (c Card) HasRadical(radical rune) bool {
-	rad := radicals.ForKanji(c.kanji)
+	rad := radicals.ForKanji(c.Kanji)
 	if rad == "" {
 		return false
 	}
@@ -179,5 +179,5 @@ func (c Card) HasRadical(radical rune) bool {
 // Radicals returns the list of the radicals
 // for the kanji on the card.
 func (c Card) Radicals() string {
-	return radicals.ForKanji(c.kanji)
+	return radicals.ForKanji(c.Kanji)
 }
