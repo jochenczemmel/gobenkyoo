@@ -1,62 +1,42 @@
 package books
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
+	"github.com/jochenczemmel/gobenkyoo/content/words"
+)
 
 // Lesson represents a single lesson within a book.
 type Lesson struct {
-	Title       string
-	BookTitle   string
-	content     []string
-	uniqContent map[string]bool
-}
-
-// NewLesson returns a new Lesson object with the
-// given title.
-func NewLesson(title, booktitle string, ids ...string) Lesson {
-	lesson := Lesson{
-		Title:       title,
-		BookTitle:   booktitle,
-		content:     []string{},
-		uniqContent: map[string]bool{},
-	}
-	lesson.Add(ids...)
-
-	return lesson
+	Title      string
+	BookTitle  string
+	WordCards  []*words.Card
+	KanjiCards []*kanjis.Card
 }
 
 // String displays the lesson metadata.
+// Mainly used for debugging.
 func (l *Lesson) String() string {
 	return fmt.Sprintf("%s (%s)", l.Title, l.BookTitle)
 }
 
-// Add adds ids to the lesson. Duplicates are ignored.
-func (l *Lesson) Add(ids ...string) {
-	if l.uniqContent == nil {
-		l.uniqContent = map[string]bool{}
-	}
-	for _, id := range ids {
-		if l.uniqContent[id] {
-			continue
+// Contains returns true if the given word card is in the lesson.
+func (l Lesson) Contains(card any) bool {
+	switch card.(type) {
+	case *kanjis.Card:
+		for _, c := range l.KanjiCards {
+			if c == card {
+				return true
+			}
 		}
-		l.content = append(l.content, id)
-		l.uniqContent[id] = true
+	case *words.Card:
+		for _, c := range l.WordCards {
+			if c == card {
+				return true
+			}
+		}
 	}
-}
 
-// Content returns the Content (= id-list) of the lesson.
-func (l Lesson) Content() []string {
-	if l.content == nil {
-		return []string{}
-	}
-	result := make([]string, len(l.content))
-	copy(result, l.content)
-
-	return result
-}
-
-// Contains returns true if the given id is in the lesson.
-func (l Lesson) Contains(id string) bool {
-	_, ok := l.uniqContent[id]
-
-	return ok
+	return false
 }

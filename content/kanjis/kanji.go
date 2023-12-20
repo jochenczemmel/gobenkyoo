@@ -28,8 +28,8 @@ type Card struct {
 // newCard returns a newCard initialized Kanji object with
 // the provided rune.
 // Other packages should use Builder to build a newCard Kanji.
-func newCard(kanji rune) Card {
-	return Card{
+func newCard(kanji rune) *Card {
+	return &Card{
 		Kanji:       kanji,
 		uniqDetails: map[string]Detail{},
 	}
@@ -41,7 +41,7 @@ func newCard(kanji rune) Card {
 // }
 
 // Rune returns the Kanji as a Rune.
-func (c Card) Rune() rune {
+func (c *Card) Rune() rune {
 	return c.Kanji
 }
 
@@ -90,7 +90,7 @@ func (c Card) Number() int {
 }
 
 // Details returns the list of details.
-func (c Card) Details() []Detail {
+func (c *Card) Details() []Detail {
 	return c.details
 }
 

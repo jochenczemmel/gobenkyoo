@@ -11,14 +11,11 @@ func TestKanjiInfo(t *testing.T) {
 
 	testCases := []struct {
 		name                        string
-		card                        kanjis.Card
+		card                        *kanjis.Card
 		wantRune                    rune
 		wantString, wantDescriptor  string
 		wantNumber, wantStrokeCount int
 	}{
-		{
-			name: "uninitialized",
-		},
 		{
 			name:     "empty",
 			card:     kanjis.NewBuilder(' ').Build(),
@@ -67,16 +64,10 @@ func TestKanjiDetails(t *testing.T) {
 
 	testCases := []struct {
 		name                               string
-		card                               kanjis.Card
+		card                               *kanjis.Card
 		wantLen                            int
 		wantReading, wantKana, wantMeaning []string
 	}{
-		{
-			name:        "uninitialized",
-			wantReading: []string{},
-			wantKana:    []string{},
-			wantMeaning: []string{},
-		},
 		{
 			name:        "empty",
 			card:        kanjis.NewBuilder(' ').Build(),
