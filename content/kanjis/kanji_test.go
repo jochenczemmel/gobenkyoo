@@ -10,15 +10,12 @@ import (
 func TestKanjiInfo(t *testing.T) {
 
 	testCases := []struct {
-		name                               string
-		card                               kanjis.Card
-		wantRune                           rune
-		wantID, wantString, wantDescriptor string
-		wantNumber, wantStrokeCount        int
+		name                        string
+		card                        *kanjis.Card
+		wantRune                    rune
+		wantString, wantDescriptor  string
+		wantNumber, wantStrokeCount int
 	}{
-		{
-			name: "uninitialized",
-		},
 		{
 			name:     "empty",
 			card:     kanjis.NewBuilder(' ').Build(),
@@ -30,7 +27,6 @@ func TestKanjiInfo(t *testing.T) {
 				NewBuilder('方').
 				Build(),
 			wantRune:        '方',
-			wantID:          "方",
 			wantString:      "方 (4h0.1/70)",
 			wantDescriptor:  "4h0.1",
 			wantNumber:      70,
@@ -44,11 +40,7 @@ func TestKanjiInfo(t *testing.T) {
 			if gotRune != c.wantRune {
 				t.Errorf("ERROR: got %c, want %c", gotRune, c.wantRune)
 			}
-			got := c.card.ID()
-			if got != c.wantID {
-				t.Errorf("ERROR: got %q, want %q", got, c.wantID)
-			}
-			got = c.card.String()
+			got := c.card.String()
 			if got != c.wantString {
 				t.Errorf("ERROR: got %v, want %v", got, c.wantString)
 			}
@@ -72,16 +64,10 @@ func TestKanjiDetails(t *testing.T) {
 
 	testCases := []struct {
 		name                               string
-		card                               kanjis.Card
+		card                               *kanjis.Card
 		wantLen                            int
 		wantReading, wantKana, wantMeaning []string
 	}{
-		{
-			name:        "uninitialized",
-			wantReading: []string{},
-			wantKana:    []string{},
-			wantMeaning: []string{},
-		},
 		{
 			name:        "empty",
 			card:        kanjis.NewBuilder(' ').Build(),

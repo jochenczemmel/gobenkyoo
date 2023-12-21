@@ -10,18 +10,12 @@
 // with the answer. This hint can be used to add precision to the quest,
 // the explanation can be used to display additional variants,
 // special cases, caveats etc.
-//
-// Each entry has a unique id.
 package words
-
-import "fmt"
 
 // Card represents a single word or a sentence.
 // If the word is a verb, the three forms should be filled.
 // To create a Card, the words.Builder can be used.
 type Card struct {
-	// unique Identifier of the card
-	Identifier string
 
 	// content
 	Nihongo string // content as written in Japanese
@@ -31,8 +25,8 @@ type Card struct {
 
 	// additional infos, might be empty
 	Hint        string // hint
-	Explanation string // explanantion
-	ContentType string // free text
+	Explanation string // explanation
+	ContentInfo string // free text
 
 	// only filled for verbs
 	// nihongo contains the masu-form
@@ -40,27 +34,3 @@ type Card struct {
 	TeForm   string // te-form
 	NaiForm  string // nai-form
 }
-
-// New returns a New word with the given id.
-func New(id string) Card {
-	return Card{Identifier: id}
-}
-
-// ID returns the id.
-func (c Card) ID() string {
-	return c.Identifier
-}
-
-// String returns the id.
-func (c Card) String() string {
-	if c.Identifier == "" {
-		return ""
-	}
-
-	return fmt.Sprintf("%s: %q", c.Identifier, c.Nihongo)
-}
-
-// IsEmpty returns true if it is an empty object.
-// func (c Card) IsEmpty() bool {
-// return c.Identifier == ""
-// }

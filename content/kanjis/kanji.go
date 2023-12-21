@@ -18,13 +18,18 @@ type Card struct {
 	Kanji       rune
 	details     []Detail
 	uniqDetails map[string]Detail
+
+	// additional infos, might be empty
+	Hint        string // hint
+	Explanation string // explanation
+	ContentInfo string // free text
 }
 
 // newCard returns a newCard initialized Kanji object with
 // the provided rune.
 // Other packages should use Builder to build a newCard Kanji.
-func newCard(kanji rune) Card {
-	return Card{
+func newCard(kanji rune) *Card {
+	return &Card{
 		Kanji:       kanji,
 		uniqDetails: map[string]Detail{},
 	}
@@ -36,14 +41,18 @@ func newCard(kanji rune) Card {
 // }
 
 // Rune returns the Kanji as a Rune.
-func (c Card) Rune() rune {
+func (c *Card) Rune() rune {
 	return c.Kanji
 }
 
 // String returns a string representation containing the kanji,
 // the descriptor and optionally the number.
 func (c Card) String() string {
-	result := c.ID()
+	result := ""
+	if c.Kanji != '\x00' && c.Kanji != ' ' {
+		result = string(c.Kanji)
+	}
+
 	if d, ok := kanji2Descriptor[c.Kanji]; ok {
 		result += fmt.Sprintf(" (%s", d)
 		if number, ok := kanji2Nummer[c.Kanji]; ok {
@@ -53,15 +62,6 @@ func (c Card) String() string {
 	}
 
 	return result
-}
-
-// ID returns the kanji id as string.
-func (c Card) ID() string {
-	if c.Kanji == '\x00' || c.Kanji == ' ' {
-		return ""
-	}
-
-	return string(c.Kanji)
 }
 
 // Descriptor returns the Classification for the 79 radical system.
@@ -90,7 +90,7 @@ func (c Card) Number() int {
 }
 
 // Details returns the list of details.
-func (c Card) Details() []Detail {
+func (c *Card) Details() []Detail {
 	return c.details
 }
 
