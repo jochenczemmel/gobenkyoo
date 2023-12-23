@@ -22,10 +22,10 @@ Contains the code to bundle content in books and lessons.
 ## app
 Contains the application logic.
 
-### learning
+### learn
 Contains the code for the learning process.
 
-### searching
+### search
 Contains the code for searching in the content.
 
 ## storage
