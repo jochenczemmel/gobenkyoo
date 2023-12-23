@@ -14,7 +14,7 @@ func TestLessonString(t *testing.T) {
 	lessonTitle := "lesson1"
 	want := fmt.Sprintf("%s (%s)", lessonTitle, bookTitle)
 
-	lesson := books.Lesson{Title: lessonTitle, BookTitle: bookTitle}
+	lesson := books.Lesson{Title: lessonTitle, Book: books.Info{Title: bookTitle}}
 
 	got := lesson.String()
 	if got != want {

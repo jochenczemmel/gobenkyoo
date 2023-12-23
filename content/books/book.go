@@ -4,8 +4,18 @@ package books
 // Book represents a book with lessons. It is optionally
 // a volume of a series/collection of books.
 type Book struct {
-	Title       string    // the title of the book
-	SeriesTitle string    // the title of the book collection
-	Volume      int       // the volume number in the collection
-	Lessons     []*Lesson // the ordered lessons
+	Info
+	Lessons []*Lesson // the ordered lessons
+}
+
+// New returns a new book with the specified infos.
+func New(title, seriestitle string, volume int, lessons ...*Lesson) *Book {
+	return &Book{
+		Info: Info{
+			Title:       title,
+			SeriesTitle: seriestitle,
+			Volume:      volume,
+		},
+		Lessons: lessons,
+	}
 }
