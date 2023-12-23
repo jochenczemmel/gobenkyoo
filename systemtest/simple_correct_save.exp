@@ -1,0 +1,73 @@
+#!/usr/bin/expect
+
+# -1 means never
+set timeout 1
+
+# no command output
+log_user 0
+
+set program "cmd/gobenkyoo/gobenkyoo"
+
+spawn $program
+# spawn $program $parameters
+
+set question "world"
+set answer "世界"
+set answer_ack "ok"
+set question_save "save answer (y/n):"
+set answer_save "y"
+set save_ack "saved"
+
+expect {
+	"Q: $question" { send "$answer\r" }
+	timeout { 
+		send_user "ERROR: timeout\r"
+		exit 1
+	}
+	eof { 
+		send_user "ERROR: eof\r"
+		exit 2
+	}
+}
+
+
+expect -exact {
+	"ok"
+	timeout {
+		send_user "ERROR: timeout\r"
+		exit 3
+	}
+	eof { 
+		send_user "ERROR: eof\r"
+		exit 4
+	}
+}
+
+
+expect {
+	"$question_save" { send "$answer_save\r" }
+	timeout { 
+ 		send_user "ERROR: timeout\r"
+ 		exit 5
+ 	}
+	eof { 
+		send_user "ERROR: eof\r"
+		exit 6
+	}
+}
+
+
+expect {
+	"$save_ack" {} 
+	timeout { 
+		send_user "ERROR: timeout\r"
+		exit 7
+	}
+	eof { 
+		send_user "ERROR: eof\r"
+		exit 8
+	}
+}
+
+expect eof
+
