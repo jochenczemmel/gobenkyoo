@@ -10,7 +10,7 @@ set timeout 1
 log_user 0
 
 # run program under test
-spawn "cmd/gobenkyoo/gobenkyoo"
+spawn "cmd/gobenkyoo/gobenkyoo" "-learn"
 
 # check behaviour
 getAnswer "Q: world" 1
