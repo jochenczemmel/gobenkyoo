@@ -3,20 +3,13 @@ package app
 
 import "fmt"
 
-type AppOption func(*App)
-
-/*
-* TODO: Options definieren
-func WithLoader(storeloader StoreLoader) AppOption {
-	return func(a *App) {
-		a.Loader = storeloader
-		a.Storer = storeloader
-	}
-}
-*/
-
 // App provides access to the application
-type App struct{}
+type App struct {
+	importer Loader
+	loader   Loader
+	storer   Storer
+	runner   Runner
+}
 
 // New returns a configured App object.
 func New(opts ...AppOption) *App {
