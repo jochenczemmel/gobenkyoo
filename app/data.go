@@ -1,6 +1,11 @@
 package app
 
-type Data struct{}
+import "github.com/jochenczemmel/gobenkyoo/content/books"
+
+type Data struct {
+	library books.Library
+	// shelf learn.Shelf
+}
 
 // Loader defines methods for loading data from the storage
 // or importing data from external sources.
