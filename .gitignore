@@ -6,3 +6,8 @@
 testcoverage.html
 testcoverage.txt
 
+# executables
+*.exe
+
+cmd/gobenkyoo/gobenkyoo
+

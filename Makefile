@@ -2,7 +2,11 @@
 TMP_FILE=testcoverage.txt
 COVERAGE_FILE=testcoverage.html
 
-all: cover vulncheck lint
+# the first target is executed when make is called without target
+default: systemtest
+
+# run all unit tests
+testall: cover vulncheck lint
 
 # vulnerability check
 vulncheck:
@@ -12,15 +16,12 @@ vulncheck:
 lint:
 	golangci-lint run
 
-# run unit test
-test:
-	go test ./...
-
-# run verbose unit test 
-testv:
-	go test -v ./...
-
-PACKAGE_LIST=github.com/jochenczemmel/gobenkyoo/content,github.com/jochenczemmel/gobenkyoo/content/words,github.com/jochenczemmel/gobenkyoo/content/books,github.com/jochenczemmel/gobenkyoo/content/kanjis,github.com/jochenczemmel/gobenkyoo/content/kanjis/radicals
+# package list for test coverage
+PACKAGE_LIST:=github.com/jochenczemmel/gobenkyoo/content
+PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/content/words
+PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/content/books
+PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/content/kanjis
+PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/content/kanjis/radicals
 
 # run test coverage
 cover:
@@ -29,6 +30,26 @@ cover:
 	go tool cover -html=$(TMP_FILE) -o $(COVERAGE_FILE)
 	echo "firefox $(COVERAGE_FILE) &"
 
+# run unit test
+test:
+	go test ./...
 
-.PHONY: all vulncheck lint test testv cover
+# run verbose unit test 
+testv:
+	go test -v ./...
+
+# run system test:
+systemtest: build
+	./systemtest/simple_correct_save.exp
+	./systemtest/simple_correct_nosave.exp
+
+
+# main executable
+DIR_GOBENKYOO=cmd/gobenkyoo
+
+# build executables
+build:
+	cd $(DIR_GOBENKYOO) && make build
+
+.PHONY: testall vulncheck lint cover test testv systemtest
 

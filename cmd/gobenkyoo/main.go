@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
 
@@ -16,10 +19,15 @@ func expectTest() {
 	var answer string
 	fmt.Scanf("%s", &answer)
 	if answer == "世界" {
-		// fmt.Println("xxx")
 		fmt.Println("ok")
 	} else {
 		fmt.Println("wrong")
+	}
+	fmt.Print("continue (y/n): ")
+	fmt.Scanf("%s", &answer)
+	if answer == "y" {
+		fmt.Println("ERROR: not implemented")
+		os.Exit(2)
 	}
 
 	fmt.Print("save answer (y/n): ")

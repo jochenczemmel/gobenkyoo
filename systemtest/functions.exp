@@ -1,0 +1,33 @@
+
+
+# getAnswer waits for an answer and exits
+# with the given return code if we get a timeout or eof.
+proc getAnswer {answer id} {
+	expect {
+		timeout { 
+			send_error "ERROR: timeout waiting for \"$answer\"\n"
+			exit $id
+		}
+		eof { 
+			send_error "ERROR: eof waiting for \"$answer\"\n"
+			exit $id
+		}
+		"$answer"
+	}
+}
+
+
+
+# getNotAnswer waits for an answer and exits
+# with the given return code if we get it.
+proc getNotAnswer {answer id} {
+	expect {
+		"$answer" {
+			send_error "ERROR: invalid answer \"$answer\"\n"
+			exit $id
+				
+		}
+	}
+}
+
+
