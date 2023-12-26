@@ -1,14 +1,20 @@
 // Package app provides entry functions to the application.
 package app
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/jochenczemmel/gobenkyoo/content/books"
+)
 
 // App provides access to the application
 type App struct {
-	importer Loader
-	loader   Loader
-	storer   Storer
-	runner   Runner
+	loader  Loader
+	library books.Library
+	// shelf   learn.Shelf
+	// importer Loader
+	// storer   Storer
+	// runner   Runner
 }
 
 // New returns a configured App object.

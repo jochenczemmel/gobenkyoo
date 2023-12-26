@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/jochenczemmel/gobenkyoo/app"
-	"github.com/jochenczemmel/gobenkyoo/cfg"
 )
 
 // command line flags
@@ -17,11 +16,12 @@ var (
 	optGui    bool   // start GUI
 )
 
+// main program
 func main() {
 
 	err := doBenkyoo()
 	if err != nil {
-		fmt.Println("%v", err)
+		fmt.Printf("%v\n", err)
 		os.Exit(2)
 	}
 }
@@ -29,31 +29,20 @@ func main() {
 // doBenkyoo executes the program.
 func doBenkyoo() error {
 
-	err := getConfig()
-	if err != nil {
-		return fmt.Errorf("read config: %v", err)
-	}
 	getOptions()
 
 	// TODO: add options
 	application := app.New()
+	// app.WithLoader(store.NewLoader(optDbType, optDbPath)),
 
 	// TODO: add options
-	err = application.Load()
+	err := application.Load()
 	if err != nil {
 		return fmt.Errorf("load data: %v", err)
 	}
 
 	// TODO: add options
 	return application.Run()
-}
-
-// getConfig reads the configuration file.
-// TODO: better move to app.App?
-func getConfig() error {
-	// TODO: read config file if it exists
-	// _, err := os.Stat(cfg.DefaultCfgFile)
-	return nil
 }
 
 // getOptions parses the command line options.
@@ -65,31 +54,13 @@ func getOptions() {
 		flag.PrintDefaults()
 	}
 
-	// TODO: add/modify parameters, defaults, ...
-
 	// define flags
-	flag.StringVar(&optDbPath, "dbtype", os.Getenv("GOBENKYOO_DB_TYPE"),
-		"config file (default: $GOBENKYOO_DB_TYPE)")
-	flag.StringVar(&optDbPath, "db", os.Getenv("GOBENKYOO_DB_PATH"),
-		"config file (default: $GOBENKYOO_DB_PATH)")
+	flag.StringVar(&optDbPath, "dbtype", "", "config file")
+	flag.StringVar(&optDbPath, "db", "", "database path")
 
 	flag.BoolVar(&optLearn, "learn", false, "learn in cli mode")
 	flag.BoolVar(&optGui, "gui", false, "start app with GUI")
 
 	// parse options
 	flag.Parse()
-
-	// check parameter
-	if optDbPath == "" {
-		optDbPath = cfg.DefaultDbPath
-	}
-	if optDbType == "" {
-		optDbType = cfg.DefaultDbType
-	}
-
-	if !optLearn && !optGui {
-		fmt.Println("specify either -learn or -gui")
-		flag.Usage()
-		os.Exit(1)
-	}
 }

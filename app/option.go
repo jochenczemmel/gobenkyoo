@@ -11,6 +11,7 @@ func WithLoader(loader Loader) AppOption {
 	}
 }
 
+/*
 // WithStorer sets the storer to use.
 func WithStorer(storer Storer) AppOption {
 	return func(a *App) {
@@ -31,3 +32,4 @@ func WithRunner(runner Runner) AppOption {
 		a.runner = runner
 	}
 }
+*/
