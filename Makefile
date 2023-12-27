@@ -3,7 +3,7 @@ TMP_FILE=testcoverage.txt
 COVERAGE_FILE=testcoverage.html
 
 # the first target is executed when make is called without target
-default: systemtest
+develop: systemtest
 
 # run all unit tests
 testall: cover vulncheck lint
@@ -42,6 +42,11 @@ testv:
 systemtest: build
 	./systemtest/simple_correct_save.exp
 	./systemtest/simple_correct_nosave.exp
+
+# run system test verbose:
+systemtestv: build
+	./systemtest/simple_correct_save.exp -d
+	./systemtest/simple_correct_nosave.exp -d
 
 
 # main executable
