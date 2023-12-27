@@ -6,14 +6,15 @@ import (
 	"os"
 
 	"github.com/jochenczemmel/gobenkyoo/app"
+	"github.com/jochenczemmel/gobenkyoo/store"
+	"github.com/jochenczemmel/gobenkyoo/ui"
 )
 
 // command line flags
 var (
 	optDbPath string // data base path specification
 	optDbType string // type of data base
-	optLearn  bool   // start learn cli
-	optGui    bool   // start GUI
+	optUI     string // type of user interface
 )
 
 // main program
@@ -30,19 +31,9 @@ func main() {
 func doBenkyoo() error {
 
 	getOptions()
+	application := app.New(store.NewLoader(optDbType, optDbPath))
 
-	// TODO: add options
-	application := app.New()
-	// app.WithLoader(store.NewLoader(optDbType, optDbPath)),
-
-	// TODO: add options
-	err := application.Load()
-	if err != nil {
-		return fmt.Errorf("load data: %v", err)
-	}
-
-	// TODO: add options
-	return application.Run()
+	return ui.New(optUI, application).Run()
 }
 
 // getOptions parses the command line options.
@@ -55,11 +46,10 @@ func getOptions() {
 	}
 
 	// define flags
-	flag.StringVar(&optDbPath, "dbtype", "", "config file")
+	flag.StringVar(&optDbType, "dbtype", "", "config file")
 	flag.StringVar(&optDbPath, "db", "", "database path")
 
-	flag.BoolVar(&optLearn, "learn", false, "learn in cli mode")
-	flag.BoolVar(&optGui, "gui", false, "start app with GUI")
+	flag.StringVar(&optUI, "ui", "", "user interface mode")
 
 	// parse options
 	flag.Parse()

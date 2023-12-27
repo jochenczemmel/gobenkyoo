@@ -13,5 +13,10 @@ build_all: build_windows build
 build_windows:
 	GOOS=windows GOARCH=amd64 go build
 
-.PHONY: build_all build build_windows
+# call executable like in the system tests
+systemtest: build
+	./gobenkyoo -dbtype json -ui learn
+
+
+.PHONY: build_all build build_windows systemtest
 
