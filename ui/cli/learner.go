@@ -37,9 +37,9 @@ func (l *Learner) Run() error {
 	fmt.Print("save answer (y/n): ")
 	fmt.Scanf("%s", &answer)
 	if answer == "y" || answer == "Y" {
+		// TODO: store results
 		fmt.Println("saved")
 	}
 
 	return nil
-
 }
