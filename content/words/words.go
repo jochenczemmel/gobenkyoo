@@ -26,7 +26,7 @@ type Card struct {
 	// additional infos, might be empty
 	Hint        string // hint
 	Explanation string // explanation
-	ContentInfo string // free text
+	Remark      string // free text
 
 	// only filled for verbs
 	// nihongo contains the masu-form

@@ -4,13 +4,24 @@ COVERAGE_FILE=testcoverage.html
 
 
 # run acceptance test
-acctest:
+# this should not fail any more during development!
+test:
 	go test -tags acctest
 
+# run acceptance test verbose
+testv:
+	go test -v -tags acctest
+
+# run current acceptance test verbose
+# this fails during development!
+# when it passes, change build tag to acctest
+current:
+	go test -v -tags current
+
 # run acceptance test test coverage
-acccover:
+cover:
 	go test -tags acctest -cover -coverprofile $(TMP_FILE)
 	go tool cover -html=$(TMP_FILE) -o $(COVERAGE_FILE)
 
-.PHONY: acctest acccover
+.PHONY: test testv cover current
 

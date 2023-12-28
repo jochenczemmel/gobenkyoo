@@ -1,3 +1,5 @@
+//go:build acctest
+
 package acctest
 
 import (
@@ -6,7 +8,8 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 )
 
-func TestWordBox(t *testing.T) {
+func TestLearnShelf(t *testing.T) {
+	// TODO: execute full test from shelf
 	shelf := learn.NewShelf()
 	boxtitle := "box1"
 	mode := "native_to_japanese"
