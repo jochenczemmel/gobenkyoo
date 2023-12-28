@@ -27,10 +27,28 @@ func GetWordModes() []string {
 	}
 }
 
+// NewWordBox creates a Box from a list of words.Card.
 func NewWordBox(cards ...*words.Card) *Box {
-	return &Box{}
+	result := &Box{containers: make(map[string]*container)}
+	for _, mode := range GetWordModes() {
+		result.containers[mode] = newContainer(makeWordCards(mode, cards...)...)
+	}
+	return result
 }
 
+// makeWordCards transforms a list of words.Card to learn.Card
+// using the given learn mode.
+func makeWordCards(mode string, cards ...*words.Card) []*Card {
+	result := make([]*Card, 0, len(cards))
+	for _, card := range cards {
+		result = append(result, makeWordCard(mode, card))
+	}
+	return result
+}
+
+// makeWordCard returns the learn.Card with the content of the
+// card accordig to the given learn mode. If the mode is not
+// known, an empty card is returned.
 func makeWordCard(mode string, card *words.Card) *Card {
 	result := &Card{
 		Hint:        card.Hint,
@@ -41,40 +59,28 @@ func makeWordCard(mode string, card *words.Card) *Card {
 	switch mode {
 	case Native2Japanese:
 		result.Question = card.Meaning
-		result.Answer = append(result.Answer, card.Nihongo, card.Kana, card.Romaji)
+		result.Answer = card.Nihongo
+		result.MoreAnswers = append(result.MoreAnswers, card.Kana, card.Romaji)
 	case Japanese2Native:
 		result.Question = card.Nihongo
-		result.Answer = append(result.Answer, card.Meaning, card.Kana, card.Romaji)
+		result.Answer = card.Meaning
+		result.MoreAnswers = append(result.MoreAnswers, card.Kana, card.Romaji)
 	case Native2Kana:
 		result.Question = card.Meaning
-		result.Answer = append(result.Answer, card.Kana, card.Romaji, card.Nihongo)
+		result.Answer = card.Kana
+		result.MoreAnswers = append(result.MoreAnswers, card.Romaji, card.Nihongo)
 	case Kana2Native:
 		result.Question = card.Kana
-		result.Answer = append(result.Answer, card.Meaning, card.Romaji, card.Nihongo)
+		result.Answer = card.Meaning
+		result.MoreAnswers = append(result.MoreAnswers, card.Romaji, card.Nihongo)
 	default:
 		return &Card{}
 	}
 
 	if card.DictForm != "" {
-		result.Answer = append(result.Answer, card.DictForm, card.TeForm, card.NaiForm)
+		result.MoreAnswers = append(result.MoreAnswers,
+			card.DictForm, card.TeForm, card.NaiForm)
 	}
 
 	return result
 }
-
-/*
-*
-* 	Question    string
-	Hint        string
-	Answer      []string
-	Explanation string
-
-func makeWordCards(mode string, cards ...*words.Card) []*Card {
-	result := make([]*Card, 0, len(cards))
-	for _, card := range cards {
-		result = append(result, makeWordCard(mode, card))
-	}
-	return result
-}
-
-*/

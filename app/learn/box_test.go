@@ -12,4 +12,6 @@ func TestWordBox(t *testing.T) {
 	inputCards := []*words.Card{{}}
 	box := learn.NewWordBox(inputCards...)
 	t.Logf("DEBUG: box: %v", box)
+
+	// exam := box.StartExam(learn.Native2Japanese, learn.MinLevel)
 }
