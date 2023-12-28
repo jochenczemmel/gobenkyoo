@@ -11,6 +11,7 @@ func newContainer(cards ...*Card) *container {
 		levels:   make(map[*Card]int, len(cards)),
 	}
 	for _, card := range cards {
+		card.CurrentLevel = MinLevel
 		result.levels[card] = MinLevel
 	}
 	return result
@@ -39,5 +40,6 @@ func (c *container) setLevel(card *Card, level int) {
 	if _, ok := c.levels[card]; !ok {
 		return
 	}
+	card.CurrentLevel = level
 	c.levels[card] = level
 }
