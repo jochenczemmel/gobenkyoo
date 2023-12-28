@@ -42,10 +42,23 @@ func makeWordCard(mode string, card *words.Card) *Card {
 	case Native2Japanese:
 		result.Question = card.Meaning
 		result.Answer = append(result.Answer, card.Nihongo, card.Kana, card.Romaji)
-		if card.DictForm != "" {
-			result.Answer = append(result.Answer, card.DictForm, card.TeForm, card.NaiForm)
-		}
+	case Japanese2Native:
+		result.Question = card.Nihongo
+		result.Answer = append(result.Answer, card.Meaning, card.Kana, card.Romaji)
+	case Native2Kana:
+		result.Question = card.Meaning
+		result.Answer = append(result.Answer, card.Kana, card.Romaji, card.Nihongo)
+	case Kana2Native:
+		result.Question = card.Kana
+		result.Answer = append(result.Answer, card.Meaning, card.Romaji, card.Nihongo)
+	default:
+		return &Card{}
 	}
+
+	if card.DictForm != "" {
+		result.Answer = append(result.Answer, card.DictForm, card.TeForm, card.NaiForm)
+	}
+
 	return result
 }
 
