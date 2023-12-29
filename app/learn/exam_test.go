@@ -37,6 +37,7 @@ func TestWordExam(t *testing.T) {
 	options := learn.ExamOptions{
 		LearnMode: learn.Native2Japanese,
 		Level:     learn.MinLevel,
+		NoShuffle: true,
 	}
 	exam := learn.NewExam(options, box)
 
@@ -47,7 +48,7 @@ func TestWordExam(t *testing.T) {
 		{wantQuestion: inputCards[0].Meaning, wantOk: true},
 		{wantQuestion: inputCards[1].Meaning, wantOk: true},
 		{wantQuestion: inputCards[2].Meaning, wantOk: true},
-		{wantQuestion: "", wantOk: false},
+		{wantQuestion: inputCards[2].Meaning, wantOk: false},
 	}
 
 	for i, c := range candidates {
