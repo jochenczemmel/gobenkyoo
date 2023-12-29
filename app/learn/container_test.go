@@ -66,6 +66,12 @@ func TestContainer(t *testing.T) {
 		if len(got) != want {
 			t.Errorf("ERROR: invalid previous level: got %v, want %v", len(got), want)
 		}
+
+		got = container.cards(AllLevel)
+		want = 3
+		if len(got) != want {
+			t.Errorf("ERROR: get all cards: got %v, want %v", len(got), want)
+		}
 	})
 
 	t.Run("move too low", func(t *testing.T) {
@@ -74,13 +80,8 @@ func TestContainer(t *testing.T) {
 		newLevel := MinLevel - 1
 		container.setLevel(inputCards[1], newLevel)
 
-		got := container.cards(newLevel)
-		want := 0
-		if len(got) != want {
-			t.Errorf("ERROR: card in invalid level: got %v, want %v", len(got), want)
-		}
-		want = 3
-		got = container.cards(MinLevel)
+		want := 3
+		got := container.cards(MinLevel)
 		if len(got) != want {
 			t.Errorf("ERROR: invalid previous level: got %v, want %v", len(got), want)
 		}
@@ -92,14 +93,8 @@ func TestContainer(t *testing.T) {
 
 		container.setLevel(inputCards[1], newLevel)
 
-		got := container.cards(newLevel)
-		want := 0
-		if len(got) != want {
-			t.Errorf("ERROR: card in invalid level: got %v, want %v", len(got), want)
-		}
-
-		got = container.cards(MinLevel)
-		want = 3
+		got := container.cards(MinLevel)
+		want := 3
 		if len(got) != want {
 			t.Errorf("ERROR: invalid previous level: got %v, want %v", len(got), want)
 		}
@@ -112,14 +107,8 @@ func TestContainer(t *testing.T) {
 		newCard := &Card{Question: "一"}
 		container.setLevel(newCard, newLevel)
 
-		got := container.cards(newLevel)
-		want := 0
-		if len(got) != want {
-			t.Errorf("ERROR: invalid new level: got %v, want %v", len(got), want)
-		}
-
-		got = container.cards(MinLevel)
-		want = 3
+		got := container.cards(MinLevel)
+		want := 3
 		if len(got) != want {
 			t.Errorf("ERROR: invalid previous level: got %v, want %v", len(got), want)
 		}

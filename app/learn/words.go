@@ -27,15 +27,6 @@ func GetWordModes() []string {
 	}
 }
 
-// NewWordBox creates a Box from a list of words.Card.
-func NewWordBox(cards ...*words.Card) *Box {
-	result := &Box{containers: make(map[string]*container)}
-	for _, mode := range GetWordModes() {
-		result.containers[mode] = newContainer(makeWordCards(mode, cards...)...)
-	}
-	return result
-}
-
 // makeWordCards transforms a list of words.Card to learn.Card
 // using the given learn mode.
 func makeWordCards(mode string, cards ...*words.Card) []*Card {

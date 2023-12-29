@@ -6,12 +6,11 @@ import (
 )
 
 type Card struct {
-	Question     string
-	Hint         string
-	Answer       string
-	MoreAnswers  []string
-	Explanation  string
-	WordCard     *words.Card
-	KanjiCard    *kanjis.Card
-	CurrentLevel int
+	Question    string
+	Hint        string
+	Answer      string
+	MoreAnswers []string
+	Explanation string
+	WordCard    *words.Card
+	KanjiCard   *kanjis.Card
 }
