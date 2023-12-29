@@ -10,11 +10,11 @@ import (
 func TestKanjiInfo(t *testing.T) {
 
 	testCases := []struct {
-		name                        string
-		card                        *kanjis.Card
-		wantRune                    rune
-		wantString, wantDescriptor  string
-		wantNumber, wantStrokeCount int
+		name                                   string
+		card                                   *kanjis.Card
+		wantRune                               rune
+		wantString, wantPretty, wantDescriptor string
+		wantNumber, wantStrokeCount            int
 	}{
 		{
 			name:     "empty",
@@ -27,7 +27,8 @@ func TestKanjiInfo(t *testing.T) {
 				NewBuilder('方').
 				Build(),
 			wantRune:        '方',
-			wantString:      "方 (4h0.1/70)",
+			wantString:      "方",
+			wantPretty:      "方 (4h0.1/70)",
 			wantDescriptor:  "4h0.1",
 			wantNumber:      70,
 			wantStrokeCount: 4,
@@ -36,13 +37,16 @@ func TestKanjiInfo(t *testing.T) {
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
-			gotRune := c.card.Rune()
-			if gotRune != c.wantRune {
-				t.Errorf("ERROR: got %c, want %c", gotRune, c.wantRune)
+			if c.card.Kanji != c.wantRune {
+				t.Errorf("ERROR: got %c, want %c", c.card.Kanji, c.wantRune)
 			}
 			got := c.card.String()
 			if got != c.wantString {
 				t.Errorf("ERROR: got %v, want %v", got, c.wantString)
+			}
+			got = c.card.Pretty()
+			if got != c.wantPretty {
+				t.Errorf("ERROR: got %v, want %v", got, c.wantPretty)
 			}
 			got = c.card.Descriptor()
 			if got != c.wantDescriptor {

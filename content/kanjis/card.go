@@ -35,19 +35,18 @@ func newCard(kanji rune) *Card {
 	}
 }
 
-// IsEmpty checks if the kanji is empty.
-// func (c Card) IsEmpty() bool {
-// return c.kanji == 0
-// }
-
-// Rune returns the Kanji as a Rune.
-func (c *Card) Rune() rune {
-	return c.Kanji
+// String returns the Kanji as a string.
+func (c *Card) String() string {
+	// avoid display of \x00
+	if c.Kanji == '\x00' || c.Kanji == ' ' {
+		return ""
+	}
+	return string(c.Kanji)
 }
 
-// String returns a string representation containing the kanji,
+// Pretty returns a string representation containing the kanji,
 // the descriptor and optionally the number.
-func (c Card) String() string {
+func (c Card) Pretty() string {
 	result := ""
 	if c.Kanji != '\x00' && c.Kanji != ' ' {
 		result = string(c.Kanji)
