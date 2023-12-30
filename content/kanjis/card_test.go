@@ -114,7 +114,7 @@ func TestKanjiDetails(t *testing.T) {
 
 func TestKanjiHasRadical(t *testing.T) {
 
-	candidates := []struct {
+	testCases := []struct {
 		name    string
 		kanji   rune
 		radical rune
@@ -126,7 +126,7 @@ func TestKanjiHasRadical(t *testing.T) {
 		{"hiragana", 'ん', '山', false},
 		{"romaji", 'x', '山', false},
 	}
-	for _, c := range candidates {
+	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 			got := kanjis.NewBuilder(c.kanji).Build().HasRadical(c.radical)
 			if got != c.want {
@@ -138,7 +138,7 @@ func TestKanjiHasRadical(t *testing.T) {
 
 func TestKanjiRadicals(t *testing.T) {
 
-	candidates := []struct {
+	testCases := []struct {
 		name  string
 		kanji rune
 		want  string
@@ -148,7 +148,7 @@ func TestKanjiRadicals(t *testing.T) {
 		{"hiragana", 'は', ""},
 		{"romaji", 'x', ""},
 	}
-	for _, c := range candidates {
+	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 			got := kanjis.NewBuilder(c.kanji).Build().Radicals()
 			if got != c.want {

@@ -16,7 +16,7 @@ func TestMakeKanjiCard(t *testing.T) {
 	kb.AddDetailsKana("hito", "ひと", "Mensch", "Person", "Leute")
 	inputCard := kb.Build()
 
-	cand := []struct {
+	testCases := []struct {
 		mode  string
 		input *kanjis.Card
 		want  *Card
@@ -43,7 +43,7 @@ func TestMakeKanjiCard(t *testing.T) {
 		*/
 	}
 
-	for _, c := range cand {
+	for _, c := range testCases {
 		t.Run(c.mode+" "+c.input.String(), func(t *testing.T) {
 			got := makeKanjiCard(c.mode, c.input)
 			if diff := cmp.Diff(got, c.want,

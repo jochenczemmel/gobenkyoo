@@ -41,7 +41,7 @@ func TestWordExam(t *testing.T) {
 	}
 	exam := learn.NewExam(options, box)
 
-	candidates := []struct {
+	testCases := []struct {
 		wantQuestion string
 		wantOk       bool
 	}{
@@ -51,7 +51,7 @@ func TestWordExam(t *testing.T) {
 		{wantQuestion: inputCards[2].Meaning, wantOk: false},
 	}
 
-	for i, c := range candidates {
+	for i, c := range testCases {
 		t.Run(strconv.Itoa(i+1), func(t *testing.T) {
 			challenge, ok := exam.NextCard()
 			if ok != c.wantOk {

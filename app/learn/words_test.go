@@ -32,7 +32,7 @@ func TestMakeWordCard(t *testing.T) {
 		Meaning: "world",
 	}
 
-	cand := []struct {
+	testCases := []struct {
 		mode  string
 		input *words.Card
 		want  *Card
@@ -129,7 +129,7 @@ func TestMakeWordCard(t *testing.T) {
 		},
 	}
 
-	for _, c := range cand {
+	for _, c := range testCases {
 		t.Run(c.mode+" "+c.input.Meaning, func(t *testing.T) {
 			got := makeWordCard(c.mode, c.input)
 			if diff := cmp.Diff(got, c.want); diff != "" {

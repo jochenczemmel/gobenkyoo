@@ -44,7 +44,7 @@ func TestExtract(t *testing.T) {
 
 func TestKana(t *testing.T) {
 
-	candidates := []struct {
+	testCases := []struct {
 		name     string
 		in, want string
 	}{
@@ -67,7 +67,7 @@ func TestKana(t *testing.T) {
 		{name: "KATAKANA II", in: "PAATII", want: "パアティイ"},     // should be "パーティー"}
 	}
 
-	for _, c := range candidates {
+	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 			got := kanjis.ToKana(c.in)
 			if got != c.want {
