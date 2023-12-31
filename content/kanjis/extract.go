@@ -28,8 +28,9 @@ func Extract(text string) []rune {
 	return result
 }
 
-// isKanji returns true if the kanji is found in our data.
-// Unfortunately, Unicode has no simple way to identify a kanji character.
+// isKanji returns true if the kanji is found in the predefined list.
+// Unfortunately, Unicode has no simple way to identify a kanji character,
+// so we use the data from edict.
 func isKanji(kanji rune) bool {
 	_, ok := kanji2Descriptor[kanji]
 	return ok

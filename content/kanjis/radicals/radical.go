@@ -47,8 +47,8 @@ var kanjiStrokeCount = map[rune]int{}
 
 // fillInvertedMaps creates some inverted maps from the
 // predefined radical data:
-// - radical2Kanji
-// - kanjiStrokeCount
+//   - radical2Kanji
+//   - kanjiStrokeCount
 func fillInvertedMaps() {
 	fillRadical2Kanjis()
 	sortRadical2Kanjis()

@@ -17,11 +17,10 @@ import (
 // Use kanjis.Builder to create a new kanjis card.
 type Card struct {
 	Kanji       rune
-	details     []detail
-	uniqDetails map[string]detail
-
 	Hint        string
 	Explanation string
+	details     []detail
+	uniqDetails map[string]detail
 }
 
 // newCard returns a newCard initialized Kanji object with
@@ -140,10 +139,12 @@ func (c Card) Readings() []string {
 // ReadingsKana returns a distinct list of all Readings as kana.
 // If the kana have not been specified, they are derived from
 // the romaji reading.
+//
 // The type of kana (hiragana or katakana) depends on the case of the
 // first romaji character:
-// - upper case is returned as katakana
-// - lower case is returned as hiragana
+//   - upper case is returned as katakana
+//   - lower case is returned as hiragana
+//
 // There are some bugs in the automatic conversion.
 func (c Card) ReadingsKana() []string {
 
