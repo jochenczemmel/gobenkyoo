@@ -1,23 +1,28 @@
 // Package words handles vocabulary data.
+// It handles single words, expressions, complete sentences
+// or short dialogs.
+package words
+
+// A Card object contains the japanese meaning
+//   - as romaji,
+//   - kana (hiragana or katakana) and/or
+//   - nihongo (kanji, kana, and romaji)
 //
-// A single Card object contains the japanese meaning
-// as romaji, kana (hiragana or Katakana) and nihongo (Kanji, Kana, Romaji).
-// Additionally it contains the meaning in the learners language (meaning).
+// and the meaning in the learners native language.
 //
 // It can contain a hint and an explanation.
 // In the learning process, the hint is supposed to be presented
 // with the question, the explanation is supposed to be presented
-// with the answer. This hint can be used to add precision to the quest,
+// with the answer. This hint can be used to add precision to the question,
 // the explanation can be used to display additional variants,
 // special cases, caveats etc.
-package words
-
-// Card represents a single word or a sentence.
-// If the word is a verb, the three forms should be filled.
+//
+// If the word is a verb, the three forms should be filled
+// with the dictionary form, the -te-form and the -nai-form.
+// The variable Nihongo contains the -masu-form
+//
 // To create a Card, the words.Builder can be used.
 type Card struct {
-
-	// content
 	Nihongo string // content as written in Japanese
 	Kana    string // content written in Kana
 	Romaji  string // content written in Romaji
@@ -26,10 +31,8 @@ type Card struct {
 	// additional infos, might be empty
 	Hint        string // hint
 	Explanation string // explanation
-	Remark      string // free text
 
 	// only filled for verbs
-	// nihongo contains the masu-form
 	DictForm string // dictionary-form
 	TeForm   string // te-form
 	NaiForm  string // nai-form
