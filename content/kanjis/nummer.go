@@ -1,7 +1,7 @@
 package kanjis
 
-// kanji2Nummer contains the kanji with the corresponding
-// number of the spahn hadamitzky dictionary.
+// kanji2Nummer provides the number of the kanji in
+// the spahn hadamitzky dictionary.
 var kanji2Nummer = map[rune]int{
 	'人': 1,
 	'一': 2,
@@ -2374,5 +2374,4 @@ var kanji2Nummer = map[rune]int{
 	'錘': 2139, // 8a8.2
 	'銑': 2140, // 8a6.6
 	'脹': 2141, // 4b8.1
-
 }

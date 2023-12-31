@@ -5,21 +5,19 @@ import (
 	"strings"
 )
 
-// Details holds a single pair of reading and meanings.
-type Detail struct {
-	// reading in Romaji
-	reading string
-	// reading in Hiragana/Katakana
-	readingKana string
-	// meanings in target language
+// detail holds a single reading with a list of meanings.
+type detail struct {
+	readingRomaji  string
+	readingKana    string
 	meanings       []string
 	uniqueMeanings map[string]bool
 }
 
-// newDetail returns a new Details object.
-func newDetail(reading string, meanings ...string) Detail {
-	result := Detail{
-		reading:        reading,
+// newDetail creates a new detail object with the given romaji
+// reading and the meanings.
+func newDetail(reading string, meanings ...string) detail {
+	result := detail{
+		readingRomaji:  reading,
 		uniqueMeanings: map[string]bool{},
 	}
 	result.addMeanings(meanings...)
@@ -27,9 +25,9 @@ func newDetail(reading string, meanings ...string) Detail {
 	return result
 }
 
-// newDetailKana returns a new Details object with explicit
-// kana specification.
-func newDetailKana(reading, kana string, meanings ...string) Detail {
+// newDetailWithlKana creates a new detail object with the given romaji
+// and kana reading and the meanings.
+func newDetailWithlKana(reading, kana string, meanings ...string) detail {
 	result := newDetail(reading, meanings...)
 	result.readingKana = kana
 
@@ -37,7 +35,7 @@ func newDetailKana(reading, kana string, meanings ...string) Detail {
 }
 
 // addMeanings adds meanings if the do not yet exist.
-func (d *Detail) addMeanings(meanings ...string) {
+func (d *detail) addMeanings(meanings ...string) {
 	for _, m := range meanings {
 		if !d.uniqueMeanings[m] {
 			d.uniqueMeanings[m] = true
@@ -49,30 +47,30 @@ func (d *Detail) addMeanings(meanings ...string) {
 // String returns a string representation containing the reading
 // in romaji, the reading in kana and the list of meanings.
 // Mainly useful for test debugging.
-func (d Detail) String() string {
+func (d detail) String() string {
 	return fmt.Sprintf("%s (%s): %s",
-		d.reading,
+		d.readingRomaji,
 		d.ReadingKana(),
 		strings.Join(d.meanings, ", "),
 	)
 }
 
-// Meanings returns the kanji meanings in the target language.
-func (d Detail) Meanings() []string {
+// Meanings returns the kanji meanings in the target native language.
+func (d detail) Meanings() []string {
 	return d.meanings
 }
 
-// Readings returns the Readings as Romaji.
-func (d Detail) Reading() string {
-	return d.reading
+// Readings returns the readings as romaji.
+func (d detail) Reading() string {
+	return d.readingRomaji
 }
 
-// ReadingKana returns the Readings as Hiragana or Katakana.
+// ReadingKana returns the readings as hiragana or katakana.
 // If no kana readings are provided, they are derived from the
 // romaji readings.
-func (d Detail) ReadingKana() string {
+func (d detail) ReadingKana() string {
 	if d.readingKana == "" {
-		return ToKana(d.reading)
+		return ToKana(d.readingRomaji)
 	}
 
 	return d.readingKana

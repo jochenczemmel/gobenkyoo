@@ -1,31 +1,32 @@
 package kanjis
 
-// Builder provides functions to create a new kanjis Content object.
+// Builder provides functions to create a new kanji card.
 type Builder struct {
 	kanjiCard *Card
 }
 
-// NewBuilder creates a new Content object.
+// NewBuilder returns a builder for the given kanji.
 func NewBuilder(kanji rune) *Builder {
 	return &Builder{kanjiCard: newCard(kanji)}
 }
 
-// AddDetails createas and adds a Details object to the kanji.
+// AddDetails adds a single reading (in romaji) and the
+// associated meanings the to kanji.
 func (b *Builder) AddDetails(reading string, meanings ...string) *Builder {
 	b.kanjiCard.addDetails(newDetail(reading, meanings...))
 
 	return b
 }
 
-// AddDetailsKana createas and adds a Details object
-// with kana to the kanji.
-func (b *Builder) AddDetailsKana(reading, kana string, meanings ...string) *Builder {
-	b.kanjiCard.addDetails(newDetailKana(reading, kana, meanings...))
+// AddDetailsWithKana adds a single reading (in romaji and kana) and  the
+// associated meanings the to kanji.
+func (b *Builder) AddDetailsWithKana(reading, kana string, meanings ...string) *Builder {
+	b.kanjiCard.addDetails(newDetailWithlKana(reading, kana, meanings...))
 
 	return b
 }
 
-// Build returns the created Content object.
+// Build returns the created kanji card.
 func (b Builder) Build() *Card {
 	return b.kanjiCard
 }

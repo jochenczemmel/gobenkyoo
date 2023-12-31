@@ -1,7 +1,7 @@
 package kanjis
 
-// kanji2Descriptor contains the mapping from the
-// kanji to the spahn-hadamitzky-descriptor.
+// kanji2Descriptor contains the spahn-hadamitzky-descriptor
+// for the classified kanjis.
 var kanji2Descriptor = map[rune]string{
 	'亜': "0a7.14",
 	'唖': "3d8.3",

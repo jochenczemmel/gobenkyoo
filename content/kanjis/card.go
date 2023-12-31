@@ -12,26 +12,24 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis/radicals"
 )
 
-// Card holds the Kanji as a rune, the meanings and the
-// readings, an optional hint and an optional explanation.
+// Card holds the kanji as a rune, a list of the readings and
+// their meanings, an optional hint and an optional explanation.
+// Use kanjis.Builder to create a new kanjis card.
 type Card struct {
 	Kanji       rune
-	details     []Detail
-	uniqDetails map[string]Detail
+	details     []detail
+	uniqDetails map[string]detail
 
-	// additional infos, might be empty
-	Hint        string // hint
-	Explanation string // explanation
-	ContentInfo string // free text
+	Hint        string
+	Explanation string
 }
 
 // newCard returns a newCard initialized Kanji object with
 // the provided rune.
-// Other packages should use Builder to build a newCard Kanji.
 func newCard(kanji rune) *Card {
 	return &Card{
 		Kanji:       kanji,
-		uniqDetails: map[string]Detail{},
+		uniqDetails: map[string]detail{},
 	}
 }
 
@@ -44,9 +42,9 @@ func (c *Card) String() string {
 	return string(c.Kanji)
 }
 
-// Pretty returns a string representation containing the kanji,
+// Description returns a string representation containing the kanji,
 // the descriptor and optionally the number.
-func (c Card) Pretty() string {
+func (c Card) Description() string {
 	result := ""
 	if c.Kanji != '\x00' && c.Kanji != ' ' {
 		result = string(c.Kanji)
@@ -63,7 +61,7 @@ func (c Card) Pretty() string {
 	return result
 }
 
-// Descriptor returns the Classification for the 79 radical system.
+// Descriptor returns the classification for the 79 radical system.
 func (c Card) Descriptor() string {
 	return kanji2Descriptor[c.Kanji]
 }
@@ -88,14 +86,14 @@ func (c Card) Number() int {
 	return number
 }
 
-// Details returns the list of details.
-func (c *Card) Details() []Detail {
+// Details returns the list of readings and meanings.
+func (c *Card) Details() []detail {
 	return c.details
 }
 
 // addDetails adds a list of details.
 // Duplicate readings are not added.
-func (c *Card) addDetails(details ...Detail) {
+func (c *Card) addDetails(details ...detail) {
 	for _, detail := range details {
 		if detail.Reading() == "" {
 			continue
@@ -108,7 +106,7 @@ func (c *Card) addDetails(details ...Detail) {
 	}
 }
 
-// Meanings returns a distinct List of all Meanings.
+// Meanings returns a distinct list of all Meanings.
 func (c Card) Meanings() []string {
 	result := []string{}
 	found := map[string]bool{}
@@ -124,7 +122,7 @@ func (c Card) Meanings() []string {
 	return result
 }
 
-// Readings returns a distinct List of all Readings as romaji.
+// Readings returns a distinct list of all readings as romaji.
 func (c Card) Readings() []string {
 	result := []string{}
 	found := map[string]bool{}
@@ -139,10 +137,14 @@ func (c Card) Readings() []string {
 	return result
 }
 
-// ReadingsKana returns a distinct List of all Readings as kana
-// depending on the case of the first rune:
-// upper case is returned as katakana,
-// lower case is returned as hiragana.
+// ReadingsKana returns a distinct list of all Readings as kana.
+// If the kana have not been specified, they are derived from
+// the romaji reading.
+// The type of kana (hiragana or katakana) depends on the case of the
+// first romaji character:
+// - upper case is returned as katakana
+// - lower case is returned as hiragana
+// There are some bugs in the automatic conversion.
 func (c Card) ReadingsKana() []string {
 
 	result := []string{}

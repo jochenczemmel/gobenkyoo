@@ -164,7 +164,7 @@ func TestBuilderReverted(t *testing.T) {
 	kb := kanjis.NewBuilder(kanjiRune)
 
 	for _, c := range testCases {
-		kb.AddDetailsKana(c.romaji, c.kana, c.meaning...)
+		kb.AddDetailsWithKana(c.romaji, c.kana, c.meaning...)
 	}
 	kanji := kb.Build()
 
