@@ -6,11 +6,11 @@ import "sort"
 
 func init() {
 	// always create inverted map
-	prepareRadicalData()
+	fillInvertedMaps()
 }
 
-// AllKanjis returns all kanjis that contain the given radical.
-func AllKanjis(radical rune) string {
+// AllKanjisContaining returns all kanjis that contain the given radical.
+func AllKanjisContaining(radical rune) string {
 	return string(radical2Kanji[radical])
 }
 
@@ -45,23 +45,32 @@ var radical2Kanji = map[rune][]rune{}
 // radical -> stroke count.
 var kanjiStrokeCount = map[rune]int{}
 
-// prepareRadicalData creates some inverted maps.
-func prepareRadicalData() {
+// fillInvertedMaps creates some inverted maps:
+// - radical2Kanji
+// - kanjiStrokeCount
+func fillInvertedMaps() {
+	fillRadical2Kanji()
+	sortRadical2Kanjis()
+	fillKanjiStrokeCount()
+}
 
+// fillRadical2Kanji appends the kanji list of the kradfile and kradfile2 files.
+func fillRadical2Kanji() {
 	// kradfile
 	for kanji, list := range kanji2Radical {
 		for _, radical := range list {
 			radical2Kanji[radical] = append(radical2Kanji[radical], kanji)
 		}
 	}
-
-	// kradfile2
 	for kanji, list := range kanji2Radical2 {
 		for _, radical := range list {
 			radical2Kanji[radical] = append(radical2Kanji[radical], kanji)
 		}
 	}
+}
 
+// sortRadical2Kanjis sorts the kanjis in the radical2Kanji map.
+func sortRadical2Kanjis() {
 	// sort kanjis to have a stable output
 	for radical, kanjis := range radical2Kanji {
 		sort.Slice(kanjis, func(i, j int) bool {
@@ -69,7 +78,11 @@ func prepareRadicalData() {
 		})
 		radical2Kanji[radical] = kanjis
 	}
+}
 
+// fillKanjiStrokeCount fills the map that holds the stroke counts
+// for the kanjis.
+func fillKanjiStrokeCount() {
 	// stroke count
 	for count, list := range strokecount2Radical {
 		for _, kanji := range list {
@@ -92,7 +105,7 @@ func (r Radical) Descriptor() string {
 	return radical2Descriptor[rune(r)]
 }
 
-// AllKanjis returns all kanjis that contain the given radical.
-func (r Radical) AllKanjis() string {
+// AllKanjisContaining returns all kanjis that contain the given radical.
+func (r Radical) AllKanjisContaining() string {
 	return string(radical2Kanji[rune(r)])
 }

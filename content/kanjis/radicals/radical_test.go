@@ -131,12 +131,12 @@ func TestAllKanjis(t *testing.T) {
 		t.Run(c.name, func(t *testing.T) {
 
 			r := radicals.Radical(c.radical)
-			got := r.AllKanjis()
+			got := r.AllKanjisContaining()
 			if got != c.want {
 				t.Errorf("ERROR: got %v, want %v", got, c.want)
 			}
 
-			got = radicals.AllKanjis(c.radical)
+			got = radicals.AllKanjisContaining(c.radical)
 			if got != c.want {
 				t.Errorf("ERROR: got %v, want %v", got, c.want)
 			}
