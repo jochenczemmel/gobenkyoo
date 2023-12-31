@@ -74,7 +74,7 @@ func TestDescriptor(t *testing.T) {
 		t.Run(c.name, func(t *testing.T) {
 
 			r := radicals.Radical(c.in)
-			got := r.Descriptor()
+			got := r.DescriptorPrefix()
 			if got != c.want {
 				t.Errorf("ERROR: got %v, want %v", got, c.want)
 			}
@@ -131,12 +131,12 @@ func TestAllKanjis(t *testing.T) {
 		t.Run(c.name, func(t *testing.T) {
 
 			r := radicals.Radical(c.radical)
-			got := r.AllKanjisContaining()
+			got := r.AllKanjisWith()
 			if got != c.want {
 				t.Errorf("ERROR: got %v, want %v", got, c.want)
 			}
 
-			got = radicals.AllKanjisContaining(c.radical)
+			got = radicals.AllKanjisWith(c.radical)
 			if got != c.want {
 				t.Errorf("ERROR: got %v, want %v", got, c.want)
 			}

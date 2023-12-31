@@ -6,9 +6,9 @@ package radicals
 // - kanji to radical list
 //   (edict kradfile and kradfile2)
 
-// strokecount2Radical contains the connection
-// stroke count -> radical.
-var strokecount2Radical = map[int]string{
+// strokecount2Radicals contains a list of radicals
+// for a given stroke count.
+var strokecount2Radicals = map[int]string{
 
 	1: "一｜丶ノ乙亅",
 
@@ -50,9 +50,9 @@ var strokecount2Radical = map[int]string{
 	17: "龠",
 }
 
-// radical2Descriptor contains the association
-// of the radical to the first part of the kanji descriptor.
-// not each 'radical' in our list has a descriptor prefix.
+// radical2Descriptor contains the first part of the kanji descriptor
+// for a radical.
+// Not each 'radical' in our list has a descriptor prefix.
 var radical2Descriptor = map[rune]string{
 
 	'⺅': "2a",
@@ -180,8 +180,8 @@ var radical2Descriptor = map[rune]string{
 	'鳥': "11b",
 }
 
-// kanji2Radical contains the association
-// kanji -> radikal list.
+// kanji2Radical contains the list of radicals
+// that a kanji contains from the edict kradfile.
 var kanji2Radical = map[rune]string{
 	'亜': "｜一口",
 	'唖': "｜一口",
@@ -6540,9 +6540,8 @@ var kanji2Radical = map[rune]string{
 	'熙': "⺣已匚口",
 }
 
-// kanji2Radical2 contains the association
-// kanji -> radikal list
-// from the edict kradfile2.
+// kanji2Radical2 contains the list of radicals
+// that a kanji contains from the edict kradfile2.
 var kanji2Radical2 = map[rune]string{
 	'丂': "一勹",
 	'丄': "一｜",

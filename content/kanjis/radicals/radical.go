@@ -5,13 +5,13 @@ package radicals
 import "sort"
 
 func init() {
-	// always create inverted map
 	fillInvertedMaps()
 }
 
-// AllKanjisContaining returns all kanjis that contain the given radical.
-func AllKanjisContaining(radical rune) string {
-	return string(radical2Kanji[radical])
+// AllKanjisWith returns all kanjis that contain the given radical.
+// The returned kanjis are sorted.
+func AllKanjisWith(radical rune) string {
+	return string(radical2Kanjis[radical])
 }
 
 // StrokeCount returns the stroke count of the radical.
@@ -22,7 +22,7 @@ func StrokeCount(radical rune) int {
 // ForStrokeCount returns a list of all radicals with the
 // given stroke count.
 func ForStrokeCount(strokecount int) string {
-	return strokecount2Radical[strokecount]
+	return strokecount2Radicals[strokecount]
 }
 
 // ForKanji returns the list of radicals for the
@@ -37,34 +37,35 @@ func Descriptor(radical rune) string {
 	return radical2Descriptor[radical]
 }
 
-// radical2Kanji contains the inverted data
+// radical2Kanjis contains the inverted data
 // radikal -> kanji list.
-var radical2Kanji = map[rune][]rune{}
+var radical2Kanjis = map[rune][]rune{}
 
 // kanjiStrokeCount contains the inverted data
 // radical -> stroke count.
 var kanjiStrokeCount = map[rune]int{}
 
-// fillInvertedMaps creates some inverted maps:
+// fillInvertedMaps creates some inverted maps from the
+// predefined radical data:
 // - radical2Kanji
 // - kanjiStrokeCount
 func fillInvertedMaps() {
-	fillRadical2Kanji()
+	fillRadical2Kanjis()
 	sortRadical2Kanjis()
 	fillKanjiStrokeCount()
 }
 
-// fillRadical2Kanji appends the kanji list of the kradfile and kradfile2 files.
-func fillRadical2Kanji() {
+// fillRadical2Kanjis appends the kanji list of the kradfile and kradfile2 files.
+func fillRadical2Kanjis() {
 	// kradfile
 	for kanji, list := range kanji2Radical {
 		for _, radical := range list {
-			radical2Kanji[radical] = append(radical2Kanji[radical], kanji)
+			radical2Kanjis[radical] = append(radical2Kanjis[radical], kanji)
 		}
 	}
 	for kanji, list := range kanji2Radical2 {
 		for _, radical := range list {
-			radical2Kanji[radical] = append(radical2Kanji[radical], kanji)
+			radical2Kanjis[radical] = append(radical2Kanjis[radical], kanji)
 		}
 	}
 }
@@ -72,11 +73,11 @@ func fillRadical2Kanji() {
 // sortRadical2Kanjis sorts the kanjis in the radical2Kanji map.
 func sortRadical2Kanjis() {
 	// sort kanjis to have a stable output
-	for radical, kanjis := range radical2Kanji {
+	for radical, kanjis := range radical2Kanjis {
 		sort.Slice(kanjis, func(i, j int) bool {
 			return kanjis[i] < kanjis[j]
 		})
-		radical2Kanji[radical] = kanjis
+		radical2Kanjis[radical] = kanjis
 	}
 }
 
@@ -84,14 +85,14 @@ func sortRadical2Kanjis() {
 // for the kanjis.
 func fillKanjiStrokeCount() {
 	// stroke count
-	for count, list := range strokecount2Radical {
+	for count, list := range strokecount2Radicals {
 		for _, kanji := range list {
 			kanjiStrokeCount[kanji] = count
 		}
 	}
 }
 
-// Radical provides methods for runes that are radicals.
+// Radical provides methods for runes that are kanji radicals.
 type Radical rune
 
 // StrokeCount returns the stroke count of the radical.
@@ -99,13 +100,13 @@ func (r Radical) StrokeCount() int {
 	return kanjiStrokeCount[rune(r)]
 }
 
-// Descriptor returns the descriptor prefix
+// DescriptorPrefix returns the descriptor prefix
 // for the given Radical.
-func (r Radical) Descriptor() string {
+func (r Radical) DescriptorPrefix() string {
 	return radical2Descriptor[rune(r)]
 }
 
-// AllKanjisContaining returns all kanjis that contain the given radical.
-func (r Radical) AllKanjisContaining() string {
-	return string(radical2Kanji[rune(r)])
+// AllKanjisWith returns all kanjis that contain the given radical.
+func (r Radical) AllKanjisWith() string {
+	return string(radical2Kanjis[rune(r)])
 }
