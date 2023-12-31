@@ -11,9 +11,9 @@ import (
 func TestMakeKanjiCard(t *testing.T) {
 
 	kb := kanjis.NewBuilder('人')
-	kb.AddDetailsKana("JIN", "ジン", "Mensch", "Person", "Leute")
-	kb.AddDetailsKana("NIN", "ニン", "Mensch")
-	kb.AddDetailsKana("hito", "ひと", "Mensch", "Person", "Leute")
+	kb.AddDetailsWithKana("JIN", "ジン", "Mensch", "Person", "Leute")
+	kb.AddDetailsWithKana("NIN", "ニン", "Mensch")
+	kb.AddDetailsWithKana("hito", "ひと", "Mensch", "Person", "Leute")
 	inputCard := kb.Build()
 
 	testCases := []struct {
