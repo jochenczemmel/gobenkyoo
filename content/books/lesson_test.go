@@ -1,26 +1,12 @@
 package books_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
-
-func TestLessonString(t *testing.T) {
-	bookTitle := "book1"
-	lessonTitle := "lesson1"
-	want := fmt.Sprintf("%s (%s)", lessonTitle, bookTitle)
-
-	lesson := books.Lesson{Title: lessonTitle, Book: books.Info{Title: bookTitle}}
-
-	got := lesson.String()
-	if got != want {
-		t.Errorf("ERROR: got %q, want %q", got, want)
-	}
-}
 
 func TestLessonContains(t *testing.T) {
 

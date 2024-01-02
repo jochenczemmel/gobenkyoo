@@ -1,6 +1,7 @@
 package books
 
-// BySeriesVolumeTitle provides sorting of a slice of pointers to books.
+// BySeriesVolumeTitle provides sorting of a slice of pointers to books
+// according to series title, volume and book title.
 type BySeriesVolumeTitle []*Book
 
 // Len implements sort.Interface.
@@ -9,8 +10,8 @@ func (b BySeriesVolumeTitle) Len() int { return len(b) }
 // Swap implements sort.Interface.
 func (b BySeriesVolumeTitle) Swap(i, j int) { b[i], b[j] = b[j], b[i] }
 
-// Less ensures the sorting according to series title, volume and book title.
-// It implements sort.Interface.
+// Less implements sort.Interface.
+// It defines the sort order as described above.
 func (b BySeriesVolumeTitle) Less(i, j int) bool {
 	if b[i].SeriesTitle < b[j].SeriesTitle {
 		return true
