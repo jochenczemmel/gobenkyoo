@@ -25,8 +25,8 @@ type Card struct {
 
 // newCard returns a newCard initialized kanji object with
 // the provided rune.
-func newCard(kanji rune) *Card {
-	return &Card{
+func newCard(kanji rune) Card {
+	return Card{
 		kanji:       kanji,
 		uniqDetails: map[string]detail{},
 	}
@@ -43,8 +43,36 @@ func (c *Card) Kanji() string {
 
 // ID returns the uniq id of the kanji.
 // It is the string representation of the kanji.
-func (c *Card) ID() string {
+func (c Card) ID() string {
 	return c.Kanji()
+}
+
+// Descriptor returns the classification for the 79 radical system.
+func (c Card) Descriptor() string {
+	return kanji2Descriptor[c.kanji]
+}
+
+// Radicals returns the list of the radicals
+// for the kanji on the card.
+func (c Card) Radicals() string {
+	return radicals.ForKanji(c.kanji)
+}
+
+// StrokeCount returns the number of strokes of the kanji.
+func (c Card) StrokeCount() int {
+	first, last, unused := 0, 0, ""
+	fmt.Sscanf(kanji2Descriptor[c.kanji],
+		"%d%1s%d.%d", &first, &unused, &last)
+	return first + last
+}
+
+// Number returns the Hadamitzky Number.
+func (c Card) Number() int {
+	number, ok := kanji2Nummer[c.kanji]
+	if !ok {
+		return 0
+	}
+	return number
 }
 
 // Description returns a string representation containing the kanji,
@@ -66,49 +94,20 @@ func (c Card) Description() string {
 	return result
 }
 
-// Descriptor returns the classification for the 79 radical system.
-func (c Card) Descriptor() string {
-	return kanji2Descriptor[c.kanji]
-}
-
-// StrokeCount returns the number of strokes of the kanji.
-func (c Card) StrokeCount() int {
-
-	first, last, unused := 0, 0, ""
-	fmt.Sscanf(kanji2Descriptor[c.kanji],
-		"%d%1s%d.%d", &first, &unused, &last)
-
-	return first + last
-}
-
-// Number returns the Hadamitzky Number.
-func (c Card) Number() int {
-	number, ok := kanji2Nummer[c.kanji]
-	if !ok {
-		return 0
+// HasRadical returns true if the given radical
+// is part of the kanji on the card.
+func (c Card) HasRadical(radical rune) bool {
+	rad := radicals.ForKanji(c.kanji)
+	if rad == "" {
+		return false
+	}
+	for _, r := range rad {
+		if r == radical {
+			return true
+		}
 	}
 
-	return number
-}
-
-// Details returns the list of readings and meanings.
-func (c *Card) Details() []detail {
-	return c.details
-}
-
-// addDetails adds a list of details.
-// Duplicate readings are not added.
-func (c *Card) addDetails(details ...detail) {
-	for _, detail := range details {
-		if detail.Reading() == "" {
-			continue
-		}
-		if _, ok := c.uniqDetails[detail.Reading()]; ok {
-			continue
-		}
-		c.uniqDetails[detail.Reading()] = detail
-		c.details = append(c.details, detail)
-	}
+	return false
 }
 
 // Meanings returns a distinct list of all Meanings.
@@ -168,24 +167,23 @@ func (c Card) ReadingsKana() []string {
 	return result
 }
 
-// HasRadical returns true if the given radical
-// is part of the kanji on the card.
-func (c Card) HasRadical(radical rune) bool {
-	rad := radicals.ForKanji(c.kanji)
-	if rad == "" {
-		return false
-	}
-	for _, r := range rad {
-		if r == radical {
-			return true
+// addDetails adds a list of details.
+// Duplicate readings are not added.
+func (c *Card) addDetails(details ...detail) {
+	for _, detail := range details {
+		if detail.Reading() == "" {
+			continue
 		}
+		if _, ok := c.uniqDetails[detail.Reading()]; ok {
+			continue
+		}
+		c.uniqDetails[detail.Reading()] = detail
+		c.details = append(c.details, detail)
 	}
-
-	return false
 }
 
-// Radicals returns the list of the radicals
-// for the kanji on the card.
-func (c Card) Radicals() string {
-	return radicals.ForKanji(c.kanji)
+// TODO: delete
+// Details returns the list of readings and meanings.
+func (c *Card) Details() []detail {
+	return c.details
 }

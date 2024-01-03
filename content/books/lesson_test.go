@@ -3,6 +3,7 @@ package books_test
 import (
 	"testing"
 
+	"github.com/jochenczemmel/gobenkyoo/content"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
@@ -10,12 +11,12 @@ import (
 
 func TestLessonContains(t *testing.T) {
 
-	wordList := []*words.Card{
+	wordList := []words.Card{
 		{Meaning: "world", Nihongo: "世界"},
 		{Meaning: "hello", Nihongo: "こんいてぃは"},
 		{Meaning: "to see", Nihongo: "見る"},
 	}
-	kanjiList := []*kanjis.Card{
+	kanjiList := []kanjis.Card{
 		kanjis.NewBuilder('世').Build(),
 		kanjis.NewBuilder('界').Build(),
 		kanjis.NewBuilder('見').Build(),
@@ -25,7 +26,7 @@ func TestLessonContains(t *testing.T) {
 
 	testCases := []struct {
 		name string
-		card any
+		card content.Identifier
 		want bool
 	}{
 		{
@@ -50,7 +51,7 @@ func TestLessonContains(t *testing.T) {
 		},
 		{
 			name: "not a content object",
-			card: "not found",
+			card: stringWithID("not found"),
 			want: false,
 		},
 	}
@@ -63,4 +64,14 @@ func TestLessonContains(t *testing.T) {
 			}
 		})
 	}
+}
+
+// stringWithID enables creating an object that implements
+// content.Identifier, but does not match the defined japanese
+// content types.
+type stringWithID string
+
+// ID returns the string.
+func (s stringWithID) ID() string {
+	return string(s)
 }

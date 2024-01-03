@@ -11,7 +11,7 @@ func TestKanjiInfo(t *testing.T) {
 
 	testCases := []struct {
 		name                                   string
-		card                                   *kanjis.Card
+		card                                   kanjis.Card
 		wantString, wantPretty, wantDescriptor string
 		wantNumber, wantStrokeCount            int
 	}{
@@ -66,7 +66,7 @@ func TestKanjiDetails(t *testing.T) {
 
 	testCases := []struct {
 		name                               string
-		card                               *kanjis.Card
+		card                               kanjis.Card
 		wantLen                            int
 		wantReading, wantKana, wantMeaning []string
 	}{

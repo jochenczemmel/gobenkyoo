@@ -39,7 +39,7 @@ type Card struct {
 	NaiForm  string // nai-form
 }
 
-// ID returns the uniq id of the word.
+// ID returns the identifier of the word which should be unique.
 func (c Card) ID() string {
 	return c.Identity
 }

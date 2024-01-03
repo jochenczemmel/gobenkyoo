@@ -2,7 +2,7 @@ package kanjis
 
 // Builder provides functions to create a new kanji card.
 type Builder struct {
-	kanjiCard *Card
+	kanjiCard Card
 }
 
 // NewBuilder returns a builder for the given kanji.
@@ -27,6 +27,6 @@ func (b *Builder) AddDetailsWithKana(reading, kana string, meanings ...string) *
 }
 
 // Build returns the created kanji card.
-func (b Builder) Build() *Card {
+func (b Builder) Build() Card {
 	return b.kanjiCard
 }
