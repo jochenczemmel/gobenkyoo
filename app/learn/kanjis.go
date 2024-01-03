@@ -46,7 +46,7 @@ func makeKanjiCard(mode string, card *kanjis.Card) *Card {
 
 	switch mode {
 	case Kanji2Native:
-		result.Question = string(card.Kanji)
+		result.Question = card.Kanji()
 		result.Answer = strings.Join(card.Meanings(), ", ")
 		result.MoreAnswers = append(result.MoreAnswers,
 			strings.Join(card.Readings(), ", "),
@@ -55,14 +55,14 @@ func makeKanjiCard(mode string, card *kanjis.Card) *Card {
 
 	case Native2Kanji:
 		result.Question = strings.Join(card.Meanings(), ", ")
-		result.Answer = string(card.Kanji)
+		result.Answer = card.Kanji()
 		result.MoreAnswers = append(result.MoreAnswers,
 			strings.Join(card.Readings(), ", "),
 			strings.Join(card.ReadingsKana(), ", "),
 		)
 	case Kana2Kanji:
 		result.Question = strings.Join(card.ReadingsKana(), ", ")
-		result.Answer = string(card.Kanji)
+		result.Answer = card.Kanji()
 		result.MoreAnswers = append(result.MoreAnswers,
 			strings.Join(card.Meanings(), ", "),
 			strings.Join(card.Readings(), ", "),

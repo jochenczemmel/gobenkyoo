@@ -23,10 +23,11 @@ package words
 //
 // To create a Card, the words.Builder can be used.
 type Card struct {
-	Nihongo string // content as written in Japanese
-	Kana    string // content written in Kana
-	Romaji  string // content written in Romaji
-	Meaning string // meaning in the learners language
+	Identity string // unique identifier of the card
+	Nihongo  string // content as written in Japanese
+	Kana     string // content written in Kana
+	Romaji   string // content written in Romaji
+	Meaning  string // meaning in the learners language
 
 	// additional infos, might be empty
 	Hint        string // hint
@@ -36,4 +37,9 @@ type Card struct {
 	DictForm string // dictionary-form
 	TeForm   string // te-form
 	NaiForm  string // nai-form
+}
+
+// ID returns the uniq id of the word.
+func (c Card) ID() string {
+	return c.Identity
 }

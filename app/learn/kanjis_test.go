@@ -44,7 +44,7 @@ func TestMakeKanjiCard(t *testing.T) {
 	}
 
 	for _, c := range testCases {
-		t.Run(c.mode+" "+c.input.String(), func(t *testing.T) {
+		t.Run(c.mode+" "+c.input.Kanji(), func(t *testing.T) {
 			got := makeKanjiCard(c.mode, c.input)
 			if diff := cmp.Diff(got, c.want,
 				cmpopts.IgnoreUnexported(kanjis.Card{})); diff != "" {
