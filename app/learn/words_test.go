@@ -11,7 +11,7 @@ func TestMakeWordCard(t *testing.T) {
 
 	// verb card with verb forms filled
 	// hint and explanation filled
-	inputCard1 := &words.Card{
+	inputCard1 := words.Card{
 		Nihongo:     "習います",
 		Kana:        "ならいます",
 		Romaji:      "naraimasu",
@@ -25,7 +25,7 @@ func TestMakeWordCard(t *testing.T) {
 
 	// noun card, verb forms empty
 	// hint and explanation empty
-	inputCard2 := &words.Card{
+	inputCard2 := words.Card{
 		Nihongo: "世界",
 		Kana:    "せかい",
 		Romaji:  "sekai",
@@ -34,26 +34,25 @@ func TestMakeWordCard(t *testing.T) {
 
 	testCases := []struct {
 		mode  string
-		input *words.Card
-		want  *Card
+		input words.Card
+		want  Card
 	}{
 		{
 			mode:  Native2Japanese,
 			input: inputCard2,
-			want: &Card{
+			want: Card{
 				Question: "world",
 				Answer:   "世界",
 				MoreAnswers: []string{
 					"せかい",
 					"sekai",
 				},
-				WordCard: inputCard2,
 			},
 		},
 		{
 			mode:  Native2Japanese,
 			input: inputCard1,
-			want: &Card{
+			want: Card{
 				Question: "to learn",
 				Hint:     "from somebody",
 				Answer:   "習います",
@@ -65,13 +64,12 @@ func TestMakeWordCard(t *testing.T) {
 					"習わない",
 				},
 				Explanation: "to study is benkyoo (勉強)",
-				WordCard:    inputCard1,
 			},
 		},
 		{
 			mode:  Japanese2Native,
 			input: inputCard1,
-			want: &Card{
+			want: Card{
 				Question: "習います",
 				Hint:     "from somebody",
 				Answer:   "to learn",
@@ -83,13 +81,12 @@ func TestMakeWordCard(t *testing.T) {
 					"習わない",
 				},
 				Explanation: "to study is benkyoo (勉強)",
-				WordCard:    inputCard1,
 			},
 		},
 		{
 			mode:  Native2Kana,
 			input: inputCard1,
-			want: &Card{
+			want: Card{
 				Question: "to learn",
 				Hint:     "from somebody",
 				Answer:   "ならいます",
@@ -101,13 +98,12 @@ func TestMakeWordCard(t *testing.T) {
 					"習わない",
 				},
 				Explanation: "to study is benkyoo (勉強)",
-				WordCard:    inputCard1,
 			},
 		},
 		{
 			mode:  Kana2Native,
 			input: inputCard1,
-			want: &Card{
+			want: Card{
 				Question: "ならいます",
 				Hint:     "from somebody",
 				Answer:   "to learn",
@@ -119,13 +115,12 @@ func TestMakeWordCard(t *testing.T) {
 					"習わない",
 				},
 				Explanation: "to study is benkyoo (勉強)",
-				WordCard:    inputCard1,
 			},
 		},
 		{
 			mode:  "invalid",
 			input: inputCard1,
-			want:  &Card{},
+			want:  Card{MoreAnswers: []string{}},
 		},
 	}
 

@@ -9,7 +9,7 @@ type Box struct {
 }
 
 // NewWordBox creates a Box from a list of word cards.
-func NewWordBox(cards ...*words.Card) *Box {
+func NewWordBox(cards ...words.Card) *Box {
 	result := &Box{containers: make(map[string]*container)}
 	for _, mode := range GetWordModes() {
 		result.containers[mode] = newContainer(makeWordCards(mode, cards...)...)
@@ -20,16 +20,16 @@ func NewWordBox(cards ...*words.Card) *Box {
 // Cards returns a sorted list of cards in the given learn mode
 // that match the given level.
 // If the learn mode is not known, an empty list is returned.
-func (b *Box) Cards(mode string, level int) []*Card {
+func (b *Box) Cards(mode string, level int) []Card {
 	container, ok := b.containers[mode]
 	if !ok {
-		return []*Card{}
+		return []Card{}
 	}
 	return container.cards(level)
 }
 
 // Advance shifts the card on the next level for the given learning mode.
-func (b *Box) Advance(mode string, card *Card) {
+func (b *Box) Advance(mode string, card Card) {
 	container, ok := b.containers[mode]
 	if !ok {
 		return
@@ -38,7 +38,7 @@ func (b *Box) Advance(mode string, card *Card) {
 }
 
 // Reset puts the card on the start level for the given learning mode.
-func (b *Box) Reset(mode string, card *Card) {
+func (b *Box) Reset(mode string, card Card) {
 	container, ok := b.containers[mode]
 	if !ok {
 		return

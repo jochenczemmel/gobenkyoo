@@ -5,29 +5,29 @@ package learn
 // Each card has an level between MinLevel and MaxLevel (including).
 // The sort order of the cards is preserved.
 type container struct {
-	cardList []*Card
-	levels   map[*Card]int
+	cardList []Card
+	levels   map[string]int
 }
 
 // newContainer returns a container with the cards.
 // All cards are stored in level MinLevel.
-func newContainer(cards ...*Card) *container {
+func newContainer(cards ...Card) *container {
 	result := &container{
 		cardList: cards,
-		levels:   make(map[*Card]int, len(cards)),
+		levels:   make(map[string]int, len(cards)),
 	}
 	for _, card := range cards {
-		result.levels[card] = MinLevel
+		result.levels[card.Identity] = MinLevel
 	}
 	return result
 }
 
 // cards returns a sorted list of cards that match the given level.
 // If level is AllLevel, all cards are returned.
-func (c container) cards(level int) []*Card {
-	result := []*Card{}
+func (c container) cards(level int) []Card {
+	result := []Card{}
 	for _, card := range c.cardList {
-		if c.levels[card] == level || level == AllLevel {
+		if c.levels[card.Identity] == level || level == AllLevel {
 			result = append(result, card)
 		}
 	}
@@ -37,7 +37,7 @@ func (c container) cards(level int) []*Card {
 // setLevel sets the level for the given card.
 // If the level is lower than MinLevel, larger than MaxLevel
 // or if the card is unknown, nothing happens.
-func (c *container) setLevel(card *Card, level int) {
+func (c *container) setLevel(card Card, level int) {
 	// level too low
 	if level < MinLevel {
 		return
@@ -47,24 +47,24 @@ func (c *container) setLevel(card *Card, level int) {
 		return
 	}
 	// card not in box
-	if _, ok := c.levels[card]; !ok {
+	if _, ok := c.levels[card.Identity]; !ok {
 		return
 	}
-	c.levels[card] = level
+	c.levels[card.Identity] = level
 }
 
 // advance puts the card in the next level.
 // If it is already in the highest level or if it is
 // not known, nothing happens.
-func (c *container) advance(card *Card) {
+func (c *container) advance(card Card) {
 	// card not in box
-	if _, ok := c.levels[card]; !ok {
+	if _, ok := c.levels[card.Identity]; !ok {
 		return
 	}
-	level := c.levels[card]
+	level := c.levels[card.Identity]
 	// level too high
 	if level >= MaxLevel {
 		return
 	}
-	c.levels[card] = level + 1
+	c.levels[card.Identity] = level + 1
 }

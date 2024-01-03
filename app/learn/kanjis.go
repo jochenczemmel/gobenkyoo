@@ -26,8 +26,8 @@ func GetKanjiModes() []string {
 
 // makeKanjiCards transforms a list of words.Card to learn.Card
 // using the given learn mode.
-func makeKanjiCards(mode string, cards ...*kanjis.Card) []*Card {
-	result := make([]*Card, 0, len(cards))
+func makeKanjiCards(mode string, cards ...kanjis.Card) []Card {
+	result := make([]Card, 0, len(cards))
 	for _, card := range cards {
 		result = append(result, makeKanjiCard(mode, card))
 	}
@@ -37,11 +37,11 @@ func makeKanjiCards(mode string, cards ...*kanjis.Card) []*Card {
 // makeKanjiCard returns the learn.Card with the content of the
 // card according to the given learn mode. If the mode is not
 // known, an empty card is returned.
-func makeKanjiCard(mode string, card *kanjis.Card) *Card {
-	result := &Card{
+func makeKanjiCard(mode string, card kanjis.Card) Card {
+	result := Card{
+		Identity:    card.ID(),
 		Hint:        card.Hint,
 		Explanation: card.Explanation,
-		KanjiCard:   card,
 	}
 
 	switch mode {
@@ -68,7 +68,7 @@ func makeKanjiCard(mode string, card *kanjis.Card) *Card {
 			strings.Join(card.Readings(), ", "),
 		)
 	default:
-		return &Card{}
+		return emptyCard
 	}
 
 	return result

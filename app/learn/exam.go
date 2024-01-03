@@ -7,8 +7,8 @@ type Exam struct {
 	// Number of cards in the exam.
 	NCards      int
 	boxes       []*Box
-	currentCard *Card
-	cards       []*Card // might grow due to appending failed cards
+	currentCard Card
+	cards       []Card // might grow due to appending failed cards
 	cardsIndex  int
 	opt         ExamOptions
 }
@@ -27,7 +27,7 @@ func NewExam(opt ExamOptions, boxes ...*Box) *Exam {
 	result := &Exam{
 		opt:         opt,
 		boxes:       boxes,
-		currentCard: &Card{},
+		currentCard: Card{},
 	}
 	for _, box := range boxes {
 		result.cards = append(result.cards, box.Cards(opt.LearnMode, opt.Level)...)
@@ -48,7 +48,7 @@ func (e *Exam) shuffle() {
 
 // NextCard returns the next card of the exam and true.
 // If there are no more cards, it returns the current card and false.
-func (e *Exam) NextCard() (*Card, bool) {
+func (e *Exam) NextCard() (Card, bool) {
 	if e.cardsIndex >= len(e.cards) ||
 		e.cardsIndex < 0 {
 		return e.currentCard, false
@@ -90,7 +90,7 @@ func (e *Exam) Fail() {
 
 // PreviousCard returns the previous Card and true.
 // If there are no more cards, it returns the current card and false.
-func (e *Exam) PreviousCard() (*Card, bool) {
+func (e *Exam) PreviousCard() (Card, bool) {
 	if e.cardsIndex > len(e.cards) ||
 		e.cardsIndex <= 0 {
 		return e.currentCard, false

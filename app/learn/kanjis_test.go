@@ -18,29 +18,58 @@ func TestMakeKanjiCard(t *testing.T) {
 
 	testCases := []struct {
 		mode  string
-		input *kanjis.Card
-		want  *Card
+		input kanjis.Card
+		want  Card
 	}{
 		{
 			mode:  Kanji2Native,
 			input: inputCard,
-			want: &Card{
+			want: Card{
+				Identity: "人",
 				Question: "人",
 				Answer:   "Mensch, Person, Leute",
 				MoreAnswers: []string{
 					"JIN, NIN, hito",
 					"ジン, ニン, ひと",
 				},
-				KanjiCard: inputCard,
 			},
 		},
-		/*
-			{
-				mode:  "invalid",
-				input: inputCard,
-				want:  &Card{},
+		{
+			mode:  Native2Kanji,
+			input: inputCard,
+			want: Card{
+				Identity: "人",
+				Question: "Mensch, Person, Leute",
+				Answer:   "人",
+				MoreAnswers: []string{
+					"JIN, NIN, hito",
+					"ジン, ニン, ひと",
+				},
 			},
-		*/
+		},
+		{
+			mode:  Kana2Kanji,
+			input: inputCard,
+			want: Card{
+				Identity: "人",
+				Question: "ジン, ニン, ひと",
+				Answer:   "人",
+				MoreAnswers: []string{
+					"Mensch, Person, Leute",
+					"JIN, NIN, hito",
+				},
+			},
+		},
+		{
+			mode:  "invalid",
+			input: inputCard,
+			want: Card{
+				Identity:    "",
+				Question:    "",
+				Answer:      "",
+				MoreAnswers: []string{},
+			},
+		},
 	}
 
 	for _, c := range testCases {

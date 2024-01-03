@@ -8,10 +8,10 @@ import (
 
 func TestContainer(t *testing.T) {
 
-	inputCards := []*Card{
-		{Question: "一"},
-		{Question: "二"},
-		{Question: "三"},
+	inputCards := []Card{
+		{Identity: "一"},
+		{Identity: "二"},
+		{Identity: "三"},
 	}
 
 	t.Run("get cards", func(t *testing.T) {
@@ -104,7 +104,7 @@ func TestContainer(t *testing.T) {
 		container := newContainer(inputCards...)
 
 		newLevel := MinLevel + 1
-		newCard := &Card{Question: "一"}
+		newCard := Card{Identity: "unknown"}
 		container.setLevel(newCard, newLevel)
 
 		got := container.cards(MinLevel)

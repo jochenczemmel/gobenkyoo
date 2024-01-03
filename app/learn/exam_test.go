@@ -10,7 +10,7 @@ import (
 
 func TestWordExam(t *testing.T) {
 
-	inputCards := []*words.Card{{
+	inputCards := []words.Card{{
 		Nihongo: "世界",
 		Kana:    "せかい",
 		Romaji:  "sekai",
