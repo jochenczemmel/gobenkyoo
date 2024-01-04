@@ -42,7 +42,7 @@ func makeWordCards(mode string, cards ...words.Card) []Card {
 // known, an empty card is returned.
 func makeWordCard(mode string, card words.Card) Card {
 	result := Card{
-		Identity:    card.ID(),
+		ID:          card.ID,
 		Hint:        card.Hint,
 		Explanation: card.Explanation,
 	}

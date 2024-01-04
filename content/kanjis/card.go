@@ -41,12 +41,6 @@ func (c *Card) Kanji() string {
 	return string(c.kanji)
 }
 
-// ID returns the uniq id of the kanji.
-// It is the string representation of the kanji.
-func (c Card) ID() string {
-	return c.Kanji()
-}
-
 // Descriptor returns the classification for the 79 radical system.
 func (c Card) Descriptor() string {
 	return kanji2Descriptor[c.kanji]

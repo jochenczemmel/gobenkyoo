@@ -9,9 +9,9 @@ import (
 func TestContainer(t *testing.T) {
 
 	inputCards := []Card{
-		{Identity: "一"},
-		{Identity: "二"},
-		{Identity: "三"},
+		{ID: "一"},
+		{ID: "二"},
+		{ID: "三"},
 	}
 
 	t.Run("get cards", func(t *testing.T) {
@@ -104,7 +104,7 @@ func TestContainer(t *testing.T) {
 		container := newContainer(inputCards...)
 
 		newLevel := MinLevel + 1
-		newCard := Card{Identity: "unknown"}
+		newCard := Card{ID: "unknown"}
 		container.setLevel(newCard, newLevel)
 
 		got := container.cards(MinLevel)

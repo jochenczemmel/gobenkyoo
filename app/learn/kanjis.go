@@ -39,7 +39,7 @@ func makeKanjiCards(mode string, cards ...kanjis.Card) []Card {
 // known, an empty card is returned.
 func makeKanjiCard(mode string, card kanjis.Card) Card {
 	result := Card{
-		Identity:    card.ID(),
+		ID:          card.Kanji(),
 		Hint:        card.Hint,
 		Explanation: card.Explanation,
 	}

@@ -17,7 +17,7 @@ func newContainer(cards ...Card) *container {
 		levels:   make(map[string]int, len(cards)),
 	}
 	for _, card := range cards {
-		result.levels[card.Identity] = MinLevel
+		result.levels[card.ID] = MinLevel
 	}
 	return result
 }
@@ -27,7 +27,7 @@ func newContainer(cards ...Card) *container {
 func (c container) cards(level int) []Card {
 	result := []Card{}
 	for _, card := range c.cardList {
-		if c.levels[card.Identity] == level || level == AllLevel {
+		if c.levels[card.ID] == level || level == AllLevel {
 			result = append(result, card)
 		}
 	}
@@ -47,10 +47,10 @@ func (c *container) setLevel(card Card, level int) {
 		return
 	}
 	// card not in box
-	if _, ok := c.levels[card.Identity]; !ok {
+	if _, ok := c.levels[card.ID]; !ok {
 		return
 	}
-	c.levels[card.Identity] = level
+	c.levels[card.ID] = level
 }
 
 // advance puts the card in the next level.
@@ -58,13 +58,13 @@ func (c *container) setLevel(card Card, level int) {
 // not known, nothing happens.
 func (c *container) advance(card Card) {
 	// card not in box
-	if _, ok := c.levels[card.Identity]; !ok {
+	if _, ok := c.levels[card.ID]; !ok {
 		return
 	}
-	level := c.levels[card.Identity]
+	level := c.levels[card.ID]
 	// level too high
 	if level >= MaxLevel {
 		return
 	}
-	c.levels[card.Identity] = level + 1
+	c.levels[card.ID] = level + 1
 }

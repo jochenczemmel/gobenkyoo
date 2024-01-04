@@ -1,7 +1,7 @@
 package learn
 
 type Card struct {
-	Identity    string
+	ID          string
 	Question    string
 	Hint        string
 	Answer      string

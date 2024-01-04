@@ -38,10 +38,6 @@ func TestKanjiInfo(t *testing.T) {
 			if got != c.wantString {
 				t.Errorf("ERROR: got %v, want %v", got, c.wantString)
 			}
-			got = c.card.ID()
-			if got != c.wantString {
-				t.Errorf("ERROR: got %v, want %v", got, c.wantString)
-			}
 			got = c.card.Description()
 			if got != c.wantPretty {
 				t.Errorf("ERROR: got %v, want %v", got, c.wantPretty)
@@ -83,6 +79,9 @@ func TestKanjiDetails(t *testing.T) {
 				NewBuilder('方').
 				AddDetailsWithKana("HOO", "ホー", "Richtung", "Art und Weise, etwas zu tun").
 				AddDetails("kata", "Person", "Art und Weise, etwas zu tun").
+				AddDetails("kata", "Person", "Art und Weise, etwas zu tun"). // duplicate
+				AddDetails("", "- empty -").                                 // no reading, not added
+				AddDetailsWithKana("", "x", "- empty -").                    // no reading, not added
 				Build(),
 			wantLen:     2,
 			wantReading: []string{"HOO", "kata"},

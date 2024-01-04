@@ -1,10 +1,5 @@
 package kanjis
 
-import (
-	"fmt"
-	"strings"
-)
-
 // detail holds a single reading with a list of meanings.
 type detail struct {
 	readingRomaji  string
@@ -42,17 +37,6 @@ func (d *detail) addMeanings(meanings ...string) {
 			d.meanings = append(d.meanings, m)
 		}
 	}
-}
-
-// String returns a string representation containing the reading
-// in romaji, the reading in kana and the list of meanings.
-// Mainly useful for test debugging.
-func (d detail) String() string {
-	return fmt.Sprintf("%s (%s): %s",
-		d.readingRomaji,
-		d.ReadingKana(),
-		strings.Join(d.meanings, ", "),
-	)
 }
 
 // Meanings returns the kanji meanings in the target native language.

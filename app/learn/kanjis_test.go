@@ -25,7 +25,7 @@ func TestMakeKanjiCard(t *testing.T) {
 			mode:  Kanji2Native,
 			input: inputCard,
 			want: Card{
-				Identity: "人",
+				ID:       "人",
 				Question: "人",
 				Answer:   "Mensch, Person, Leute",
 				MoreAnswers: []string{
@@ -38,7 +38,7 @@ func TestMakeKanjiCard(t *testing.T) {
 			mode:  Native2Kanji,
 			input: inputCard,
 			want: Card{
-				Identity: "人",
+				ID:       "人",
 				Question: "Mensch, Person, Leute",
 				Answer:   "人",
 				MoreAnswers: []string{
@@ -51,7 +51,7 @@ func TestMakeKanjiCard(t *testing.T) {
 			mode:  Kana2Kanji,
 			input: inputCard,
 			want: Card{
-				Identity: "人",
+				ID:       "人",
 				Question: "ジン, ニン, ひと",
 				Answer:   "人",
 				MoreAnswers: []string{
@@ -64,7 +64,7 @@ func TestMakeKanjiCard(t *testing.T) {
 			mode:  "invalid",
 			input: inputCard,
 			want: Card{
-				Identity:    "",
+				ID:          "",
 				Question:    "",
 				Answer:      "",
 				MoreAnswers: []string{},
