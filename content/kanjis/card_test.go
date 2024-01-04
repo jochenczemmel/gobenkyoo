@@ -7,7 +7,7 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 )
 
-func TestKanjiInfo(t *testing.T) {
+func TestKanjiMetadata(t *testing.T) {
 
 	testCases := []struct {
 		name                                   string
@@ -58,7 +58,7 @@ func TestKanjiInfo(t *testing.T) {
 	}
 }
 
-func TestKanjiDetails(t *testing.T) {
+func TestKanjiContent(t *testing.T) {
 
 	testCases := []struct {
 		name                               string
@@ -74,28 +74,24 @@ func TestKanjiDetails(t *testing.T) {
 			wantMeaning: []string{},
 		},
 		{
-			name: "kata_hoo",
+			name: "multiple readings",
 			card: kanjis.
 				NewBuilder('方').
 				AddDetailsWithKana("HOO", "ホー", "Richtung", "Art und Weise, etwas zu tun").
-				AddDetails("kata", "Person", "Art und Weise, etwas zu tun").
+				AddDetails("kata", "Person", "Art und Weise, etwas zu tun"). // missing kana
 				AddDetails("kata", "Person", "Art und Weise, etwas zu tun"). // duplicate
 				AddDetails("", "- empty -").                                 // no reading, not added
 				AddDetailsWithKana("", "x", "- empty -").                    // no reading, not added
 				Build(),
 			wantLen:     2,
 			wantReading: []string{"HOO", "kata"},
-			wantKana:    []string{"ホー", "かた"},
+			wantKana:    []string{"ホー"},
 			wantMeaning: []string{"Richtung", "Art und Weise, etwas zu tun", "Person"},
 		},
 	}
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
-			gotNum := len(c.card.Details())
-			if gotNum != c.wantLen {
-				t.Errorf("ERROR: got %v, want %v", gotNum, c.wantLen)
-			}
 			if diff := cmp.Diff(c.card.Readings(), c.wantReading); diff != "" {
 				t.Errorf("ERROR: got-, want+\n%s", diff)
 			}
@@ -133,7 +129,7 @@ func TestKanjiHasRadical(t *testing.T) {
 	}
 }
 
-func TestKanjiRadicals(t *testing.T) {
+func TestKanjiGetRadicals(t *testing.T) {
 
 	testCases := []struct {
 		name  string

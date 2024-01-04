@@ -109,7 +109,7 @@ func (c Card) Meanings() []string {
 	result := []string{}
 	found := map[string]bool{}
 	for _, detail := range c.details {
-		for _, meaning := range detail.Meanings() {
+		for _, meaning := range detail.meanings {
 			if !found[meaning] {
 				found[meaning] = true
 				result = append(result, meaning)
@@ -125,7 +125,7 @@ func (c Card) Readings() []string {
 	result := []string{}
 	found := map[string]bool{}
 	for _, detail := range c.details {
-		reading := detail.Reading()
+		reading := detail.reading
 		if !found[reading] {
 			found[reading] = true
 			result = append(result, reading)
@@ -136,22 +136,17 @@ func (c Card) Readings() []string {
 }
 
 // ReadingsKana returns a distinct list of all Readings as kana.
-// If the kana have not been specified, they are derived from
-// the romaji reading.
-//
-// The type of kana (hiragana or katakana) depends on the case of the
-// first romaji character:
-//   - upper case is returned as katakana
-//   - lower case is returned as hiragana
-//
-// There are some bugs in the automatic conversion.
+// Missing kana readings are not added to the list.
 func (c Card) ReadingsKana() []string {
 
 	result := []string{}
 	found := map[string]bool{}
 
 	for _, detail := range c.details {
-		reading := detail.ReadingKana()
+		reading := detail.readingKana
+		if reading == "" {
+			continue
+		}
 		if !found[reading] {
 			found[reading] = true
 			result = append(result, reading)
@@ -165,19 +160,13 @@ func (c Card) ReadingsKana() []string {
 // Duplicate readings are not added.
 func (c *Card) addDetails(details ...detail) {
 	for _, detail := range details {
-		if detail.Reading() == "" {
+		if detail.reading == "" {
 			continue
 		}
-		if _, ok := c.uniqDetails[detail.Reading()]; ok {
+		if _, ok := c.uniqDetails[detail.reading]; ok {
 			continue
 		}
-		c.uniqDetails[detail.Reading()] = detail
+		c.uniqDetails[detail.reading] = detail
 		c.details = append(c.details, detail)
 	}
-}
-
-// TODO: delete
-// Details returns the list of readings and meanings.
-func (c *Card) Details() []detail {
-	return c.details
 }

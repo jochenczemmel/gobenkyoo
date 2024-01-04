@@ -2,7 +2,7 @@ package kanjis
 
 // detail holds a single reading with a list of meanings.
 type detail struct {
-	readingRomaji  string
+	reading        string
 	readingKana    string
 	meanings       []string
 	uniqueMeanings map[string]bool
@@ -12,7 +12,7 @@ type detail struct {
 // reading and the meanings.
 func newDetail(reading string, meanings ...string) detail {
 	result := detail{
-		readingRomaji:  reading,
+		reading:        reading,
 		uniqueMeanings: map[string]bool{},
 	}
 	result.addMeanings(meanings...)
@@ -37,25 +37,4 @@ func (d *detail) addMeanings(meanings ...string) {
 			d.meanings = append(d.meanings, m)
 		}
 	}
-}
-
-// Meanings returns the kanji meanings in the target native language.
-func (d detail) Meanings() []string {
-	return d.meanings
-}
-
-// Readings returns the readings as romaji.
-func (d detail) Reading() string {
-	return d.readingRomaji
-}
-
-// ReadingKana returns the readings as hiragana or katakana.
-// If no kana readings are provided, they are derived from the
-// romaji readings.
-func (d detail) ReadingKana() string {
-	if d.readingKana == "" {
-		return ToKana(d.readingRomaji)
-	}
-
-	return d.readingKana
 }
