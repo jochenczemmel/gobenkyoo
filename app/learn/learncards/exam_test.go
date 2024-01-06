@@ -1,5 +1,12 @@
 package learncards_test
 
+//
+// TODO: add method Next()
+// TODO: add method Previous() ?
+// TODO: add append mode of unknown
+// TODO: disable shuffeling after first call to Next()
+//
+
 import (
 	"strconv"
 	"testing"
@@ -108,5 +115,17 @@ func TestExam(t *testing.T) {
 		t.Run("box 2 unchanged", func(t *testing.T) {
 			assertEquals(t, box2.NCards(mode1, learncards.MinLevel), len(cards2))
 		})
+	})
+
+	t.Run("reset card", func(t *testing.T) {
+		exam := learncards.NewExam(mode1, learncards.MinLevel, box1, box2)
+		exam.Advance(cards1[1])
+		exam.Reset(cards1[1])
+		exam = learncards.NewExam(mode1, learncards.MinLevel, box1, box2)
+		got := exam.Cards()
+		want := append(cards1, cards2...)
+		if diff := cmp.Diff(got, want); diff != "" {
+			t.Errorf("ERROR: -got +want\n%s", diff)
+		}
 	})
 }

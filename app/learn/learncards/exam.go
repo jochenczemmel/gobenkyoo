@@ -48,8 +48,16 @@ func (e *Exam) Shuffle() {
 	})
 }
 
-func (e *Exam) Advance(card Card) {
+// Advance shifts the card on the next level.
+func (e Exam) Advance(card Card) {
 	for _, c := range e.containers {
 		c.advance(card)
+	}
+}
+
+// Reset puts the card on the minimum (starting) level.
+func (e Exam) Reset(card Card) {
+	for _, c := range e.containers {
+		c.setLevel(card, MinLevel)
 	}
 }
