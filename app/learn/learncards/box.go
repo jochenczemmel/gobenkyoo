@@ -28,18 +28,15 @@ func (b *Box) Set(mode string, cards ...Card) {
 
 // Cards returns a list of cards in the given level for the given mode.
 func (b *Box) Cards(mode string, level int) []Card {
-	container, ok := b.containers[mode]
-	if !ok {
-		return []Card{}
-	}
-	return container.cards(level)
+	return b.containers[mode].cards(level)
 }
 
 // NCards returns the number of cards in the given level for the given mode.
 func (b *Box) NCards(mode string, level int) int {
-	container, ok := b.containers[mode]
-	if !ok {
-		return 0
-	}
-	return len(container.cards(level))
+	return len(b.containers[mode].cards(level))
+}
+
+func (b *Box) SetCardLevel(mode string, card Card, level int) {
+	container := b.containers[mode]
+	container.setLevel(card, level)
 }

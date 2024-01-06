@@ -43,7 +43,7 @@ func TestBoxModes(t *testing.T) {
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
-			box.Set(c.mode, cards...)
+			box.Set(c.mode, cards1...)
 			got := box.Modes()
 			if diff := cmp.Diff(got, c.want); diff != "" {
 				t.Errorf("ERROR: -got +want\n%s", diff)
@@ -56,7 +56,7 @@ func TestBoxCards(t *testing.T) {
 
 	box := learncards.NewBox("", "")
 	boxMode := "mode 1"
-	box.Set(boxMode, cards...)
+	box.Set(boxMode, cards1...)
 
 	testCases := []struct {
 		name        string
@@ -67,18 +67,18 @@ func TestBoxCards(t *testing.T) {
 		name:      "all cards",
 		mode:      boxMode,
 		level:     learncards.AllLevel,
-		want:      3,
-		wantCards: cards,
+		want:      len(cards1),
+		wantCards: cards1,
 	}, {
 		name:      "first level",
 		mode:      boxMode,
 		level:     learncards.MinLevel,
-		want:      3,
-		wantCards: cards,
+		want:      len(cards1),
+		wantCards: cards1,
 	}, {
 		name:      "next level",
 		mode:      boxMode,
-		level:     1,
+		level:     learncards.MinLevel + 1,
 		want:      0,
 		wantCards: []learncards.Card{},
 	}, {
@@ -98,6 +98,54 @@ func TestBoxCards(t *testing.T) {
 				t.Errorf("ERROR: -got +want\n%s", diff)
 			}
 		})
+	}
+}
+
+func TestBoxSetLevelLimits(t *testing.T) {
+	// SetCardLevel() is also tested when testing exam.Advance()
+	// so here only the limits are checked
+	box := learncards.NewBox("", "")
+	boxMode := "mode 1"
+
+	testCases := []struct {
+		name, mode        string
+		level, checkLevel int
+		want              []learncards.Card
+	}{
+		{
+			name:       "stay at min level",
+			mode:       boxMode,
+			level:      learncards.MinLevel - 1,
+			checkLevel: learncards.MinLevel,
+			want:       cards1,
+		},
+		{
+			name:       "set to max level",
+			mode:       boxMode,
+			level:      learncards.MaxLevel + 1,
+			checkLevel: learncards.MaxLevel,
+			want:       cards1[1:2],
+		},
+		{
+			name:       "unknown mode, cards stay at min",
+			mode:       "unknown",
+			level:      learncards.MaxLevel + 1,
+			checkLevel: learncards.MinLevel,
+			want:       cards1,
+		},
+	}
+
+	for _, c := range testCases {
+		t.Run(c.name, func(t *testing.T) {
+			box.Set(boxMode, cards1...)
+
+			box.SetCardLevel(c.mode, cards1[1], c.level)
+			got := box.Cards(boxMode, c.checkLevel)
+			if diff := cmp.Diff(got, c.want); diff != "" {
+				t.Errorf("ERROR: -got +want\n%s", diff)
+			}
+		})
+
 	}
 }
 

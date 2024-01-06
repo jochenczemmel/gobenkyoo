@@ -35,16 +35,17 @@ func (c container) cards(level int) []Card {
 }
 
 // setLevel sets the level for the given card.
-// If the level is lower than MinLevel, larger than MaxLevel
-// or if the card is unknown, nothing happens.
+// If the card is unknown, nothing happens.
+// If the level is lower than MinLevel or larger than MaxLevel,
+// the value is adjusted to MinLevel respectively MaxLevel.
 func (c *container) setLevel(card Card, level int) {
 	// level too low
 	if level < MinLevel {
-		return
+		level = MinLevel
 	}
 	// level too high
 	if level > MaxLevel {
-		return
+		level = MaxLevel
 	}
 	// card not in box
 	if _, ok := c.levels[card.ID]; !ok {
@@ -54,17 +55,6 @@ func (c *container) setLevel(card Card, level int) {
 }
 
 // advance puts the card in the next level.
-// If it is already in the highest level or if it is
-// not known, nothing happens.
 func (c *container) advance(card Card) {
-	// card not in box
-	if _, ok := c.levels[card.ID]; !ok {
-		return
-	}
-	level := c.levels[card.ID]
-	// level too high
-	if level >= MaxLevel {
-		return
-	}
-	c.levels[card.ID] = level + 1
+	c.setLevel(card, c.levels[card.ID]+1)
 }
