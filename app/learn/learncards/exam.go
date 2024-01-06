@@ -4,24 +4,26 @@ import "math/rand"
 
 // Exam provides a single learn test execution.
 type Exam struct {
-	mode  string
-	level int
-	boxes []Box
-	cards []Card
+	mode       string
+	level      int
+	containers []container
+	cards      []Card
 }
 
 // NewExam creates a new exam using the given mode, levels
 // and uses the cards from the provided boxes.
 func NewExam(mode string, level int, boxes ...Box) Exam {
 	cards := []Card{}
+	containers := []container{}
 	for _, box := range boxes {
 		cards = append(cards, box.Cards(mode, level)...)
+		containers = append(containers, box.containers[mode])
 	}
 	return Exam{
-		mode:  mode,
-		level: level,
-		boxes: boxes,
-		cards: cards,
+		mode:       mode,
+		level:      level,
+		containers: containers,
+		cards:      cards,
 	}
 }
 
@@ -44,4 +46,10 @@ func (e *Exam) Shuffle() {
 	rand.Shuffle(len(e.cards), func(i, j int) {
 		e.cards[i], e.cards[j] = e.cards[j], e.cards[i]
 	})
+}
+
+func (e *Exam) Advance(card Card) {
+	for _, c := range e.containers {
+		c.advance(card)
+	}
 }

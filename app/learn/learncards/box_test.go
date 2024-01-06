@@ -7,12 +7,6 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/app/learn/learncards"
 )
 
-var cards = []learncards.Card{
-	{ID: "card1"},
-	{ID: "card2"},
-	{ID: "card3"},
-}
-
 func TestBoxNew(t *testing.T) {
 
 	title := "lesson 1"
