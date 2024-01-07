@@ -4,10 +4,12 @@ import "math/rand"
 
 // Exam provides a single learn test execution.
 type Exam struct {
-	mode       string
-	level      int
-	containers []container
-	cards      []Card
+	mode         string
+	level        int
+	containers   []container
+	cards        []Card
+	currentCard  Card
+	currentIndex int
 }
 
 // NewExam creates a new exam using the given mode, levels
@@ -60,4 +62,17 @@ func (e Exam) Reset(card Card) {
 	for _, c := range e.containers {
 		c.setLevel(card, MinLevel)
 	}
+}
+
+// NextCard returns the next card of the exam and true.
+// If there are no more cards, it returns the current card and false.
+func (e *Exam) NextCard() (Card, bool) {
+	if e.currentIndex >= len(e.cards) {
+		return emptyCard, false
+	}
+
+	e.currentCard = e.cards[e.currentIndex]
+	e.currentIndex++
+
+	return e.currentCard, true
 }

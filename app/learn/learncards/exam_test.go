@@ -1,10 +1,10 @@
 package learncards_test
 
 //
-// TODO: add method Next()
 // TODO: add method Previous() ?
 // TODO: add revisit of card that was not known
 // TODO: disable shuffeling after first call to Next()
+//       use options for exam?
 //
 
 import (
@@ -45,10 +45,13 @@ func makeBoxes() (learncards.Box, learncards.Box) {
 	return box1, box2
 }
 
-func TestExamCards(t *testing.T) {
+func makeExam(level int, boxes ...learncards.Box) learncards.Exam {
+	return learncards.NewExam(mode1, level, boxes...)
+}
 
+func TestExamCards(t *testing.T) {
 	box1, box2 := makeBoxes()
-	exam := learncards.NewExam(mode1, learncards.AllLevel, box1, box2)
+	exam := makeExam(learncards.AllLevel, box1, box2)
 
 	t.Run("number of cards", func(t *testing.T) {
 		got := exam.NCards()
@@ -63,28 +66,30 @@ func TestExamCards(t *testing.T) {
 			t.Errorf("ERROR: -got +want\n%s", diff)
 		}
 	})
+}
 
-	t.Run("shuffle cards", func(t *testing.T) {
-		want := append(cards1, cards2...)
-		nTries := 10
-		for i := 0; i < nTries; i++ {
-			exam.Shuffle()
-			got := exam.Cards()
-			if diff := cmp.Diff(got, want); diff != "" {
-				t.Logf("DEBUG: %d", i)
-				// t.SkipNow()
-				return
-			}
+func TestExamShuffled(t *testing.T) {
+	box1, box2 := makeBoxes()
+	exam := makeExam(learncards.AllLevel, box1, box2)
+
+	want := append(cards1, cards2...)
+	nTries := 10
+	for i := 0; i < nTries; i++ {
+		exam.Shuffle()
+		got := exam.Cards()
+		if diff := cmp.Diff(got, want); diff != "" {
+			t.Logf("DEBUG: %d", i)
+			// t.SkipNow()
+			return
 		}
-		t.Errorf("ERROR: shuffle returned %d times the ordered cards", nTries)
-	})
+	}
+	t.Errorf("ERROR: shuffle returned %d times the ordered cards", nTries)
 }
 
 func TestExamAdvance(t *testing.T) {
-
 	box1, box2 := makeBoxes()
+	exam := makeExam(learncards.AllLevel, box1, box2)
 
-	exam := learncards.NewExam(mode1, learncards.AllLevel, box1, box2)
 	testCases := []struct {
 		level, wantFirst, wantSecond int
 	}{
@@ -100,7 +105,7 @@ func TestExamAdvance(t *testing.T) {
 
 		for _, c := range testCases {
 			t.Run("level "+strconv.Itoa(c.level), func(t *testing.T) {
-				exam := learncards.NewExam(mode1, c.level, box1, box2)
+				exam := makeExam(c.level, box1, box2)
 				assertEquals(t, exam.NCards(), c.wantFirst)
 			})
 		}
@@ -134,7 +139,7 @@ func TestExamAdvance(t *testing.T) {
 
 		for _, c := range testCases {
 			t.Run("level "+strconv.Itoa(c.level), func(t *testing.T) {
-				exam := learncards.NewExam(mode1, c.level, box1, box2)
+				exam := makeExam(c.level, box1, box2)
 				assertEquals(t, exam.NCards(), c.wantSecond)
 			})
 		}
@@ -144,15 +149,35 @@ func TestExamAdvance(t *testing.T) {
 func TestExamReset(t *testing.T) {
 	box1, box2 := makeBoxes()
 	card := cards1[1]
-	exam := learncards.NewExam(mode1, learncards.MinLevel, box1, box2)
+	exam := makeExam(learncards.MinLevel, box1, box2)
 	exam.Advance(card)
 	exam.Advance(card)
 
 	exam.Reset(card)
-	exam = learncards.NewExam(mode1, learncards.MinLevel, box1, box2)
+	exam = makeExam(learncards.MinLevel, box1, box2)
 	got := exam.Cards()
 	want := append(cards1, cards2...)
 	if diff := cmp.Diff(got, want); diff != "" {
 		t.Errorf("ERROR: -got +want\n%s", diff)
 	}
+}
+
+func TestExamNextCard(t *testing.T) {
+	box1, box2 := makeBoxes()
+	exam := makeExam(learncards.MinLevel, box1, box2)
+	want := append(cards1, cards2...)
+
+	for i := 0; i < len(want); i++ {
+		got, ok := exam.NextCard()
+		t.Run("card "+strconv.Itoa(i), func(t *testing.T) {
+			assertEquals(t, ok, true)
+			if diff := cmp.Diff(got, want[i]); diff != "" {
+				t.Errorf("ERROR: -got +want\n%s", diff)
+			}
+		})
+	}
+
+	got, ok := exam.NextCard()
+	assertEquals(t, got.ID, "")
+	assertEquals(t, ok, false)
 }
