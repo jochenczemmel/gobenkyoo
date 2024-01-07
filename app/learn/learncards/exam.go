@@ -2,10 +2,18 @@ package learncards
 
 import "math/rand"
 
+// ExamOptions define the behaviour of the Exam.
+type ExamOptions struct {
+	LearnMode string // required, must be valid
+	Level     int    // required, must be valid
+	NoShuffle bool   // do not shuffle the cards
+	// MoveCards bool   // advance/reset cards in box?
+	// Repeat    bool   // repeat failed cards until known?
+}
+
 // Exam provides a single learn test execution.
 type Exam struct {
-	mode         string
-	level        int
+	opt          ExamOptions
 	containers   []container
 	cards        []Card
 	currentCard  Card
@@ -14,19 +22,31 @@ type Exam struct {
 
 // NewExam creates a new exam using the given mode, levels
 // and uses the cards from the provided boxes.
-func NewExam(mode string, level int, boxes ...Box) Exam {
+// func NewExam(mode string, level int, boxes ...Box) Exam {
+func NewExam(opt ExamOptions, boxes ...Box) Exam {
 	cards := []Card{}
 	containers := []container{}
 	for _, box := range boxes {
-		cards = append(cards, box.Cards(mode, level)...)
-		containers = append(containers, box.containers[mode])
+		cards = append(cards, box.Cards(opt.LearnMode, opt.Level)...)
+		containers = append(containers, box.containers[opt.LearnMode])
 	}
-	return Exam{
-		mode:       mode,
-		level:      level,
+	result := Exam{
+		opt:        opt,
 		containers: containers,
 		cards:      cards,
 	}
+	if !opt.NoShuffle {
+		result.shuffle()
+	}
+
+	return result
+}
+
+// shuffle shuffles the remaining cards.
+func (e *Exam) shuffle() {
+	rand.Shuffle(len(e.cards), func(i, j int) {
+		e.cards[i], e.cards[j] = e.cards[j], e.cards[i]
+	})
 }
 
 // NCards returns the number of cards in the exam.
@@ -41,13 +61,6 @@ func (e Exam) Cards() []Card {
 	result := make([]Card, len(e.cards))
 	copy(result, e.cards)
 	return result
-}
-
-// Shuffle shuffles the remaining cards.
-func (e *Exam) Shuffle() {
-	rand.Shuffle(len(e.cards), func(i, j int) {
-		e.cards[i], e.cards[j] = e.cards[j], e.cards[i]
-	})
 }
 
 // Advance shifts the card on the next level.

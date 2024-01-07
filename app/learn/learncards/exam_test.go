@@ -46,7 +46,12 @@ func makeBoxes() (learncards.Box, learncards.Box) {
 }
 
 func makeExam(level int, boxes ...learncards.Box) learncards.Exam {
-	return learncards.NewExam(mode1, level, boxes...)
+	opt := learncards.ExamOptions{
+		LearnMode: mode1,
+		Level:     level,
+		NoShuffle: true,
+	}
+	return learncards.NewExam(opt, boxes...)
 }
 
 func TestExamCards(t *testing.T) {
@@ -70,16 +75,19 @@ func TestExamCards(t *testing.T) {
 
 func TestExamShuffled(t *testing.T) {
 	box1, box2 := makeBoxes()
-	exam := makeExam(learncards.AllLevel, box1, box2)
 
 	want := append(cards1, cards2...)
 	nTries := 10
 	for i := 0; i < nTries; i++ {
-		exam.Shuffle()
+		exam := learncards.NewExam(
+			learncards.ExamOptions{
+				LearnMode: mode1,
+				Level:     learncards.AllLevel,
+			},
+			box1, box2)
 		got := exam.Cards()
 		if diff := cmp.Diff(got, want); diff != "" {
 			t.Logf("DEBUG: %d", i)
-			// t.SkipNow()
 			return
 		}
 	}
