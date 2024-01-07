@@ -7,13 +7,13 @@ type ExamOptions struct {
 	LearnMode string // required, must be valid
 	Level     int    // required, must be valid
 	NoShuffle bool   // do not shuffle the cards
-	// MoveCards bool   // advance/reset cards in box?
+	KeepLevel bool   // do not advance/reset cards on Pass() or Fail()
 	// Repeat    bool   // repeat failed cards until known?
 }
 
 // Exam provides a single learn test execution.
 type Exam struct {
-	opt          ExamOptions
+	ExamOptions
 	containers   []container
 	cards        []Card
 	currentCard  Card
@@ -31,9 +31,9 @@ func NewExam(opt ExamOptions, boxes ...Box) Exam {
 		containers = append(containers, box.containers[opt.LearnMode])
 	}
 	result := Exam{
-		opt:        opt,
-		containers: containers,
-		cards:      cards,
+		ExamOptions: opt,
+		containers:  containers,
+		cards:       cards,
 	}
 	if !opt.NoShuffle {
 		result.shuffle()
@@ -70,11 +70,29 @@ func (e Exam) Advance(card Card) {
 	}
 }
 
+// Pass shifts the current card on the next level
+// unless option KeepLevel is true.
+func (e Exam) Pass() {
+	if e.KeepLevel {
+		return
+	}
+	e.Advance(e.currentCard)
+}
+
 // Reset puts the card on the minimum (starting) level.
 func (e Exam) Reset(card Card) {
 	for _, c := range e.containers {
 		c.setLevel(card, MinLevel)
 	}
+}
+
+// Fail puts the current card on the minimum (starting) level
+// unless option KeepLevel is true.
+func (e Exam) Fail() {
+	if e.KeepLevel {
+		return
+	}
+	e.Reset(e.currentCard)
 }
 
 // NextCard returns the next card of the exam and true.

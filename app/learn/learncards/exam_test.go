@@ -3,8 +3,6 @@ package learncards_test
 //
 // TODO: add method Previous() ?
 // TODO: add revisit of card that was not known
-// TODO: disable shuffeling after first call to Next()
-//       use options for exam?
 //
 
 import (
@@ -109,7 +107,7 @@ func TestExamAdvance(t *testing.T) {
 	}
 
 	exam.Advance(cards1[1])
-	t.Run("first advance", func(t *testing.T) {
+	t.Run("first pass", func(t *testing.T) {
 
 		for _, c := range testCases {
 			t.Run("level "+strconv.Itoa(c.level), func(t *testing.T) {
@@ -143,7 +141,7 @@ func TestExamAdvance(t *testing.T) {
 	})
 
 	exam.Advance(cards1[1])
-	t.Run("second advance", func(t *testing.T) {
+	t.Run("second pass", func(t *testing.T) {
 
 		for _, c := range testCases {
 			t.Run("level "+strconv.Itoa(c.level), func(t *testing.T) {
@@ -163,6 +161,7 @@ func TestExamReset(t *testing.T) {
 
 	exam.Reset(card)
 	exam = makeExam(learncards.MinLevel, box1, box2)
+
 	got := exam.Cards()
 	want := append(cards1, cards2...)
 	if diff := cmp.Diff(got, want); diff != "" {
@@ -188,4 +187,71 @@ func TestExamNextCard(t *testing.T) {
 	got, ok := exam.NextCard()
 	assertEquals(t, got.ID, "")
 	assertEquals(t, ok, false)
+}
+
+func TestExamPassFail(t *testing.T) {
+	box1, _ := makeBoxes()
+	level := learncards.MinLevel + 1
+	for _, card := range cards1 {
+		box1.SetCardLevel(mode1, card, level)
+	}
+	exam := learncards.NewExam(
+		learncards.ExamOptions{
+			LearnMode: mode1,
+			Level:     level,
+			NoShuffle: true,
+		},
+		box1)
+
+	exam.NextCard()
+	exam.Pass()
+
+	t.Run("one card in next level", func(t *testing.T) {
+		assertEquals(t, box1.NCards(mode1, learncards.MinLevel), 0)
+		assertEquals(t, box1.NCards(mode1, level), 2)
+		assertEquals(t, box1.NCards(mode1, level+1), 1)
+	})
+
+	exam.NextCard()
+	exam.Fail()
+
+	t.Run("one card in min level", func(t *testing.T) {
+		assertEquals(t, box1.NCards(mode1, learncards.MinLevel), 1)
+		assertEquals(t, box1.NCards(mode1, level), 1)
+		assertEquals(t, box1.NCards(mode1, level+1), 1)
+	})
+}
+
+func TestExamKeepLevel(t *testing.T) {
+	box1, _ := makeBoxes()
+	level := learncards.MinLevel + 1
+	for _, card := range cards1 {
+		box1.SetCardLevel(mode1, card, level)
+	}
+	exam := learncards.NewExam(
+		learncards.ExamOptions{
+			LearnMode: mode1,
+			Level:     level,
+			NoShuffle: true,
+			KeepLevel: true,
+		},
+		box1)
+
+	exam.NextCard()
+	exam.Pass()
+
+	t.Run("one card not in next level", func(t *testing.T) {
+		assertEquals(t, box1.NCards(mode1, learncards.MinLevel), 0)
+		assertEquals(t, box1.NCards(mode1, level), 3)
+		assertEquals(t, box1.NCards(mode1, level+1), 0)
+	})
+
+	exam.NextCard()
+	exam.Fail()
+
+	t.Run("one card not in min level", func(t *testing.T) {
+		assertEquals(t, box1.NCards(mode1, learncards.MinLevel), 0)
+		assertEquals(t, box1.NCards(mode1, level), 3)
+		assertEquals(t, box1.NCards(mode1, level+1), 0)
+	})
 }
