@@ -1,10 +1,5 @@
 package learncards_test
 
-//
-// TODO: add method Previous() ?
-// TODO: add revisit of card that was not known
-//
-
 import (
 	"strconv"
 	"testing"
@@ -253,5 +248,51 @@ func TestExamKeepLevel(t *testing.T) {
 		assertEquals(t, box1.NCards(mode1, learncards.MinLevel), 0)
 		assertEquals(t, box1.NCards(mode1, level), 3)
 		assertEquals(t, box1.NCards(mode1, level+1), 0)
+	})
+}
+
+func TestExamRepeat(t *testing.T) {
+
+	t.Run("no more cards", func(t *testing.T) {
+		box1, _ := makeBoxes()
+		exam := learncards.NewExam(
+			learncards.ExamOptions{
+				LearnMode: mode1,
+				Level:     learncards.MinLevel,
+				NoShuffle: true,
+			},
+			box1)
+
+		for range cards1 {
+			exam.NextCard()
+			exam.Fail()
+		}
+
+		_, ok := exam.NextCard()
+		assertEquals(t, ok, false)
+	})
+
+	t.Run("repeat cards", func(t *testing.T) {
+		box1, _ := makeBoxes()
+		exam := learncards.NewExam(
+			learncards.ExamOptions{
+				LearnMode: mode1,
+				Level:     learncards.MinLevel,
+				NoShuffle: true,
+				Repeat:    true,
+			},
+			box1)
+
+		for range cards1 {
+			exam.NextCard()
+			exam.Fail()
+		}
+
+		got, ok := exam.NextCard()
+		assertEquals(t, ok, true)
+		assertEquals(t, got.ID, cards1[0].ID)
+
+		// NCards returns the number of initial cards
+		assertEquals(t, exam.NCards(), len(cards1))
 	})
 }
