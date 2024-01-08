@@ -39,7 +39,7 @@ func makeBoxes() (learncards.Box, learncards.Box) {
 }
 
 func makeExam(level int, boxes ...learncards.Box) learncards.Exam {
-	opt := learncards.ExamOptions{
+	opt := learncards.Options{
 		LearnMode: mode1,
 		Level:     level,
 		NoShuffle: true,
@@ -73,7 +73,7 @@ func TestExamShuffled(t *testing.T) {
 	nTries := 10
 	for i := 0; i < nTries; i++ {
 		exam := learncards.NewExam(
-			learncards.ExamOptions{
+			learncards.Options{
 				LearnMode: mode1,
 				Level:     learncards.AllLevel,
 			},
@@ -191,7 +191,7 @@ func TestExamPassFail(t *testing.T) {
 		box1.SetCardLevel(mode1, card, level)
 	}
 	exam := learncards.NewExam(
-		learncards.ExamOptions{
+		learncards.Options{
 			LearnMode: mode1,
 			Level:     level,
 			NoShuffle: true,
@@ -224,7 +224,7 @@ func TestExamKeepLevel(t *testing.T) {
 		box1.SetCardLevel(mode1, card, level)
 	}
 	exam := learncards.NewExam(
-		learncards.ExamOptions{
+		learncards.Options{
 			LearnMode: mode1,
 			Level:     level,
 			NoShuffle: true,
@@ -256,7 +256,7 @@ func TestExamRepeat(t *testing.T) {
 	t.Run("no more cards", func(t *testing.T) {
 		box1, _ := makeBoxes()
 		exam := learncards.NewExam(
-			learncards.ExamOptions{
+			learncards.Options{
 				LearnMode: mode1,
 				Level:     learncards.MinLevel,
 				NoShuffle: true,
@@ -275,7 +275,7 @@ func TestExamRepeat(t *testing.T) {
 	t.Run("repeat cards", func(t *testing.T) {
 		box1, _ := makeBoxes()
 		exam := learncards.NewExam(
-			learncards.ExamOptions{
+			learncards.Options{
 				LearnMode: mode1,
 				Level:     learncards.MinLevel,
 				NoShuffle: true,

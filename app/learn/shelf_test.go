@@ -19,7 +19,7 @@ func TestWordBox(t *testing.T) {
 
 	shelf.AddWordBox(boxTitle, wordCards...)
 
-	opt := learncards.ExamOptions{
+	opt := learncards.Options{
 		LearnMode: learn.Native2Japanese,
 		Level:     learncards.MinLevel,
 		NoShuffle: true,

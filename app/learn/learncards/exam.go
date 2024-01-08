@@ -2,8 +2,8 @@ package learncards
 
 import "math/rand"
 
-// ExamOptions define the behaviour of the Exam.
-type ExamOptions struct {
+// Options define the behaviour of the Exam.
+type Options struct {
 	LearnMode string // required, must be valid
 	Level     int    // required, must be valid
 	NoShuffle bool   // do not shuffle the cards
@@ -13,7 +13,7 @@ type ExamOptions struct {
 
 // Exam provides a single learn test execution.
 type Exam struct {
-	opt          ExamOptions // modify exam behaviour
+	opt          Options     // modify exam behaviour
 	containers   []container // cards for the given learn mode
 	initialCards []Card      // fixed list
 	cards        []Card      // list may grow when Repeat==true and Fail() is called
@@ -23,7 +23,7 @@ type Exam struct {
 
 // NewExam creates a new exam using the given mode, levels
 // and uses the cards from the provided boxes.
-func NewExam(opt ExamOptions, boxes ...Box) Exam {
+func NewExam(opt Options, boxes ...Box) Exam {
 	cards := []Card{}
 	containers := []container{}
 	for _, box := range boxes {
