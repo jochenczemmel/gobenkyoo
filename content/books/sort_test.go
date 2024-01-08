@@ -13,7 +13,7 @@ import (
 func TestSort(t *testing.T) {
 
 	// prepare test: sorted list of books
-	sortedBooks := []*books.Book{
+	sortedBooks := []books.Book{
 		// book title starts numeric
 		books.New("200 quick and easy phrases  for japanese conversation", "", 0),
 		books.New("88 basic patterns for japanese conversation", "", 0),
@@ -37,7 +37,7 @@ func TestSort(t *testing.T) {
 	}
 
 	// prepare test: copy book list, shuffle for test
-	shuffledBooks := make([]*books.Book, len(sortedBooks))
+	shuffledBooks := make([]books.Book, len(sortedBooks))
 	copy(shuffledBooks, sortedBooks)
 	rand.Shuffle(len(shuffledBooks), func(i, j int) {
 		shuffledBooks[i], shuffledBooks[j] = shuffledBooks[j], shuffledBooks[i]

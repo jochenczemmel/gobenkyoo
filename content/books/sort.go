@@ -2,7 +2,7 @@ package books
 
 // BySeriesVolumeTitle provides sorting of a slice of pointers to books
 // according to series title, volume and book title.
-type BySeriesVolumeTitle []*Book
+type BySeriesVolumeTitle []Book
 
 // Len implements sort.Interface.
 func (b BySeriesVolumeTitle) Len() int { return len(b) }

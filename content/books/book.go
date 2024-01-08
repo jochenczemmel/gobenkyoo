@@ -6,14 +6,14 @@ package books
 // a volume of a series/collection of books.
 // The lesson order is preserved.
 type Book struct {
-	TitleInfos
-	Lessons []*Lesson
+	TitleInfo
+	Lessons []Lesson
 }
 
 // New returns a new book with the specified infos.
-func New(title, seriestitle string, volume int, lessons ...*Lesson) *Book {
-	return &Book{
-		TitleInfos: TitleInfos{
+func New(title, seriestitle string, volume int, lessons ...Lesson) Book {
+	return Book{
+		TitleInfo: TitleInfo{
 			Title:       title,
 			SeriesTitle: seriestitle,
 			Volume:      volume,

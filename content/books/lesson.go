@@ -7,7 +7,7 @@ import (
 
 // Lesson represents a single lesson within a book.
 type Lesson struct {
-	Book       TitleInfos    // book and series title, volume number
+	Book       TitleInfo     // book and series title, volume number
 	Title      string        // Lesson title
 	WordCards  []words.Card  // word cards
 	KanjiCards []kanjis.Card // kanji cards
