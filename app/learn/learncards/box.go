@@ -2,17 +2,13 @@ package learncards
 
 // Box provides access to learning cards with different learn modes.
 type Box struct {
-	Title      string
-	BookTitle  string
 	modes      []string
 	containers map[string]container
 }
 
-// NewBox returns an initialized Box with the provided titles.
-func NewBox(title, booktitle string) Box {
+// NewBox returns an initialized Box.
+func NewBox() Box {
 	return Box{
-		Title:      title,
-		BookTitle:  booktitle,
 		modes:      []string{},
 		containers: map[string]container{},
 	}

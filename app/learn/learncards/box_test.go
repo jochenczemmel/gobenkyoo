@@ -7,21 +7,9 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/app/learn/learncards"
 )
 
-func TestBoxNew(t *testing.T) {
-
-	title := "lesson 1"
-	bookTitle := "minna 1"
-	box := learncards.NewBox(title, bookTitle)
-
-	t.Run("titles", func(t *testing.T) {
-		assertEquals(t, box.Title, title)
-		assertEquals(t, box.BookTitle, bookTitle)
-	})
-}
-
 func TestBoxModes(t *testing.T) {
 
-	box := learncards.NewBox("", "")
+	box := learncards.NewBox()
 
 	testCases := []struct {
 		name string
@@ -54,7 +42,7 @@ func TestBoxModes(t *testing.T) {
 
 func TestBoxCards(t *testing.T) {
 
-	box := learncards.NewBox("", "")
+	box := learncards.NewBox()
 	boxMode := "mode 1"
 	box.Set(boxMode, cards1...)
 
@@ -104,7 +92,7 @@ func TestBoxCards(t *testing.T) {
 func TestBoxSetLevelLimits(t *testing.T) {
 	// SetCardLevel() is also tested when testing exam.Advance()
 	// so here only the limits are checked
-	box := learncards.NewBox("", "")
+	box := learncards.NewBox()
 	boxMode := "mode 1"
 
 	testCases := []struct {

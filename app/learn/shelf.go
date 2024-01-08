@@ -29,7 +29,7 @@ func NewShelf() Shelf {
 
 // AddWordBox adds a list of word cards to a learncards box.
 func (s *Shelf) AddWordBox(name BoxName, cards ...words.Card) {
-	box := learncards.NewBox(name.BoxTitle, name.BookTitle.Title)
+	box := learncards.NewBox()
 	for _, mode := range GetWordModes() {
 		box.Set(mode, makeWordCards(mode, cards...)...)
 	}
