@@ -3,6 +3,7 @@ package learn
 import (
 	"github.com/jochenczemmel/gobenkyoo/app/learn/learncards"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
+	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
@@ -42,6 +43,25 @@ func (s *Shelf) StartWordExam(opt learncards.Options, boxnames ...BoxName) learn
 	boxes := []learncards.Box{}
 	for _, boxName := range boxnames {
 		boxes = append(boxes, s.wordBoxes[boxName])
+	}
+	return learncards.NewExam(opt, boxes...)
+}
+
+// AddKanjiBox adds a list of kanji cards to a learncards box.
+func (s *Shelf) AddKanjiBox(name BoxName, cards ...kanjis.Card) {
+	box := learncards.NewBox()
+	for _, mode := range GetKanjiModes() {
+		box.Set(mode, makeKanjiCards(mode, cards...)...)
+	}
+	s.kanjiBoxes[name] = box
+}
+
+// StartKanjiExam starts an exam with the given options that uses
+// the cards from the specified box(es).
+func (s *Shelf) StartKanjiExam(opt learncards.Options, boxnames ...BoxName) learncards.Exam {
+	boxes := []learncards.Box{}
+	for _, boxName := range boxnames {
+		boxes = append(boxes, s.kanjiBoxes[boxName])
 	}
 	return learncards.NewExam(opt, boxes...)
 }
