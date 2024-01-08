@@ -36,4 +36,12 @@ func (s *Shelf) AddWordBox(name BoxName, cards ...words.Card) {
 	s.wordBoxes[name] = box
 }
 
-// func (s *Shelf) StartWordExam(title, booktitle string, cards ...words.Card) {
+// StartWordExam starts an exam with the given options that uses
+// the cards from the specified box(es).
+func (s *Shelf) StartWordExam(opt learncards.ExamOptions, boxnames ...BoxName) learncards.Exam {
+	boxes := []learncards.Box{}
+	for _, boxName := range boxnames {
+		boxes = append(boxes, s.wordBoxes[boxName])
+	}
+	return learncards.NewExam(opt, boxes...)
+}
