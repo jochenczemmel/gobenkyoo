@@ -1,4 +1,4 @@
-package learncards
+package learn
 
 // container provides management of a set of cards
 // for a single learn mode.

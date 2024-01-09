@@ -1,15 +1,15 @@
-package learncards_test
+package learn_test
 
 import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/jochenczemmel/gobenkyoo/app/learn/learncards"
+	"github.com/jochenczemmel/gobenkyoo/app/learn"
 )
 
 func TestBoxModes(t *testing.T) {
 
-	box := learncards.NewBox()
+	box := learn.NewBox()
 
 	testCases := []struct {
 		name string
@@ -42,7 +42,7 @@ func TestBoxModes(t *testing.T) {
 
 func TestBoxCards(t *testing.T) {
 
-	box := learncards.NewBox()
+	box := learn.NewBox()
 	boxMode := "mode 1"
 	box.Set(boxMode, cards1...)
 
@@ -50,31 +50,31 @@ func TestBoxCards(t *testing.T) {
 		name        string
 		mode        string
 		level, want int
-		wantCards   []learncards.Card
+		wantCards   []learn.Card
 	}{{
 		name:      "all cards",
 		mode:      boxMode,
-		level:     learncards.AllLevel,
+		level:     learn.AllLevel,
 		want:      len(cards1),
 		wantCards: cards1,
 	}, {
 		name:      "first level",
 		mode:      boxMode,
-		level:     learncards.MinLevel,
+		level:     learn.MinLevel,
 		want:      len(cards1),
 		wantCards: cards1,
 	}, {
 		name:      "next level",
 		mode:      boxMode,
-		level:     learncards.MinLevel + 1,
+		level:     learn.MinLevel + 1,
 		want:      0,
-		wantCards: []learncards.Card{},
+		wantCards: []learn.Card{},
 	}, {
 		name:      "unknown mode",
 		mode:      "unknown",
-		level:     learncards.AllLevel,
+		level:     learn.AllLevel,
 		want:      0,
-		wantCards: []learncards.Card{},
+		wantCards: []learn.Card{},
 	}}
 
 	for _, c := range testCases {
@@ -92,33 +92,33 @@ func TestBoxCards(t *testing.T) {
 func TestBoxSetLevelLimits(t *testing.T) {
 	// SetCardLevel() is also tested when testing exam.Advance()
 	// so here only the limits are checked
-	box := learncards.NewBox()
+	box := learn.NewBox()
 	boxMode := "mode 1"
 
 	testCases := []struct {
 		name, mode        string
 		level, checkLevel int
-		want              []learncards.Card
+		want              []learn.Card
 	}{
 		{
 			name:       "stay at min level",
 			mode:       boxMode,
-			level:      learncards.MinLevel - 1,
-			checkLevel: learncards.MinLevel,
+			level:      learn.MinLevel - 1,
+			checkLevel: learn.MinLevel,
 			want:       cards1,
 		},
 		{
 			name:       "set to max level",
 			mode:       boxMode,
-			level:      learncards.MaxLevel + 1,
-			checkLevel: learncards.MaxLevel,
+			level:      learn.MaxLevel + 1,
+			checkLevel: learn.MaxLevel,
 			want:       cards1[1:2],
 		},
 		{
 			name:       "unknown mode, cards stay at min",
 			mode:       "unknown",
-			level:      learncards.MaxLevel + 1,
-			checkLevel: learncards.MinLevel,
+			level:      learn.MaxLevel + 1,
+			checkLevel: learn.MinLevel,
 			want:       cards1,
 		},
 	}

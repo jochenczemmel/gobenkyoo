@@ -1,4 +1,4 @@
-package learncards
+package learn
 
 // Box provides access to learning cards with different learn modes.
 type Box struct {

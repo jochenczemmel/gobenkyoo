@@ -1,7 +1,7 @@
 package learn_test
 
 import (
-	"github.com/jochenczemmel/gobenkyoo/app/learn/learncards"
+	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 )
 
@@ -15,7 +15,7 @@ var kanjiCards = []kanjis.Card{
 	kanjis.NewBuilder('曜').AddDetails("yoo", "weekday").Build(),
 }
 
-var wantKanji2Native = []learncards.Card{{
+var wantKanji2Native = []learn.Card{{
 	ID:          "方",
 	Question:    "方",
 	Answer:      "Richtung, Art und Weise, etwas zu tun, Person",
@@ -27,7 +27,7 @@ var wantKanji2Native = []learncards.Card{{
 	MoreAnswers: []string{"yoo"},
 }}
 
-var wantNative2Kanji = []learncards.Card{{
+var wantNative2Kanji = []learn.Card{{
 	ID:          "方",
 	Question:    "Richtung, Art und Weise, etwas zu tun, Person",
 	Answer:      "方",
@@ -39,7 +39,7 @@ var wantNative2Kanji = []learncards.Card{{
 	MoreAnswers: []string{"yoo"},
 }}
 
-var wantKana2Kanji = []learncards.Card{{
+var wantKana2Kanji = []learn.Card{{
 	ID:       "方",
 	Question: "ホー, かた",
 	Answer:   "方",

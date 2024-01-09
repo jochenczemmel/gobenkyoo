@@ -1,7 +1,6 @@
 package learn
 
 import (
-	"github.com/jochenczemmel/gobenkyoo/app/learn/learncards"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
@@ -30,10 +29,10 @@ func GetWordModes() []string {
 	}
 }
 
-// makeWordCards transforms a list of words.Card to learncards.Card
+// makeWordCards transforms a list of word card to a learn card
 // using the given learn mode.
-func makeWordCards(mode string, cards ...words.Card) []learncards.Card {
-	result := make([]learncards.Card, 0, len(cards))
+func makeWordCards(mode string, cards ...words.Card) []Card {
+	result := make([]Card, 0, len(cards))
 	for _, card := range cards {
 		result = append(result, makeWordCard(mode, card))
 	}
@@ -43,8 +42,8 @@ func makeWordCards(mode string, cards ...words.Card) []learncards.Card {
 // makeWordCard returns the learn.Card with the content of the
 // card accordig to the given learn mode. If the mode is not
 // known, the DefaultWordMode is used.
-func makeWordCard(mode string, card words.Card) learncards.Card {
-	result := learncards.Card{
+func makeWordCard(mode string, card words.Card) Card {
+	result := Card{
 		ID:          card.ID,
 		Hint:        card.Hint,
 		Explanation: card.Explanation,

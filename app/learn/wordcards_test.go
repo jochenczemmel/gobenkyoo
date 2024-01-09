@@ -3,7 +3,7 @@ package learn_test
 // Input word cards and resulting learn cards for word box test.
 
 import (
-	"github.com/jochenczemmel/gobenkyoo/app/learn/learncards"
+	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
@@ -24,7 +24,7 @@ var wordCards = []words.Card{{
 	Meaning: "world",
 }}
 
-var wantNative2Japanese = []learncards.Card{{
+var wantNative2Japanese = []learn.Card{{
 	Question: "to learn",
 	Hint:     "from somebody",
 	Answer:   "習います",
@@ -45,7 +45,7 @@ var wantNative2Japanese = []learncards.Card{{
 	},
 }}
 
-var wantJapanese2Native = []learncards.Card{{
+var wantJapanese2Native = []learn.Card{{
 	Question: "習います",
 	Hint:     "from somebody",
 	Answer:   "to learn",
@@ -66,7 +66,7 @@ var wantJapanese2Native = []learncards.Card{{
 	},
 }}
 
-var wantNative2Kana = []learncards.Card{{
+var wantNative2Kana = []learn.Card{{
 	Question: "to learn",
 	Hint:     "from somebody",
 	Answer:   "ならいます",
@@ -87,7 +87,7 @@ var wantNative2Kana = []learncards.Card{{
 	},
 }}
 
-var wantKana2Native = []learncards.Card{{
+var wantKana2Native = []learn.Card{{
 	Question: "ならいます",
 	Hint:     "from somebody",
 	Answer:   "to learn",

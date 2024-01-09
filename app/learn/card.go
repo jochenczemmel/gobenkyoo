@@ -1,5 +1,4 @@
-// Package learncards provides the management of cards in the learning process.
-package learncards
+package learn
 
 // Card provides the information that is needed for learning drills.
 // Cards can be created from kanji or word content.

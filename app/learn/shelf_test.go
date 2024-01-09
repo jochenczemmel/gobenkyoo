@@ -5,7 +5,6 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
-	"github.com/jochenczemmel/gobenkyoo/app/learn/learncards"
 )
 
 func TestConvertContentCards(t *testing.T) {
@@ -16,8 +15,8 @@ func TestConvertContentCards(t *testing.T) {
 
 	testCases := []struct {
 		mode   string
-		method func(learncards.Options, ...learn.BoxName) learncards.Exam
-		want   []learncards.Card
+		method func(learn.Options, ...learn.BoxName) learn.Exam
+		want   []learn.Card
 	}{
 		{
 			method: shelf.StartWordExam,
@@ -55,8 +54,8 @@ func TestConvertContentCards(t *testing.T) {
 			want:   wantKana2Kanji,
 		},
 	}
-	opt := learncards.Options{
-		Level:     learncards.MinLevel,
+	opt := learn.Options{
+		Level:     learn.MinLevel,
 		NoShuffle: true,
 	}
 

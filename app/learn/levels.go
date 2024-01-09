@@ -1,4 +1,4 @@
-package learncards
+package learn
 
 // Define card levels.
 const (
