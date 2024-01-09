@@ -6,7 +6,7 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 )
 
-// Define the valid kanji learning modes.
+// Available kanji learning modes.
 const (
 	// ask kanji, answer native (and all other infos)
 	Kanji2Native = "kanji_to_native"
@@ -15,7 +15,6 @@ const (
 	// ask kana (=spellings), answer kanji (and all other infos)
 	Kana2Kanji = "kana_to_kanji"
 
-	KanjiType        = "kanji"
 	DefaultKanjiMode = Kanji2Native
 )
 

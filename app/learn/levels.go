@@ -1,10 +1,7 @@
 package learn
 
-// Define card levels.
+// Levels repesent the learning progress of the card.
 const (
-	// InvalidLevel represents the level of a card
-	// that is not found.
-	InvalidLevel = -2
 	// AllLevel represents cards on all Levels.
 	// A card can never be on this level.
 	AllLevel = -1

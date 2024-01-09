@@ -4,11 +4,11 @@ import "math/rand"
 
 // Options define the behaviour of the Exam.
 type Options struct {
-	LearnMode string // required, must be valid
-	Level     int    // required, must be valid
+	LearnMode string // required, must be one of the defined modes
+	Level     int    // required, must be within the defined boundaries
 	NoShuffle bool   // do not shuffle the cards
 	KeepLevel bool   // do not advance/reset cards on Pass() or Fail()
-	Repeat    bool   // repeat failed cards until known?
+	Repeat    bool   // repeat failed cards until known
 }
 
 // Exam provides a single learn test execution.

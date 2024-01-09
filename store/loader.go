@@ -31,6 +31,6 @@ func (n UnknownLoader) LoadBooks() (*books.Library, error) {
 }
 
 // LoadBoxes always returns an error.
-func (n UnknownLoader) LoadBoxes() (*learn.Shelf, error) {
+func (n UnknownLoader) LoadBoxes() (*learn.Library, error) {
 	return nil, fmt.Errorf("unknown db type: %q", n.dbtype)
 }

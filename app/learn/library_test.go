@@ -8,7 +8,7 @@ import (
 )
 
 func TestConvertContentCards(t *testing.T) {
-	shelf := learn.NewShelf()
+	shelf := learn.NewLibrary()
 	boxTitle := learn.BoxName{BoxTitle: "lesson 1"}
 	shelf.AddWordBox(boxTitle, wordCards...)
 	shelf.AddKanjiBox(boxTitle, kanjiCards...)

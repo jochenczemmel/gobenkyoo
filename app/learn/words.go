@@ -4,7 +4,7 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
-// Define the valid word learning modes.
+// Available word learning modes.
 const (
 	// ask native, answer in japanese
 	Native2Japanese = "native_to_japanese"
@@ -15,7 +15,6 @@ const (
 	// ask kana, answer in native
 	Kana2Native = "kana_to_native"
 
-	WordType        = "word"
 	DefaultWordMode = Native2Japanese
 )
 

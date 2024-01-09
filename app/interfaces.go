@@ -12,7 +12,7 @@ type BookLoader interface {
 
 // BoxLoader defines a method for loading learn boxes from the storage.
 type BoxLoader interface {
-	LoadBoxes() (*learn.Shelf, error)
+	LoadBoxes() (*learn.Library, error)
 }
 
 // Loader defines methods for loading data from the storage.

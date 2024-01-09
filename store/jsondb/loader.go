@@ -17,7 +17,7 @@ func (n *Loader) LoadBooks() (*books.Library, error) {
 	return nil, nil
 }
 
-func (n *Loader) LoadBoxes() (*learn.Shelf, error) {
+func (n *Loader) LoadBoxes() (*learn.Library, error) {
 	// read data
 	// shelf := learn.NewShelf()
 	return nil, nil

@@ -16,7 +16,7 @@ type App struct {
 	// Storer     Storer
 
 	library *books.Library
-	shelf   *learn.Shelf
+	shelf   *learn.Library
 }
 
 // New returns a configured App object.
