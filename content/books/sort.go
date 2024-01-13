@@ -1,18 +1,18 @@
 package books
 
-// BySeriesVolumeTitle provides sorting of a slice of pointers to books
+// bySeriesVolumeTitle provides sorting of a slice of books
 // according to series title, volume and book title.
-type BySeriesVolumeTitle []Book
+type bySeriesVolumeTitle []Book
 
 // Len implements sort.Interface.
-func (b BySeriesVolumeTitle) Len() int { return len(b) }
+func (b bySeriesVolumeTitle) Len() int { return len(b) }
 
 // Swap implements sort.Interface.
-func (b BySeriesVolumeTitle) Swap(i, j int) { b[i], b[j] = b[j], b[i] }
+func (b bySeriesVolumeTitle) Swap(i, j int) { b[i], b[j] = b[j], b[i] }
 
 // Less implements sort.Interface.
 // It defines the sort order as described above.
-func (b BySeriesVolumeTitle) Less(i, j int) bool {
+func (b bySeriesVolumeTitle) Less(i, j int) bool {
 	if b[i].SeriesTitle < b[j].SeriesTitle {
 		return true
 	}

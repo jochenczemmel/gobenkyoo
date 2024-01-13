@@ -3,7 +3,6 @@ package books_test
 import (
 	"math/rand"
 	"slices"
-	"sort"
 	"strconv"
 	"testing"
 
@@ -12,8 +11,7 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 )
 
-// TestSort tests the sort function for a list of pointers to book.
-func TestSort(t *testing.T) {
+func TestLibararySort(t *testing.T) {
 
 	// prepare test: sorted list of books
 	sortedBooks := []books.Book{
@@ -43,14 +41,15 @@ func TestSort(t *testing.T) {
 	for i := 0; i < 3; i++ {
 		t.Run("shuffle "+strconv.Itoa(i+1), func(t *testing.T) {
 
-			got := slices.Clone(sortedBooks)
-			rand.Shuffle(len(got), func(i, j int) {
-				got[i], got[j] = got[j], got[i]
+			shuffledBooks := slices.Clone(sortedBooks)
+			rand.Shuffle(len(shuffledBooks), func(i, j int) {
+				shuffledBooks[i], shuffledBooks[j] = shuffledBooks[j], shuffledBooks[i]
 			})
-			t.Logf("DEBUG: shuffled: first book: %v", got[0])
+			t.Logf("DEBUG: shuffled: first book: %v", shuffledBooks[0])
 
-			// execute test
-			sort.Sort(books.BySeriesVolumeTitle(got))
+			library := books.NewLibrary("")
+			library.AddBooks(shuffledBooks...)
+			got := library.SortedBooks()
 			t.Logf("DEBUG: sorted: first book: %v", got[0])
 
 			if diff := cmp.Diff(got, sortedBooks, cmpopts.IgnoreUnexported(books.Book{})); diff != "" {
