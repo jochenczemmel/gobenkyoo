@@ -32,3 +32,9 @@ func (l Library) SortedBooks() []Book {
 	sort.Sort(bySeriesVolumeTitle(result))
 	return result
 }
+
+// Books returns the list of books in the order they have
+// been added.
+func (l Library) Books() []Book {
+	return l.books
+}
