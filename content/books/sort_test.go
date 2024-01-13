@@ -2,10 +2,13 @@ package books_test
 
 import (
 	"math/rand"
+	"slices"
 	"sort"
+	"strconv"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 )
 
@@ -36,19 +39,23 @@ func TestSort(t *testing.T) {
 		books.New("nihongo e yookoso", "nihongo e yookoso", 0),
 	}
 
-	// prepare test: copy book list, shuffle for test
-	shuffledBooks := make([]books.Book, len(sortedBooks))
-	copy(shuffledBooks, sortedBooks)
-	rand.Shuffle(len(shuffledBooks), func(i, j int) {
-		shuffledBooks[i], shuffledBooks[j] = shuffledBooks[j], shuffledBooks[i]
-	})
-	t.Logf("DEBUG: shuffled: first book: %v", shuffledBooks[0])
+	// test multiple times, shuffle may accidentially return the same order
+	for i := 0; i < 3; i++ {
+		t.Run("shuffle "+strconv.Itoa(i+1), func(t *testing.T) {
 
-	// execute test
-	sort.Sort(books.BySeriesVolumeTitle(shuffledBooks))
-	t.Logf("DEBUG: sorted: first book: %v", shuffledBooks[0])
+			got := slices.Clone(sortedBooks)
+			rand.Shuffle(len(got), func(i, j int) {
+				got[i], got[j] = got[j], got[i]
+			})
+			t.Logf("DEBUG: shuffled: first book: %v", got[0])
 
-	if diff := cmp.Diff(shuffledBooks, sortedBooks); diff != "" {
-		t.Errorf("ERROR: Sort: -got +want:\n%s", diff)
+			// execute test
+			sort.Sort(books.BySeriesVolumeTitle(got))
+			t.Logf("DEBUG: sorted: first book: %v", got[0])
+
+			if diff := cmp.Diff(got, sortedBooks, cmpopts.IgnoreUnexported(books.Book{})); diff != "" {
+				t.Errorf("ERROR: Sort: -got +want:\n%s", diff)
+			}
+		})
 	}
 }
