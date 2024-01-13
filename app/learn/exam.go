@@ -1,6 +1,9 @@
 package learn
 
-import "math/rand"
+import (
+	"math/rand"
+	"slices"
+)
 
 // Options define the behaviour of the Exam.
 type Options struct {
@@ -55,13 +58,11 @@ func (e Exam) NCards() int {
 	return len(e.initialCards)
 }
 
-// Cards returns the distinct (initial) cards in the exam.
+// Cards returns a copy of the distinct (initial) cards in the exam.
 // If the cards have not been shuffled, the cards are in the
 // same order as returned from the boxes.
 func (e Exam) Cards() []Card {
-	result := make([]Card, len(e.initialCards))
-	copy(result, e.initialCards)
-	return result
+	return slices.Clone(e.initialCards)
 }
 
 // Advance shifts the card on the next level.
