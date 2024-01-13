@@ -1,18 +1,18 @@
 package kanjis
 
-// detail holds a single reading with a list of meanings.
-type detail struct {
-	reading        string
-	readingKana    string
-	meanings       []string
+// Detail holds a single reading with a list of meanings.
+type Detail struct {
+	Reading        string
+	ReadingKana    string
+	Meanings       []string
 	uniqueMeanings map[string]bool
 }
 
 // newDetail creates a new detail object with the given romaji
 // reading and the meanings.
-func newDetail(reading string, meanings ...string) detail {
-	result := detail{
-		reading:        reading,
+func newDetail(reading string, meanings ...string) Detail {
+	result := Detail{
+		Reading:        reading,
 		uniqueMeanings: map[string]bool{},
 	}
 	result.addMeanings(meanings...)
@@ -22,19 +22,19 @@ func newDetail(reading string, meanings ...string) detail {
 
 // newDetailWithlKana creates a new detail object with the given romaji
 // and kana reading and the meanings.
-func newDetailWithlKana(reading, kana string, meanings ...string) detail {
+func newDetailWithlKana(reading, kana string, meanings ...string) Detail {
 	result := newDetail(reading, meanings...)
-	result.readingKana = kana
+	result.ReadingKana = kana
 
 	return result
 }
 
 // addMeanings adds meanings if the do not yet exist.
-func (d *detail) addMeanings(meanings ...string) {
+func (d *Detail) addMeanings(meanings ...string) {
 	for _, m := range meanings {
 		if !d.uniqueMeanings[m] {
 			d.uniqueMeanings[m] = true
-			d.meanings = append(d.meanings, m)
+			d.Meanings = append(d.Meanings, m)
 		}
 	}
 }

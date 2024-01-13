@@ -20,8 +20,8 @@ type Card struct {
 	kanjiString string
 	Hint        string
 	Explanation string
-	details     []detail
-	uniqDetails map[string]detail
+	details     []Detail
+	uniqDetails map[string]Detail
 }
 
 // newCard returns a newCard initialized kanji object with
@@ -34,7 +34,7 @@ func newCard(kanji rune) Card {
 	return Card{
 		kanji:       kanji,
 		kanjiString: kanjiString,
-		uniqDetails: map[string]detail{},
+		uniqDetails: map[string]Detail{},
 	}
 }
 
@@ -46,6 +46,11 @@ func (c *Card) Kanji() string {
 // Descriptor returns the classification for the 79 radical system.
 func (c Card) Descriptor() string {
 	return kanji2Descriptor[c.kanji]
+}
+
+// Details returns the detailed readings and meanings.
+func (c Card) Details() []Detail {
+	return c.details
 }
 
 // Radicals returns the list of the radicals
@@ -111,7 +116,7 @@ func (c Card) Meanings() []string {
 	result := []string{}
 	found := map[string]bool{}
 	for _, detail := range c.details {
-		for _, meaning := range detail.meanings {
+		for _, meaning := range detail.Meanings {
 			if !found[meaning] {
 				found[meaning] = true
 				result = append(result, meaning)
@@ -127,7 +132,7 @@ func (c Card) Readings() []string {
 	result := []string{}
 	found := map[string]bool{}
 	for _, detail := range c.details {
-		reading := detail.reading
+		reading := detail.Reading
 		if !found[reading] {
 			found[reading] = true
 			result = append(result, reading)
@@ -145,7 +150,7 @@ func (c Card) ReadingsKana() []string {
 	found := map[string]bool{}
 
 	for _, detail := range c.details {
-		reading := detail.readingKana
+		reading := detail.ReadingKana
 		if reading == "" {
 			continue
 		}
@@ -160,15 +165,15 @@ func (c Card) ReadingsKana() []string {
 
 // addDetails adds a list of details.
 // Duplicate readings are not added.
-func (c *Card) addDetails(details ...detail) {
+func (c *Card) addDetails(details ...Detail) {
 	for _, detail := range details {
-		if detail.reading == "" {
+		if detail.Reading == "" {
 			continue
 		}
-		if _, ok := c.uniqDetails[detail.reading]; ok {
+		if _, ok := c.uniqDetails[detail.Reading]; ok {
 			continue
 		}
-		c.uniqDetails[detail.reading] = detail
+		c.uniqDetails[detail.Reading] = detail
 		c.details = append(c.details, detail)
 	}
 }
