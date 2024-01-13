@@ -17,6 +17,7 @@ import (
 // Use kanjis.Builder to create a new kanjis card.
 type Card struct {
 	kanji       rune
+	kanjiString string
 	Hint        string
 	Explanation string
 	details     []detail
@@ -26,19 +27,20 @@ type Card struct {
 // newCard returns a newCard initialized kanji object with
 // the provided rune.
 func newCard(kanji rune) Card {
+	kanjiString := string(kanji)
+	if kanji == '\x00' || kanji == ' ' {
+		kanjiString = ""
+	}
 	return Card{
 		kanji:       kanji,
+		kanjiString: kanjiString,
 		uniqDetails: map[string]detail{},
 	}
 }
 
 // Kanji returns the kanji as a string.
 func (c *Card) Kanji() string {
-	// avoid display of \x00
-	if c.kanji == '\x00' || c.kanji == ' ' {
-		return ""
-	}
-	return string(c.kanji)
+	return c.kanjiString
 }
 
 // Descriptor returns the classification for the 79 radical system.

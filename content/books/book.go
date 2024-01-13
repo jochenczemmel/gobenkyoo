@@ -2,42 +2,80 @@
 // It alos provides access to the content kanji and word cards.
 package books
 
-import "github.com/jochenczemmel/gobenkyoo/content/kanjis"
+import (
+	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
+	"github.com/jochenczemmel/gobenkyoo/content/words"
+)
 
 // Book represents a book with lessons. It is optionally
 // a volume of a series/collection of books.
 // The lesson order is preserved.
 type Book struct {
 	TitleInfo
-	Lessons       []Lesson
-	lessonsByName map[string]Lesson
+	lessonTitles  []string
+	lessonsByName map[string]lesson
 }
 
 // New returns a new book with the specified infos.
-func New(title, seriestitle string, volume int, lessons ...Lesson) Book {
+func New(title, seriestitle string, volume int) Book {
 	return Book{
 		TitleInfo: TitleInfo{
 			Title:       title,
 			SeriesTitle: seriestitle,
 			Volume:      volume,
 		},
-		Lessons:       lessons,
-		lessonsByName: make(map[string]Lesson),
+		lessonTitles:  []string{},
+		lessonsByName: map[string]lesson{},
 	}
 }
 
+func (b Book) Lessons() []string {
+	return b.lessonTitles
+}
+
+// AddKanjis adds the list of kanjis to the specified lesson.
+// If the lesson does not exist, it is created.
+// The order of the added lessons is preserved.
 func (b *Book) AddKanjis(lessontitle string, cards ...kanjis.Card) {
-	lesson, ok := b.lessonsByName[lessontitle]
-	if !ok {
-		lesson = Lesson{
-			Title: lessontitle,
-			Book:  b.TitleInfo,
-		}
-	}
-	lesson.KanjiCards = append(lesson.KanjiCards, cards...)
-	b.lessonsByName[lessontitle] = lesson
+	currentLesson := b.setupLesson(lessontitle)
+	currentLesson.addKanjis(cards...)
+	b.lessonsByName[lessontitle] = currentLesson
 }
 
+// AddWords adds the list of words to the specified lesson.
+// If the lesson does not exist, it is created.
+// The order of the added lessons is preserved.
+func (b *Book) AddWords(lessontitle string, cards ...words.Card) {
+	currentLesson := b.setupLesson(lessontitle)
+	currentLesson.addWords(cards...)
+	b.lessonsByName[lessontitle] = currentLesson
+}
+
+func (b *Book) setupLesson(lessontitle string) lesson {
+	currentLesson, ok := b.lessonsByName[lessontitle]
+	if !ok {
+		b.lessonTitles = append(b.lessonTitles, lessontitle)
+		currentLesson = newLesson(lessontitle)
+	}
+	return currentLesson
+}
+
+// KanjiFor returns the list of kanjis for the given lesson.
+// If the lesson does not exist, an empty list is returned.
 func (b Book) KanjiFor(lessontitle string) []kanjis.Card {
-	return b.lessonsByName[lessontitle].KanjiCards
+	currentLesson, ok := b.lessonsByName[lessontitle]
+	if !ok {
+		return []kanjis.Card{}
+	}
+	return currentLesson.kanjiCards
+}
+
+// WordsFor returns the list of words for the given lesson.
+// If the lesson does not exist, an empty list is returned.
+func (b Book) WordsFor(lessontitle string) []words.Card {
+	currentLesson, ok := b.lessonsByName[lessontitle]
+	if !ok {
+		return []words.Card{}
+	}
+	return currentLesson.wordCards
 }
