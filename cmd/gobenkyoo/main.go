@@ -4,10 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-
-	"github.com/jochenczemmel/gobenkyoo/app"
-	"github.com/jochenczemmel/gobenkyoo/store"
-	"github.com/jochenczemmel/gobenkyoo/ui"
 )
 
 // command line flags
@@ -29,11 +25,8 @@ func main() {
 
 // doBenkyoo executes the program.
 func doBenkyoo() error {
-
-	getOptions()
-	application := app.New(store.NewLoader(optDbType, optDbPath))
-
-	return ui.New(optUI, application).Run()
+	// TODO:
+	return nil
 }
 
 // getOptions parses the command line options.
