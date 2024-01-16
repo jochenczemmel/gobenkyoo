@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 
 	"github.com/jochenczemmel/gobenkyoo/content/books"
+	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
+	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
 const (
@@ -44,6 +46,7 @@ func (s Storer) StoreLibrary(library books.Library) error {
 	if err != nil {
 		return fmt.Errorf("store library: encode json: %w", err)
 	}
+
 	return nil
 }
 
@@ -53,32 +56,62 @@ func converLibrary(library books.Library) Library {
 	}
 	for _, book := range library.Books() {
 		jsonBook := Book{
-			TitleInfo: book.TitleInfo,
+			TitleInfo: TitleInfo{
+				Title:       book.TitleInfo.Title,
+				SeriesTitle: book.TitleInfo.SeriesTitle,
+				Volume:      book.TitleInfo.Volume,
+			},
+		}
+		jsonBook.LessonTitles = book.Lessons()
+		jsonBook.LessonsByName = make(map[string]Lesson, len(jsonBook.LessonTitles))
+		for _, lesson := range jsonBook.LessonTitles {
+			jsonLesson := Lesson{
+				Title:      lesson,
+				KanjiCards: convertKanjiCards(book.KanjisFor(lesson)...),
+				WordCards:  convertWordCards(book.WordsFor(lesson)...),
+			}
+			jsonBook.LessonsByName[lesson] = jsonLesson
 		}
 		result.Books = append(result.Books, jsonBook)
 	}
 	return result
 }
 
-type Library struct {
-	Title string `json:",omitempty"`
-	Books []Book `json:",omitempty"`
+func convertWordCards(cards ...words.Card) []WordCard {
+	result := make([]WordCard, 0, len(cards))
+	for _, card := range cards {
+		jsonCard := WordCard{
+			ID:          card.ID,
+			Nihongo:     card.Nihongo,
+			Kana:        card.Kana,
+			Romaji:      card.Romaji,
+			Meaning:     card.Meaning,
+			Hint:        card.Hint,
+			Explanation: card.Explanation,
+			DictForm:    card.DictForm,
+			TeForm:      card.TeForm,
+			NaiForm:     card.NaiForm,
+		}
+		result = append(result, jsonCard)
+	}
+	return result
 }
 
-type Book struct {
-	books.TitleInfo
-	LessonTitles  []string          `json:",omitempty"`
-	LessonsByName map[string]Lesson `json:",omitempty"`
-}
-
-type Lesson struct {
-	Title      string
-	WordCards  []WordCard  `json:",omitempty"`
-	KanjiCards []KanjiCard `json:",omitempty"`
-}
-
-type KanjiCard struct {
-}
-
-type WordCard struct {
+func convertKanjiCards(cards ...kanjis.Card) []KanjiCard {
+	result := make([]KanjiCard, 0, len(cards))
+	for _, card := range cards {
+		jsonCard := KanjiCard{
+			Kanji: card.Kanji(),
+		}
+		for _, details := range card.Details() {
+			jsonDetail := KanjiDetail{
+				Reading:     details.Reading,
+				ReadingKana: details.ReadingKana,
+				Meanings:    details.Meanings,
+			}
+			jsonCard.KanjiDetails = append(jsonCard.KanjiDetails, jsonDetail)
+		}
+		result = append(result, jsonCard)
+	}
+	return result
 }

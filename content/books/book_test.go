@@ -43,23 +43,23 @@ func TestBookAdd(t *testing.T) {
 		}
 
 		book.AddKanjis(lesson, cards[:3]...)
-		got := book.KanjiFor(lesson)
+		got := book.KanjisFor(lesson)
 		if diff := cmp.Diff(got, cards[:3],
 			cmp.Comparer(kanjiEqual)); diff != "" {
-			t.Errorf("KanjiFor(%v): -got +want\n%s", lesson, diff)
+			t.Errorf("KanjisFor(%v): -got +want\n%s", lesson, diff)
 		}
 
 		book.AddKanjis(lesson, cards[3:]...)
-		got = book.KanjiFor(lesson)
+		got = book.KanjisFor(lesson)
 		if diff := cmp.Diff(got, cards,
 			cmp.Comparer(kanjiEqual)); diff != "" {
-			t.Errorf("KanjiFor(%v): -got +want\n%s", lesson, diff)
+			t.Errorf("KanjisFor(%v): -got +want\n%s", lesson, diff)
 		}
 
-		got = book.KanjiFor(missingLesson)
+		got = book.KanjisFor(missingLesson)
 		if diff := cmp.Diff(got, cards[:0],
 			cmp.Comparer(kanjiEqual)); diff != "" {
-			t.Errorf("KanjiFor(%v): -got +want\n%s", lesson, diff)
+			t.Errorf("KanjisFor(%v): -got +want\n%s", lesson, diff)
 		}
 	})
 

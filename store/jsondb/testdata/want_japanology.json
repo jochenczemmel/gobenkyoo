@@ -1,0 +1,147 @@
+{
+	"Title": "japanology",
+	"Books": [
+		{
+			"TitleInfo": {
+				"Title": "minna no nihongo sho 1",
+				"SeriesTitle": "minna no nihongo",
+				"Volume": 1
+			},
+			"LessonTitles": [
+				"lesson1",
+				"lesson2"
+			],
+			"LessonsByName": {
+				"lesson1": {
+					"Title": "lesson1",
+					"WordCards": [
+						{
+							"ID": "",
+							"Nihongo": "日曜日",
+							"Kana": "にちようび",
+							"Romaji": "nichyoobi",
+							"Meaning": "sunday"
+						},
+						{
+							"ID": "",
+							"Nihongo": "月曜日",
+							"Kana": "げつようび",
+							"Romaji": "getsuyoobi",
+							"Meaning": "monday"
+						},
+						{
+							"ID": "",
+							"Nihongo": "火曜日",
+							"Kana": "かようび",
+							"Romaji": "kayoobi",
+							"Meaning": "tuesday"
+						}
+					],
+					"KanjiCards": [
+						{
+							"Kanji": "方",
+							"KanjiDetails": [
+								{
+									"Reading": "HOO",
+									"ReadingKana": "ホー",
+									"Meanings": [
+										"Richtung",
+										"Art und Weise, etwas zu tun"
+									]
+								},
+								{
+									"Reading": "kata",
+									"ReadingKana": "かた",
+									"Meanings": [
+										"Person",
+										"Art und Weise, etwas zu tun"
+									]
+								}
+							]
+						},
+						{
+							"Kanji": "曜",
+							"KanjiDetails": [
+								{
+									"Reading": "yoo",
+									"Meanings": [
+										"weekday"
+									]
+								}
+							]
+						}
+					]
+				},
+				"lesson2": {
+					"Title": "lesson2",
+					"WordCards": [
+						{
+							"ID": "",
+							"Nihongo": "習います",
+							"Kana": "ならいます",
+							"Romaji": "naraimasu",
+							"Meaning": "to learn",
+							"Hint": "from somebody",
+							"Explanation": "to study is benkyoo (勉強)",
+							"DictForm": "習う",
+							"TeForm": "習って",
+							"NaiForm": "習わない"
+						},
+						{
+							"ID": "",
+							"Nihongo": "世界",
+							"Kana": "せかい",
+							"Romaji": "sekai",
+							"Meaning": "world"
+						}
+					],
+					"KanjiCards": [
+						{
+							"Kanji": "習",
+							"KanjiDetails": [
+								{
+									"Reading": "narai(u)",
+									"ReadingKana": "なら（う）",
+									"Meanings": [
+										"learn"
+									]
+								}
+							]
+						},
+						{
+							"Kanji": "世",
+							"KanjiDetails": [
+								{
+									"Reading": "se",
+									"Meanings": [
+										"world",
+										"era",
+										"generation"
+									]
+								}
+							]
+						},
+						{
+							"Kanji": "界",
+							"KanjiDetails": [
+								{
+									"Reading": "kai",
+									"Meanings": [
+										"all"
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		},
+		{
+			"TitleInfo": {
+				"Title": "minna no nihongo sho 2",
+				"SeriesTitle": "minna no nihongo",
+				"Volume": 2
+			}
+		}
+	]
+}

@@ -60,9 +60,9 @@ func (b *Book) setupLesson(lessontitle string) lesson {
 	return currentLesson
 }
 
-// KanjiFor returns the list of kanjis for the given lesson.
+// KanjisFor returns the list of kanjis for the given lesson.
 // If the lesson does not exist, an empty list is returned.
-func (b Book) KanjiFor(lessontitle string) []kanjis.Card {
+func (b Book) KanjisFor(lessontitle string) []kanjis.Card {
 	currentLesson, ok := b.lessonsByName[lessontitle]
 	if !ok {
 		return []kanjis.Card{}

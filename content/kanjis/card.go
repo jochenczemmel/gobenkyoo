@@ -39,7 +39,7 @@ func newCard(kanji rune) Card {
 }
 
 // Kanji returns the kanji as a string.
-func (c *Card) Kanji() string {
+func (c Card) Kanji() string {
 	return c.kanjiString
 }
 
