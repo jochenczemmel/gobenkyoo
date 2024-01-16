@@ -2,11 +2,9 @@
 	"Title": "japanology",
 	"Books": [
 		{
-			"TitleInfo": {
-				"Title": "minna no nihongo sho 1",
-				"SeriesTitle": "minna no nihongo",
-				"Volume": 1
-			},
+			"Title": "minna no nihongo sho 1",
+			"SeriesTitle": "minna no nihongo",
+			"Volume": 1,
 			"LessonTitles": [
 				"lesson1",
 				"lesson2"
@@ -137,11 +135,9 @@
 			}
 		},
 		{
-			"TitleInfo": {
-				"Title": "minna no nihongo sho 2",
-				"SeriesTitle": "minna no nihongo",
-				"Volume": 2
-			}
+			"Title": "minna no nihongo sho 2",
+			"SeriesTitle": "minna no nihongo",
+			"Volume": 2
 		}
 	]
 }

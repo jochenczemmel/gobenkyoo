@@ -5,14 +5,10 @@ type Library struct {
 	Books []Book `json:"Books,omitempty"`
 }
 
-type TitleInfo struct {
-	Title       string `json:"Title,omitempty"`
-	SeriesTitle string `json:"SeriesTitle,omitempty"`
-	Volume      int    `json:"Volume,omitempty"`
-}
-
 type Book struct {
-	TitleInfo     TitleInfo         `json:"TitleInfo"`
+	Title         string            `json:"Title,omitempty"`
+	SeriesTitle   string            `json:"SeriesTitle,omitempty"`
+	Volume        int               `json:"Volume,omitempty"`
 	LessonTitles  []string          `json:"LessonTitles,omitempty"`
 	LessonsByName map[string]Lesson `json:"LessonsByName,omitempty"`
 }

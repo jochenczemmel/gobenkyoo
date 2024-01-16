@@ -11,12 +11,6 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
-const (
-	libararyPath           = "library"
-	jsonExtension          = ".json"
-	defaultFilePermissions = 0750
-)
-
 type Storer struct {
 	path string
 }
@@ -28,7 +22,7 @@ func NewStorer(path string) Storer {
 }
 
 func (s Storer) StoreLibrary(library books.Library) error {
-	dirName := filepath.Join(s.path, libararyPath)
+	dirName := filepath.Join(s.path, libraryPath)
 	err := os.MkdirAll(dirName, defaultFilePermissions)
 	if err != nil {
 		return fmt.Errorf("store library: create directory: %w", err)
@@ -56,19 +50,17 @@ func converLibrary(library books.Library) Library {
 	}
 	for _, book := range library.Books() {
 		jsonBook := Book{
-			TitleInfo: TitleInfo{
-				Title:       book.TitleInfo.Title,
-				SeriesTitle: book.TitleInfo.SeriesTitle,
-				Volume:      book.TitleInfo.Volume,
-			},
+			Title:       book.TitleInfo.Title,
+			SeriesTitle: book.TitleInfo.SeriesTitle,
+			Volume:      book.TitleInfo.Volume,
 		}
 		jsonBook.LessonTitles = book.Lessons()
 		jsonBook.LessonsByName = make(map[string]Lesson, len(jsonBook.LessonTitles))
 		for _, lesson := range jsonBook.LessonTitles {
 			jsonLesson := Lesson{
 				Title:      lesson,
-				KanjiCards: convertKanjiCards(book.KanjisFor(lesson)...),
-				WordCards:  convertWordCards(book.WordsFor(lesson)...),
+				KanjiCards: kanjiCards2Json(book.KanjisFor(lesson)...),
+				WordCards:  wordCards2Json(book.WordsFor(lesson)...),
 			}
 			jsonBook.LessonsByName[lesson] = jsonLesson
 		}
@@ -77,7 +69,7 @@ func converLibrary(library books.Library) Library {
 	return result
 }
 
-func convertWordCards(cards ...words.Card) []WordCard {
+func wordCards2Json(cards ...words.Card) []WordCard {
 	result := make([]WordCard, 0, len(cards))
 	for _, card := range cards {
 		jsonCard := WordCard{
@@ -97,7 +89,7 @@ func convertWordCards(cards ...words.Card) []WordCard {
 	return result
 }
 
-func convertKanjiCards(cards ...kanjis.Card) []KanjiCard {
+func kanjiCards2Json(cards ...kanjis.Card) []KanjiCard {
 	result := make([]KanjiCard, 0, len(cards))
 	for _, card := range cards {
 		jsonCard := KanjiCard{
