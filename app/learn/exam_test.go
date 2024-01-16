@@ -28,11 +28,11 @@ var (
 )
 
 func makeBoxes() (learn.Box, learn.Box) {
-	box1 := learn.NewBox()
+	box1 := learn.NewBox(learn.BoxInfo{})
 	box1.Set(mode1, cards1...)
 	box1.Set(mode2, cards1...)
 
-	box2 := learn.NewBox()
+	box2 := learn.NewBox(learn.BoxInfo{})
 	box2.Set(mode1, cards2...)
 	box2.Set(mode2, cards2...)
 	return box1, box2

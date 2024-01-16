@@ -9,13 +9,13 @@ import (
 
 func TestConvertContentCards(t *testing.T) {
 	shelf := learn.NewLibrary()
-	boxTitle := learn.BoxName{BoxTitle: "lesson 1"}
+	boxTitle := learn.BoxInfo{Title: "lesson 1"}
 	shelf.AddWordBox(boxTitle, wordCards...)
 	shelf.AddKanjiBox(boxTitle, kanjiCards...)
 
 	testCases := []struct {
 		mode   string
-		method func(learn.Options, ...learn.BoxName) learn.Exam
+		method func(learn.Options, ...learn.BoxInfo) learn.Exam
 		want   []learn.Card
 	}{
 		{

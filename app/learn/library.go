@@ -13,30 +13,30 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
-// BoxName consists of a name for the box and a book specification.
-// Usually the BoxName is the name of the lesson.
-type BoxName struct {
-	BoxTitle  string
+// BoxInfo consists of a name for the box and a book specification.
+// Usually the BoxInfo is the name of the lesson.
+type BoxInfo struct {
+	Title     string
 	BookTitle books.TitleInfo
 }
 
 // Library provides handling a set of learning boxes.
 type Library struct {
-	wordBoxes  map[BoxName]Box
-	kanjiBoxes map[BoxName]Box
+	wordBoxes  map[BoxInfo]Box
+	kanjiBoxes map[BoxInfo]Box
 }
 
 // NewLibrary creates a new learn shelf.
 func NewLibrary() Library {
 	return Library{
-		wordBoxes:  make(map[BoxName]Box),
-		kanjiBoxes: make(map[BoxName]Box),
+		wordBoxes:  make(map[BoxInfo]Box),
+		kanjiBoxes: make(map[BoxInfo]Box),
 	}
 }
 
 // AddWordBox adds a list of word cards to a box.
-func (l *Library) AddWordBox(name BoxName, cards ...words.Card) {
-	box := NewBox()
+func (l *Library) AddWordBox(name BoxInfo, cards ...words.Card) {
+	box := NewBox(name)
 	for _, mode := range GetWordModes() {
 		box.Set(mode, makeWordCards(mode, cards...)...)
 	}
@@ -45,7 +45,7 @@ func (l *Library) AddWordBox(name BoxName, cards ...words.Card) {
 
 // StartWordExam starts an exam with the given options that uses
 // the cards from the specified box(es).
-func (l *Library) StartWordExam(opt Options, boxnames ...BoxName) Exam {
+func (l *Library) StartWordExam(opt Options, boxnames ...BoxInfo) Exam {
 	boxes := []Box{}
 	for _, boxName := range boxnames {
 		boxes = append(boxes, l.wordBoxes[boxName])
@@ -54,8 +54,8 @@ func (l *Library) StartWordExam(opt Options, boxnames ...BoxName) Exam {
 }
 
 // AddKanjiBox adds a list of kanji cards to a box.
-func (l *Library) AddKanjiBox(name BoxName, cards ...kanjis.Card) {
-	box := NewBox()
+func (l *Library) AddKanjiBox(name BoxInfo, cards ...kanjis.Card) {
+	box := NewBox(name)
 	for _, mode := range GetKanjiModes() {
 		box.Set(mode, makeKanjiCards(mode, cards...)...)
 	}
@@ -64,7 +64,7 @@ func (l *Library) AddKanjiBox(name BoxName, cards ...kanjis.Card) {
 
 // StartKanjiExam starts an exam with the given options that uses
 // the cards from the specified box(es).
-func (l *Library) StartKanjiExam(opt Options, boxnames ...BoxName) Exam {
+func (l *Library) StartKanjiExam(opt Options, boxnames ...BoxInfo) Exam {
 	boxes := []Box{}
 	for _, boxName := range boxnames {
 		boxes = append(boxes, l.kanjiBoxes[boxName])

@@ -11,16 +11,19 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
+// Storer provides storing content.
 type Storer struct {
 	path string
 }
 
+// NewStorer returns a storer that uses the given path.
 func NewStorer(path string) Storer {
 	return Storer{
 		path: path,
 	}
 }
 
+// StoreLibrary stores the specified library.
 func (s Storer) StoreLibrary(library books.Library) error {
 	dirName := filepath.Join(s.path, libraryPath)
 	err := os.MkdirAll(dirName, defaultFilePermissions)
@@ -36,7 +39,7 @@ func (s Storer) StoreLibrary(library books.Library) error {
 	defer file.Close()
 	enc := json.NewEncoder(file)
 	enc.SetIndent("", "\t")
-	err = enc.Encode(converLibrary(library))
+	err = enc.Encode(library2json(library))
 	if err != nil {
 		return fmt.Errorf("store library: encode json: %w", err)
 	}
@@ -44,7 +47,7 @@ func (s Storer) StoreLibrary(library books.Library) error {
 	return nil
 }
 
-func converLibrary(library books.Library) Library {
+func library2json(library books.Library) Library {
 	result := Library{
 		Title: library.Title,
 	}

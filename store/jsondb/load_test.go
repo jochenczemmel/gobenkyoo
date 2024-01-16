@@ -10,7 +10,7 @@ import (
 )
 
 func TestLoadLibrary(t *testing.T) {
-	dirName := filepath.Join("testdata", testLibraryPath)
+	dirName := filepath.Join("testdata", jsondb.LibraryPath)
 	loader := jsondb.NewLoader(dirName)
 
 	libraries, err := loader.LoadLibraries()

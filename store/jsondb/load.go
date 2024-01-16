@@ -13,16 +13,19 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
+// Loader provides loading content.
 type Loader struct {
 	path string
 }
 
+// NewLoader returns a loader that uses the given base path.
 func NewLoader(path string) Loader {
 	return Loader{
 		path: path,
 	}
 }
 
+// LoadLibraries loads all libraries that are stored in the provided location.
 func (l Loader) LoadLibraries() ([]books.Library, error) {
 	result := []books.Library{}
 	fileNames, err := fileList(l.path)

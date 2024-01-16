@@ -2,13 +2,15 @@ package learn
 
 // Box provides access to learning cards with different learn modes.
 type Box struct {
+	BoxInfo
 	modes      []string
 	containers map[string]container
 }
 
 // NewBox returns an initialized Box.
-func NewBox() Box {
+func NewBox(name BoxInfo) Box {
 	return Box{
+		BoxInfo:    name,
 		modes:      []string{},
 		containers: map[string]container{},
 	}

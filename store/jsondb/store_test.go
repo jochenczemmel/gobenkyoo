@@ -32,13 +32,14 @@ func TestStoreLibrary(t *testing.T) {
 		t.Errorf("Store(): got error: %v", err)
 	}
 
-	jsonFile := filepath.Join(path, testLibraryPath, testLibraryName+".json")
+	jsonFile := filepath.Join(path, jsondb.LibraryPath,
+		testLibraryName+jsondb.JsonExtension)
 	got, err := os.ReadFile(jsonFile)
 	if err != nil {
 		t.Fatalf("ReadFile(%v): got error: %v", jsonFile, err)
 	}
 
-	wantFile := filepath.Join("testdata", testLibraryPath, "want_japanology.json")
+	wantFile := filepath.Join("testdata", jsondb.LibraryPath, "want_japanology.json")
 	want, err := os.ReadFile(wantFile)
 	if err != nil {
 		t.Fatalf("ReadFile(%v): got error: %v", wantFile, err)

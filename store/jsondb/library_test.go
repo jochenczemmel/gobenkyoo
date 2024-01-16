@@ -8,7 +8,6 @@ import (
 
 var (
 	testLibraryName      = "japanology"
-	testLibraryPath      = "library"
 	testBookTitle1       = "minna no nihongo sho 1"
 	testBookSeriesTitle1 = "minna no nihongo"
 	testBookVolume1      = 1
