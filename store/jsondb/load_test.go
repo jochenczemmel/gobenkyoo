@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/store/jsondb"
 )
 
@@ -55,8 +54,7 @@ func TestLoadLibrary(t *testing.T) {
 	}
 
 	gotKanjis := book.KanjisFor(testLessonTitle1)
-	if diff := cmp.Diff(gotKanjis, kanjiCardsLesson1,
-		cmp.Comparer(kanjiEqual)); diff != "" {
+	if diff := cmp.Diff(gotKanjis, kanjiCardsLesson1); diff != "" {
 		t.Errorf("KanjisFor(): -got +want\n%s", diff)
 	}
 
@@ -64,31 +62,4 @@ func TestLoadLibrary(t *testing.T) {
 	if diff := cmp.Diff(gotWords, wordCardsLesson1); diff != "" {
 		t.Errorf("WordsFor(): -got +want\n%s", diff)
 	}
-}
-
-func kanjiEqual(got, want kanjis.Card) bool {
-	if got.String() != want.String() {
-		return false
-	}
-	gotDetails := got.Details
-	wantDetails := want.Details
-	if len(gotDetails) != len(wantDetails) {
-		return false
-	}
-
-	for i := range gotDetails {
-		if gotDetails[i].Reading != wantDetails[i].Reading ||
-			gotDetails[i].ReadingKana != wantDetails[i].ReadingKana {
-			return false
-		}
-		if len(gotDetails[i].Meanings) != len(wantDetails[i].Meanings) {
-			return false
-		}
-		for j := range gotDetails[i].Meanings {
-			if gotDetails[i].Meanings[j] != wantDetails[i].Meanings[j] {
-				return false
-			}
-		}
-	}
-	return true
 }
