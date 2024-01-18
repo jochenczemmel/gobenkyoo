@@ -10,8 +10,8 @@ import (
 func TestConvertContentCards(t *testing.T) {
 	shelf := learn.NewLibrary()
 	boxTitle := learn.BoxInfo{Title: "lesson 1"}
-	shelf.AddWordBox(boxTitle, wordCards...)
-	shelf.AddKanjiBox(boxTitle, kanjiCards...)
+	shelf.NewWordBox(boxTitle, wordCards...)
+	shelf.NewKanjiBox(boxTitle, kanjiCards...)
 
 	testCases := []struct {
 		mode   string

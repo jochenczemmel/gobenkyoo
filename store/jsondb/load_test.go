@@ -34,13 +34,13 @@ func TestLoadLibrary(t *testing.T) {
 	}
 
 	book := books[0]
-	if book.TitleInfo.Title != testBookTitle1 ||
-		book.TitleInfo.SeriesTitle != testBookSeriesTitle1 ||
-		book.TitleInfo.Volume != testBookVolume1 {
+	if book.ID.Title != testBookTitle1 ||
+		book.ID.SeriesTitle != testBookSeriesTitle1 ||
+		book.ID.Volume != testBookVolume1 {
 		t.Errorf("TitleInfo: got %v, %v, %v, want %v, %v, %v",
-			book.TitleInfo.Title,
-			book.TitleInfo.SeriesTitle,
-			book.TitleInfo.Volume,
+			book.ID.Title,
+			book.ID.SeriesTitle,
+			book.ID.Volume,
 			testBookTitle1,
 			testBookSeriesTitle1,
 			testBookVolume1,

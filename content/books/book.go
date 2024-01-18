@@ -11,7 +11,7 @@ import (
 // a volume of a series/collection of books.
 // The lesson order is preserved.
 type Book struct {
-	TitleInfo
+	ID
 	lessonTitles  []string
 	lessonsByName map[string]lesson
 }
@@ -19,7 +19,7 @@ type Book struct {
 // New returns a new book with the specified infos.
 func New(title, seriestitle string, volume int) Book {
 	return Book{
-		TitleInfo: TitleInfo{
+		ID: ID{
 			Title:       title,
 			SeriesTitle: seriestitle,
 			Volume:      volume,

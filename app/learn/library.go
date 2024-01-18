@@ -17,7 +17,7 @@ import (
 // Usually the BoxInfo is the name of the lesson.
 type BoxInfo struct {
 	Title     string
-	BookTitle books.TitleInfo
+	BookTitle books.ID
 }
 
 // Library provides handling a set of learning boxes.
@@ -34,8 +34,8 @@ func NewLibrary() Library {
 	}
 }
 
-// AddWordBox adds a list of word cards to a box.
-func (l *Library) AddWordBox(name BoxInfo, cards ...words.Card) {
+// NewWordBox adds a list of word cards to a newly created box.
+func (l *Library) NewWordBox(name BoxInfo, cards ...words.Card) {
 	box := NewBox(name)
 	for _, mode := range GetWordModes() {
 		box.Set(mode, makeWordCards(mode, cards...)...)
@@ -53,8 +53,8 @@ func (l *Library) StartWordExam(opt Options, boxnames ...BoxInfo) Exam {
 	return NewExam(opt, boxes...)
 }
 
-// AddKanjiBox adds a list of kanji cards to a box.
-func (l *Library) AddKanjiBox(name BoxInfo, cards ...kanjis.Card) {
+// NewKanjiBox adds a list of kanji cards to a newly created box.
+func (l *Library) NewKanjiBox(name BoxInfo, cards ...kanjis.Card) {
 	box := NewBox(name)
 	for _, mode := range GetKanjiModes() {
 		box.Set(mode, makeKanjiCards(mode, cards...)...)
