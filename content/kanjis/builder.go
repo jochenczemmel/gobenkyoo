@@ -7,13 +7,13 @@ type Builder struct {
 
 // NewBuilder returns a builder for the given kanji.
 func NewBuilder(kanji rune) *Builder {
-	return &Builder{kanjiCard: newCard(kanji)}
+	return &Builder{kanjiCard: New(kanji)}
 }
 
 // AddDetails adds a single reading (in romaji) and the
 // associated meanings the to kanji.
 func (b *Builder) AddDetails(reading string, meanings ...string) *Builder {
-	b.kanjiCard.addDetails(newDetail(reading, meanings...))
+	b.kanjiCard.AddDetails(NewDetail(reading, meanings...))
 
 	return b
 }
@@ -21,7 +21,7 @@ func (b *Builder) AddDetails(reading string, meanings ...string) *Builder {
 // AddDetailsWithKana adds a single reading (in romaji and kana) and  the
 // associated meanings the to kanji.
 func (b *Builder) AddDetailsWithKana(reading, kana string, meanings ...string) *Builder {
-	b.kanjiCard.addDetails(newDetailWithlKana(reading, kana, meanings...))
+	b.kanjiCard.AddDetails(NewDetailWithKana(reading, kana, meanings...))
 
 	return b
 }

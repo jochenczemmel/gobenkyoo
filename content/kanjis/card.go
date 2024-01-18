@@ -16,60 +16,55 @@ import (
 // their meanings, an optional hint and an optional explanation.
 // Use kanjis.Builder to create a new kanjis card.
 type Card struct {
-	kanji       rune
-	kanjiString string
+	Kanji       rune
 	Hint        string
 	Explanation string
-	details     []Detail
-	uniqDetails map[string]Detail
+	Details     []Detail
 }
 
-// newCard returns a newCard initialized kanji object with
+// New returns a New initialized kanji object with
 // the provided rune.
-func newCard(kanji rune) Card {
-	kanjiString := string(kanji)
-	if kanji == '\x00' || kanji == ' ' {
-		kanjiString = ""
-	}
+func New(kanji rune) Card {
 	return Card{
-		kanji:       kanji,
-		kanjiString: kanjiString,
-		uniqDetails: map[string]Detail{},
+		Kanji: kanji,
 	}
 }
 
-// Kanji returns the kanji as a string.
-func (c Card) Kanji() string {
-	return c.kanjiString
+// String returns the kanji as a string.
+func (c Card) String() string {
+	if c.Kanji == '\x00' || c.Kanji == ' ' {
+		return ""
+	}
+	return string(c.Kanji)
 }
 
 // Descriptor returns the classification for the 79 radical system.
 func (c Card) Descriptor() string {
-	return kanji2Descriptor[c.kanji]
+	return kanji2Descriptor[c.Kanji]
 }
 
-// Details returns the detailed readings and meanings.
-func (c Card) Details() []Detail {
-	return c.details
+// GetDetails returns the detailed readings and meanings.
+func (c Card) GetDetails() []Detail {
+	return c.Details
 }
 
 // Radicals returns the list of the radicals
 // for the kanji on the card.
 func (c Card) Radicals() string {
-	return radicals.ForKanji(c.kanji)
+	return radicals.ForKanji(c.Kanji)
 }
 
 // StrokeCount returns the number of strokes of the kanji.
 func (c Card) StrokeCount() int {
 	first, last, unused := 0, 0, ""
-	fmt.Sscanf(kanji2Descriptor[c.kanji],
+	fmt.Sscanf(kanji2Descriptor[c.Kanji],
 		"%d%1s%d.%d", &first, &unused, &last)
 	return first + last
 }
 
 // Number returns the Hadamitzky Number.
 func (c Card) Number() int {
-	number, ok := kanji2Nummer[c.kanji]
+	number, ok := kanji2Nummer[c.Kanji]
 	if !ok {
 		return 0
 	}
@@ -80,13 +75,13 @@ func (c Card) Number() int {
 // the descriptor and optionally the number.
 func (c Card) Description() string {
 	result := ""
-	if c.kanji != '\x00' && c.kanji != ' ' {
-		result = string(c.kanji)
+	if c.Kanji != '\x00' && c.Kanji != ' ' {
+		result = string(c.Kanji)
 	}
 
-	if d, ok := kanji2Descriptor[c.kanji]; ok {
+	if d, ok := kanji2Descriptor[c.Kanji]; ok {
 		result += fmt.Sprintf(" (%s", d)
-		if number, ok := kanji2Nummer[c.kanji]; ok {
+		if number, ok := kanji2Nummer[c.Kanji]; ok {
 			result += fmt.Sprintf("/%d", number)
 		}
 		result += ")"
@@ -98,7 +93,7 @@ func (c Card) Description() string {
 // HasRadical returns true if the given radical
 // is part of the kanji on the card.
 func (c Card) HasRadical(radical rune) bool {
-	rad := radicals.ForKanji(c.kanji)
+	rad := radicals.ForKanji(c.Kanji)
 	if rad == "" {
 		return false
 	}
@@ -115,7 +110,7 @@ func (c Card) HasRadical(radical rune) bool {
 func (c Card) Meanings() []string {
 	result := []string{}
 	found := map[string]bool{}
-	for _, detail := range c.details {
+	for _, detail := range c.Details {
 		for _, meaning := range detail.Meanings {
 			if !found[meaning] {
 				found[meaning] = true
@@ -131,7 +126,7 @@ func (c Card) Meanings() []string {
 func (c Card) Readings() []string {
 	result := []string{}
 	found := map[string]bool{}
-	for _, detail := range c.details {
+	for _, detail := range c.Details {
 		reading := detail.Reading
 		if !found[reading] {
 			found[reading] = true
@@ -149,7 +144,7 @@ func (c Card) ReadingsKana() []string {
 	result := []string{}
 	found := map[string]bool{}
 
-	for _, detail := range c.details {
+	for _, detail := range c.Details {
 		reading := detail.ReadingKana
 		if reading == "" {
 			continue
@@ -163,17 +158,12 @@ func (c Card) ReadingsKana() []string {
 	return result
 }
 
-// addDetails adds a list of details.
-// Duplicate readings are not added.
-func (c *Card) addDetails(details ...Detail) {
+// AddDetails adds a list of details.
+func (c *Card) AddDetails(details ...Detail) {
 	for _, detail := range details {
 		if detail.Reading == "" {
 			continue
 		}
-		if _, ok := c.uniqDetails[detail.Reading]; ok {
-			continue
-		}
-		c.uniqDetails[detail.Reading] = detail
-		c.details = append(c.details, detail)
+		c.Details = append(c.Details, detail)
 	}
 }

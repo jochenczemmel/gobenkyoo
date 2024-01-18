@@ -34,7 +34,7 @@ func TestKanjiMetadata(t *testing.T) {
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
-			got := c.card.Kanji()
+			got := c.card.String()
 			if got != c.wantString {
 				t.Errorf("ERROR: got %v, want %v", got, c.wantString)
 			}

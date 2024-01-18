@@ -92,5 +92,5 @@ func TestBookAdd(t *testing.T) {
 }
 
 func kanjiEqual(got, want kanjis.Card) bool {
-	return got.Kanji() == want.Kanji()
+	return got.String() == want.String()
 }

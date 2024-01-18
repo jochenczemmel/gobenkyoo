@@ -38,11 +38,11 @@ func makeKanjiCards(mode string, cards ...kanjis.Card) []Card {
 // known, the default mode is used.
 func makeKanjiCard(mode string, card kanjis.Card) Card {
 	result := Card{
-		ID:          card.Kanji(),
+		ID:          card.String(),
 		Hint:        card.Hint,
 		Explanation: card.Explanation,
 		// default mode is: Kanji2Native
-		Question:    card.Kanji(),
+		Question:    card.String(),
 		Answer:      strings.Join(card.Meanings(), ", "),
 		MoreAnswers: []string{strings.Join(card.Readings(), ", ")},
 	}
@@ -56,7 +56,7 @@ func makeKanjiCard(mode string, card kanjis.Card) Card {
 	switch mode {
 	case Native2Kanji:
 		result.Question = strings.Join(card.Meanings(), ", ")
-		result.Answer = card.Kanji()
+		result.Answer = card.String()
 		result.MoreAnswers = []string{strings.Join(card.Readings(), ", ")}
 		if len(kana) > 0 {
 			// add kana readings if available
@@ -68,7 +68,7 @@ func makeKanjiCard(mode string, card kanjis.Card) Card {
 			// use romaji if no kana readings available
 			result.Question = strings.Join(card.Readings(), ", ")
 		}
-		result.Answer = card.Kanji()
+		result.Answer = card.String()
 		result.MoreAnswers = []string{strings.Join(card.Meanings(), ", ")}
 		if len(kana) > 0 {
 			result.MoreAnswers = append(result.MoreAnswers,

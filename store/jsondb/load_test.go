@@ -67,11 +67,11 @@ func TestLoadLibrary(t *testing.T) {
 }
 
 func kanjiEqual(got, want kanjis.Card) bool {
-	if got.Kanji() != want.Kanji() {
+	if got.String() != want.String() {
 		return false
 	}
-	gotDetails := got.Details()
-	wantDetails := want.Details()
+	gotDetails := got.GetDetails()
+	wantDetails := want.GetDetails()
 	if len(gotDetails) != len(wantDetails) {
 		return false
 	}
