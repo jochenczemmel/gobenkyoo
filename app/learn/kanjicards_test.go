@@ -7,13 +7,24 @@ import (
 
 // Input kanji cards and resulting learn cards for box test.
 
-var kanjiCards = []kanjis.Card{
-	kanjis.NewBuilder('方').
-		AddDetailsWithKana("HOO", "ホー", "Richtung", "Art und Weise, etwas zu tun").
-		AddDetailsWithKana("kata", "かた", "Person", "Art und Weise, etwas zu tun").
-		Build(),
-	kanjis.NewBuilder('曜').AddDetails("yoo", "weekday").Build(),
-}
+var kanjiCards = []kanjis.Card{{
+	Kanji: '方',
+	Details: []kanjis.Detail{{
+		Reading:     "HOO",
+		ReadingKana: "ホー",
+		Meanings:    []string{"Richtung", "Art und Weise, etwas zu tun"},
+	}, {
+		Reading:     "kata",
+		ReadingKana: "かた",
+		Meanings:    []string{"Person", "Art und Weise, etwas zu tun"},
+	}},
+}, {
+	Kanji: '曜',
+	Details: []kanjis.Detail{{
+		Reading:  "yoo",
+		Meanings: []string{"weekday"},
+	}},
+}}
 
 var wantKanji2Native = []learn.Card{{
 	ID:          "方",

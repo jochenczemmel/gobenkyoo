@@ -16,14 +16,17 @@ func TestKanjiMetadata(t *testing.T) {
 		wantNumber, wantStrokeCount            int
 	}{
 		{
-			name: "empty",
-			card: kanjis.NewBuilder(' ').Build(),
+			name:            "empty",
+			card:            kanjis.Card{},
+			wantString:      "",
+			wantPretty:      "",
+			wantDescriptor:  "",
+			wantNumber:      0,
+			wantStrokeCount: 0,
 		},
 		{
-			name: "kata_hoo",
-			card: kanjis.
-				NewBuilder('方').
-				Build(),
+			name:            "kata_hoo",
+			card:            kanjis.Card{Kanji: '方'},
 			wantString:      "方",
 			wantPretty:      "方 (4h0.1/70)",
 			wantDescriptor:  "4h0.1",
@@ -68,21 +71,28 @@ func TestKanjiContent(t *testing.T) {
 	}{
 		{
 			name:        "empty",
-			card:        kanjis.NewBuilder(' ').Build(),
+			card:        kanjis.Card{},
 			wantReading: []string{},
 			wantKana:    []string{},
 			wantMeaning: []string{},
 		},
 		{
 			name: "multiple readings",
-			card: kanjis.
-				NewBuilder('方').
-				AddDetailsWithKana("HOO", "ホー", "Richtung", "Art und Weise, etwas zu tun").
-				AddDetails("kata", "Person", "Art und Weise, etwas zu tun"). // missing kana
-				AddDetails("kata", "Person", "Art und Weise, etwas zu tun"). // duplicate
-				AddDetails("", "- empty -").                                 // no reading, not added
-				AddDetailsWithKana("", "x", "- empty -").                    // no reading, not added
-				Build(),
+			card: kanjis.Card{
+				Kanji: '方',
+				Details: []kanjis.Detail{
+					{
+						Reading:     "HOO",
+						ReadingKana: "ホー",
+						Meanings:    []string{"Richtung", "Art und Weise, etwas zu tun"},
+					},
+					{
+						Reading:  "kata",
+						Meanings: []string{"Person", "Art und Weise, etwas zu tun"},
+					},
+				},
+			},
+
 			wantLen:     2,
 			wantReading: []string{"HOO", "kata"},
 			wantKana:    []string{"ホー"},
@@ -121,7 +131,7 @@ func TestKanjiHasRadical(t *testing.T) {
 	}
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
-			got := kanjis.NewBuilder(c.kanji).Build().HasRadical(c.radical)
+			got := kanjis.Card{Kanji: c.kanji}.HasRadical(c.radical)
 			if got != c.want {
 				t.Errorf("ERROR: got %v, want %v", got, c.want)
 			}
@@ -143,7 +153,7 @@ func TestKanjiGetRadicals(t *testing.T) {
 	}
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
-			got := kanjis.NewBuilder(c.kanji).Build().Radicals()
+			got := kanjis.Card{Kanji: c.kanji}.Radicals()
 			if got != c.want {
 				t.Errorf("ERROR: got %v, want %v", got, c.want)
 			}

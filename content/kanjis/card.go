@@ -43,11 +43,6 @@ func (c Card) Descriptor() string {
 	return kanji2Descriptor[c.Kanji]
 }
 
-// GetDetails returns the detailed readings and meanings.
-func (c Card) GetDetails() []Detail {
-	return c.Details
-}
-
 // Radicals returns the list of the radicals
 // for the kanji on the card.
 func (c Card) Radicals() string {
@@ -158,6 +153,7 @@ func (c Card) ReadingsKana() []string {
 	return result
 }
 
+/*
 // AddDetails adds a list of details.
 func (c *Card) AddDetails(details ...Detail) {
 	for _, detail := range details {
@@ -167,3 +163,4 @@ func (c *Card) AddDetails(details ...Detail) {
 		c.Details = append(c.Details, detail)
 	}
 }
+*/

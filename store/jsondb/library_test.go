@@ -21,13 +21,23 @@ var (
 	testLessonTitle2 = "lesson2"
 )
 
-var kanjiCardsLesson1 = []kanjis.Card{
-	kanjis.NewBuilder('方').
-		AddDetailsWithKana("HOO", "ホー", "Richtung", "Art und Weise, etwas zu tun").
-		AddDetailsWithKana("kata", "かた", "Person", "Art und Weise, etwas zu tun").
-		Build(),
-	kanjis.NewBuilder('曜').AddDetails("yoo", "weekday").Build(),
-}
+var kanjiCardsLesson1 = []kanjis.Card{{
+	Kanji: '方',
+	Details: []kanjis.Detail{{
+		Reading:     "HOO",
+		ReadingKana: "ホー",
+		Meanings:    []string{"Richtung", "Art und Weise, etwas zu tun"},
+	}, {
+		Reading:     "kata",
+		ReadingKana: "かた",
+		Meanings:    []string{"Person", "Art und Weise, etwas zu tun"},
+	}},
+}, {
+	Kanji: '曜',
+	Details: []kanjis.Detail{
+		{Reading: "yoo", Meanings: []string{"weekday"}},
+	},
+}}
 
 var wordCardsLesson1 = []words.Card{{
 	Nihongo: "日曜日",
@@ -47,10 +57,28 @@ var wordCardsLesson1 = []words.Card{{
 }}
 
 var kanjiCardsLesson2 = []kanjis.Card{
-	kanjis.NewBuilder('習').
-		AddDetailsWithKana("narai(u)", "なら（う）", "learn").Build(),
-	kanjis.NewBuilder('世').AddDetails("se", "world", "era", "generation").Build(),
-	kanjis.NewBuilder('界').AddDetails("kai", "all").Build(),
+	{
+		Kanji: '習',
+		Details: []kanjis.Detail{{
+			Reading:     "narai(u)",
+			ReadingKana: "なら（う）",
+			Meanings:    []string{"learn"},
+		}},
+	},
+	{
+		Kanji: '世',
+		Details: []kanjis.Detail{{
+			Reading:  "se",
+			Meanings: []string{"world", "era", "generation"},
+		}},
+	},
+	{
+		Kanji: '界',
+		Details: []kanjis.Detail{{
+			Reading:  "kai",
+			Meanings: []string{"all"},
+		}},
+	},
 }
 
 var wordCardsLesson2 = []words.Card{{

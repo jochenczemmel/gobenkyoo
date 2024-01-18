@@ -70,8 +70,8 @@ func kanjiEqual(got, want kanjis.Card) bool {
 	if got.String() != want.String() {
 		return false
 	}
-	gotDetails := got.GetDetails()
-	wantDetails := want.GetDetails()
+	gotDetails := got.Details
+	wantDetails := want.Details
 	if len(gotDetails) != len(wantDetails) {
 		return false
 	}

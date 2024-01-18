@@ -35,11 +35,11 @@ func TestBookAdd(t *testing.T) {
 
 	t.Run("add kanjis", func(t *testing.T) {
 		cards := []kanjis.Card{
-			kanjis.NewBuilder('方').Build(),
-			kanjis.NewBuilder('世').Build(),
-			kanjis.NewBuilder('界').Build(),
-			kanjis.NewBuilder('日').Build(),
-			kanjis.NewBuilder('本').Build(),
+			kanjis.Card{Kanji: '方'},
+			kanjis.Card{Kanji: '世'},
+			kanjis.Card{Kanji: '界'},
+			kanjis.Card{Kanji: '日'},
+			kanjis.Card{Kanji: '本'},
 		}
 
 		book.AddKanjis(lesson, cards[:3]...)

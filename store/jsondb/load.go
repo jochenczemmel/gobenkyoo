@@ -95,20 +95,16 @@ func json2WordCards(jsoncards []WordCard) []words.Card {
 func json2KanjiCards(jsoncards []KanjiCard) []kanjis.Card {
 	result := []kanjis.Card{}
 	for _, jsonCard := range jsoncards {
-		kanji, _ := utf8.DecodeRuneInString(jsonCard.Kanji)
-		builder := kanjis.NewBuilder(kanji)
+		kanjiRune, _ := utf8.DecodeRuneInString(jsonCard.Kanji)
+		card := kanjis.Card{Kanji: kanjiRune}
 		for _, details := range jsonCard.KanjiDetails {
-			if details.ReadingKana != "" {
-				builder.AddDetailsWithKana(
-					details.Reading,
-					details.ReadingKana,
-					details.Meanings...,
-				)
-			} else {
-				builder.AddDetails(details.Reading, details.Meanings...)
-			}
+			card.Details = append(card.Details, kanjis.Detail{
+				Reading:     details.Reading,
+				ReadingKana: details.ReadingKana,
+				Meanings:    details.Meanings,
+			})
 		}
-		result = append(result, builder.Build())
+		result = append(result, card)
 	}
 	return result
 }
