@@ -8,6 +8,7 @@ import (
 // Input kanji cards and resulting learn cards for box test.
 
 var kanjiCards = []kanjis.Card{{
+	ID:    1,
 	Kanji: '方',
 	Details: []kanjis.Detail{{
 		Reading:     "HOO",
@@ -19,6 +20,7 @@ var kanjiCards = []kanjis.Card{{
 		Meanings:    []string{"Person", "Art und Weise, etwas zu tun"},
 	}},
 }, {
+	ID:    2,
 	Kanji: '曜',
 	Details: []kanjis.Detail{{
 		Reading:  "yoo",
@@ -27,31 +29,31 @@ var kanjiCards = []kanjis.Card{{
 }}
 
 var wantKanji2Native = []learn.Card{{
-	ID:          "方",
+	ID:          1,
 	Question:    "方",
 	Answer:      "Richtung, Art und Weise, etwas zu tun, Person",
 	MoreAnswers: []string{"HOO, kata", "ホー, かた"},
 }, {
-	ID:          "曜",
+	ID:          2,
 	Question:    "曜",
 	Answer:      "weekday",
 	MoreAnswers: []string{"yoo"},
 }}
 
 var wantNative2Kanji = []learn.Card{{
-	ID:          "方",
+	ID:          1,
 	Question:    "Richtung, Art und Weise, etwas zu tun, Person",
 	Answer:      "方",
 	MoreAnswers: []string{"HOO, kata", "ホー, かた"},
 }, {
-	ID:          "曜",
+	ID:          2,
 	Question:    "weekday",
 	Answer:      "曜",
 	MoreAnswers: []string{"yoo"},
 }}
 
 var wantKana2Kanji = []learn.Card{{
-	ID:       "方",
+	ID:       1,
 	Question: "ホー, かた",
 	Answer:   "方",
 	MoreAnswers: []string{
@@ -59,7 +61,7 @@ var wantKana2Kanji = []learn.Card{{
 		"HOO, kata",
 	},
 }, {
-	ID:          "曜",
+	ID:          2,
 	Question:    "yoo",
 	Answer:      "曜",
 	MoreAnswers: []string{"weekday"},

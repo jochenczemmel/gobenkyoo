@@ -6,7 +6,7 @@ package learn
 // The sort order of the cards is preserved.
 type container struct {
 	cardList []Card
-	levels   map[string]int
+	levels   map[int]int
 }
 
 // newContainer returns a container with the cards.
@@ -14,7 +14,7 @@ type container struct {
 func newContainer(cards ...Card) container {
 	result := container{
 		cardList: cards,
-		levels:   make(map[string]int, len(cards)),
+		levels:   make(map[int]int, len(cards)),
 	}
 	for _, card := range cards {
 		result.levels[card.ID] = MinLevel

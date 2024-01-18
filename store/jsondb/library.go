@@ -20,7 +20,7 @@ type Lesson struct {
 }
 
 type WordCard struct {
-	ID          string `json:"ID"`
+	ID          int    `json:"ID"`
 	Nihongo     string `json:"Nihongo,omitempty"`
 	Kana        string `json:"Kana,omitempty"`
 	Romaji      string `json:"Romaji,omitempty"`
@@ -33,6 +33,7 @@ type WordCard struct {
 }
 
 type KanjiCard struct {
+	ID           int           `json:"ID"`
 	Kanji        string        `json:"Kanji"`
 	KanjiDetails []KanjiDetail `json:"KanjiDetails"`
 }

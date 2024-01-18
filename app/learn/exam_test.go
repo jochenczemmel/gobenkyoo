@@ -10,14 +10,14 @@ import (
 
 // static data for test fixture setup
 var cards1 = []learn.Card{
-	{ID: "card1"},
-	{ID: "card2"},
-	{ID: "card3"},
+	{ID: 1},
+	{ID: 2},
+	{ID: 3},
 }
 
 var cards2 = []learn.Card{
-	{ID: "card3"},
-	{ID: "card4"},
+	{ID: 4},
+	{ID: 5},
 }
 
 var nAllCards = len(cards1) + len(cards2)
@@ -180,7 +180,7 @@ func TestExamNextCard(t *testing.T) {
 	}
 
 	got, ok := exam.NextCard()
-	assertEquals(t, got.ID, "")
+	assertEquals(t, got.ID, 0)
 	assertEquals(t, ok, false)
 }
 

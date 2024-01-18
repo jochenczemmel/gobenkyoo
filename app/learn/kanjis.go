@@ -38,7 +38,7 @@ func makeKanjiCards(mode string, cards ...kanjis.Card) []Card {
 // known, the default mode is used.
 func makeKanjiCard(mode string, card kanjis.Card) Card {
 	result := Card{
-		ID:          card.String(),
+		ID:          card.ID,
 		Hint:        card.Hint,
 		Explanation: card.Explanation,
 		// default mode is: Kanji2Native

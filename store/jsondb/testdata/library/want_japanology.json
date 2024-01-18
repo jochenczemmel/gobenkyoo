@@ -14,21 +14,21 @@
 					"Title": "lesson1",
 					"WordCards": [
 						{
-							"ID": "",
+							"ID": 0,
 							"Nihongo": "日曜日",
 							"Kana": "にちようび",
 							"Romaji": "nichyoobi",
 							"Meaning": "sunday"
 						},
 						{
-							"ID": "",
+							"ID": 0,
 							"Nihongo": "月曜日",
 							"Kana": "げつようび",
 							"Romaji": "getsuyoobi",
 							"Meaning": "monday"
 						},
 						{
-							"ID": "",
+							"ID": 0,
 							"Nihongo": "火曜日",
 							"Kana": "かようび",
 							"Romaji": "kayoobi",
@@ -37,6 +37,7 @@
 					],
 					"KanjiCards": [
 						{
+							"ID": 0,
 							"Kanji": "方",
 							"KanjiDetails": [
 								{
@@ -58,6 +59,7 @@
 							]
 						},
 						{
+							"ID": 0,
 							"Kanji": "曜",
 							"KanjiDetails": [
 								{
@@ -74,7 +76,7 @@
 					"Title": "lesson2",
 					"WordCards": [
 						{
-							"ID": "",
+							"ID": 0,
 							"Nihongo": "習います",
 							"Kana": "ならいます",
 							"Romaji": "naraimasu",
@@ -86,7 +88,7 @@
 							"NaiForm": "習わない"
 						},
 						{
-							"ID": "",
+							"ID": 0,
 							"Nihongo": "世界",
 							"Kana": "せかい",
 							"Romaji": "sekai",
@@ -95,6 +97,7 @@
 					],
 					"KanjiCards": [
 						{
+							"ID": 0,
 							"Kanji": "習",
 							"KanjiDetails": [
 								{
@@ -107,6 +110,7 @@
 							]
 						},
 						{
+							"ID": 0,
 							"Kanji": "世",
 							"KanjiDetails": [
 								{
@@ -120,6 +124,7 @@
 							]
 						},
 						{
+							"ID": 0,
 							"Kanji": "界",
 							"KanjiDetails": [
 								{
