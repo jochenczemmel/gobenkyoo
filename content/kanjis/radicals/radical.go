@@ -8,17 +8,6 @@ func init() {
 	fillInvertedMaps()
 }
 
-// AllKanjisWith returns all kanjis that contain the given radical.
-// The returned kanjis are sorted.
-func AllKanjisWith(radical rune) string {
-	return string(radical2Kanjis[radical])
-}
-
-// StrokeCount returns the stroke count of the radical.
-func StrokeCount(radical rune) int {
-	return kanjiStrokeCount[radical]
-}
-
 // ForStrokeCount returns a list of all radicals with the
 // given stroke count.
 func ForStrokeCount(strokecount int) string {
@@ -31,11 +20,53 @@ func ForKanji(kanji rune) string {
 	return kanji2Radical[kanji]
 }
 
-// Descriptor returns the descriptor prefix
-// for the given Radical.
-func Descriptor(radical rune) string {
-	return radical2Descriptor[radical]
+// Radical provides methods for runes that are kanji radicals.
+type Radical rune
+
+// StrokeCount returns the stroke count of the radical.
+func (r Radical) StrokeCount() int {
+	return kanjiStrokeCount[rune(r)]
 }
+
+// AllKanjisWith returns all kanjis that contain the given radical.
+func (r Radical) AllKanjisWith() string {
+	return string(radical2Kanjis[rune(r)])
+}
+
+// IsPartOf returns true if the radical is part of the kanji.
+func (r Radical) IsPartOf(kanji rune) bool {
+	allRadicals := ForKanji(kanji)
+	if allRadicals == "" {
+		return false
+	}
+	for _, radical := range allRadicals {
+		if radical == rune(r) {
+			return true
+		}
+	}
+	return false
+}
+
+// Descriptor returns the descriptor for the given radical.
+// It consists only of the first 2 parts of a kanji descriptor,
+// Example:
+//
+//	radical: '⺅' descriptor "2a"
+//	kanji:   '人' descriptor "2a0.1"
+func (r Radical) Descriptor() string {
+	return radical2Descriptor[rune(r)]
+}
+
+// AllKanjisWith returns all kanjis that contain the given radical.
+// The returned kanjis are sorted.
+// func AllKanjisWith(radical rune) string {
+// 	return string(radical2Kanjis[radical])
+// }
+
+// StrokeCount returns the stroke count of the radical.
+// func StrokeCount(radical rune) int {
+// 	return kanjiStrokeCount[radical]
+// }
 
 // radical2Kanjis contains the inverted data
 // radikal -> kanji list.
@@ -90,23 +121,4 @@ func fillKanjiStrokeCount() {
 			kanjiStrokeCount[kanji] = count
 		}
 	}
-}
-
-// Radical provides methods for runes that are kanji radicals.
-type Radical rune
-
-// StrokeCount returns the stroke count of the radical.
-func (r Radical) StrokeCount() int {
-	return kanjiStrokeCount[rune(r)]
-}
-
-// DescriptorPrefix returns the descriptor prefix
-// for the given Radical.
-func (r Radical) DescriptorPrefix() string {
-	return radical2Descriptor[rune(r)]
-}
-
-// AllKanjisWith returns all kanjis that contain the given radical.
-func (r Radical) AllKanjisWith() string {
-	return string(radical2Kanjis[rune(r)])
 }

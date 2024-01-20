@@ -7,6 +7,7 @@ type Detail struct {
 	Meanings    []string
 }
 
+/*
 // NewDetail creates a new detail object with the given romaji
 // reading and the meanings.
 func NewDetail(reading string, meanings ...string) Detail {
@@ -33,3 +34,4 @@ func (d *Detail) AddMeanings(meanings ...string) {
 		d.Meanings = append(d.Meanings, m)
 	}
 }
+*/

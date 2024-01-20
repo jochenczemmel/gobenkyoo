@@ -23,6 +23,7 @@ type Card struct {
 	Details     []Detail
 }
 
+/*
 // New returns a New initialized kanji object with
 // the provided rune.
 func New(kanji rune) Card {
@@ -30,6 +31,7 @@ func New(kanji rune) Card {
 		Kanji: kanji,
 	}
 }
+*/
 
 // String returns the kanji as a string.
 func (c Card) String() string {
@@ -89,17 +91,7 @@ func (c Card) Description() string {
 // HasRadical returns true if the given radical
 // is part of the kanji on the card.
 func (c Card) HasRadical(radical rune) bool {
-	rad := radicals.ForKanji(c.Kanji)
-	if rad == "" {
-		return false
-	}
-	for _, r := range rad {
-		if r == radical {
-			return true
-		}
-	}
-
-	return false
+	return radicals.Radical(radical).IsPartOf(c.Kanji)
 }
 
 // Meanings returns a distinct list of all Meanings.
@@ -153,15 +145,3 @@ func (c Card) ReadingsKana() []string {
 
 	return result
 }
-
-/*
-// AddDetails adds a list of details.
-func (c *Card) AddDetails(details ...Detail) {
-	for _, detail := range details {
-		if detail.Reading == "" {
-			continue
-		}
-		c.Details = append(c.Details, detail)
-	}
-}
-*/

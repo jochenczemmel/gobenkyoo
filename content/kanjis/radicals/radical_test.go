@@ -29,11 +29,6 @@ func TestStrokeCount(t *testing.T) {
 			if got != c.want {
 				t.Errorf("ERROR: got %v, want %v", got, c.want)
 			}
-
-			got = radicals.StrokeCount(c.radical)
-			if got != c.want {
-				t.Errorf("ERROR: got %v, want %v", got, c.want)
-			}
 		})
 	}
 }
@@ -59,29 +54,24 @@ func TestForStrokeCount(t *testing.T) {
 
 func TestDescriptor(t *testing.T) {
 	testCases := []struct {
-		name string
-		in   rune
-		want string
+		name           string
+		in             rune
+		wantDescriptor string
 	}{
-		{name: "mensch links", in: '⺅', want: "2a"},
-		{name: "mensch oben", in: '𠆢', want: "2a"},
-		{name: "wasser", in: '⺡', want: "3a"},
-		{name: "not a kanji", in: 'x', want: ""},
-		{name: "not a radical", in: '右', want: ""},
-		{name: "empty", in: ' ', want: ""},
+		{"mensch links", '⺅', "2a"},
+		{"mensch oben", '𠆢', "2a"},
+		{"wasser", '⺡', "3a"},
+		{"not a kanji", 'x', ""},
+		{"not a radical", '右', ""},
+		{"empty", ' ', ""},
 	}
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 
 			r := radicals.Radical(c.in)
-			got := r.DescriptorPrefix()
-			if got != c.want {
-				t.Errorf("ERROR: got %v, want %v", got, c.want)
-			}
-
-			got = radicals.Descriptor(c.in)
-			if got != c.want {
-				t.Errorf("ERROR: got %v, want %v", got, c.want)
+			got := r.Descriptor()
+			if got != c.wantDescriptor {
+				t.Errorf("ERROR: got %v, want %v", got, c.wantDescriptor)
 			}
 		})
 	}
@@ -132,11 +122,6 @@ func TestAllKanjis(t *testing.T) {
 
 			r := radicals.Radical(c.radical)
 			got := r.AllKanjisWith()
-			if got != c.want {
-				t.Errorf("ERROR: got %v, want %v", got, c.want)
-			}
-
-			got = radicals.AllKanjisWith(c.radical)
 			if got != c.want {
 				t.Errorf("ERROR: got %v, want %v", got, c.want)
 			}
