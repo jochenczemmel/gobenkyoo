@@ -7,23 +7,24 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
-// Book represents a book with lessons. It is optionally
+// Book represents a book with lessons that can contain
+// words and kanjis. It is optionally
 // a volume of a series/collection of books.
 // The lesson order is preserved.
 type Book struct {
-	ID
+	Title         string
+	SeriesTitle   string
+	Volume        int
 	lessonTitles  []string
 	lessonsByName map[string]lesson
 }
 
-// New returns a new book with the specified infos.
+// New returns a new book with the specified information.
 func New(title, seriestitle string, volume int) Book {
 	return Book{
-		ID: ID{
-			Title:       title,
-			SeriesTitle: seriestitle,
-			Volume:      volume,
-		},
+		Title:         title,
+		SeriesTitle:   seriestitle,
+		Volume:        volume,
 		lessonTitles:  []string{},
 		lessonsByName: map[string]lesson{},
 	}

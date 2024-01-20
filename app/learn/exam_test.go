@@ -10,14 +10,14 @@ import (
 
 // static data for test fixture setup
 var cards1 = []learn.Card{
-	{ID: 1},
-	{ID: 2},
-	{ID: 3},
+	{ID: learn.CardID{ContentID: 1}},
+	{ID: learn.CardID{ContentID: 2}},
+	{ID: learn.CardID{ContentID: 3}},
 }
 
 var cards2 = []learn.Card{
-	{ID: 4},
-	{ID: 5},
+	{ID: learn.CardID{ContentID: 4}},
+	{ID: learn.CardID{ContentID: 5}},
 }
 
 var nAllCards = len(cards1) + len(cards2)
@@ -28,11 +28,11 @@ var (
 )
 
 func makeBoxes() (learn.Box, learn.Box) {
-	box1 := learn.NewBox(learn.BoxInfo{})
+	box1 := learn.NewBox(learn.BoxID{})
 	box1.Set(mode1, cards1...)
 	box1.Set(mode2, cards1...)
 
-	box2 := learn.NewBox(learn.BoxInfo{})
+	box2 := learn.NewBox(learn.BoxID{})
 	box2.Set(mode1, cards2...)
 	box2.Set(mode2, cards2...)
 	return box1, box2
@@ -64,6 +64,21 @@ func TestExamCards(t *testing.T) {
 			t.Errorf("ERROR: -got +want\n%s", diff)
 		}
 	})
+}
+
+func TestExamEmpty(t *testing.T) {
+	opt := learn.Options{
+		LearnMode: mode1,
+		Level:     learn.AllLevel,
+		NoShuffle: true,
+	}
+	exam := learn.NewExam(opt)
+	got, ok := exam.NextCard()
+	assertEquals(t, ok, false)
+	want := learn.Card{MoreAnswers: []string{}}
+	if diff := cmp.Diff(got, want); diff != "" {
+		t.Errorf("ERROR: -got +want\n%s", diff)
+	}
 }
 
 func TestExamShuffled(t *testing.T) {
@@ -180,7 +195,8 @@ func TestExamNextCard(t *testing.T) {
 	}
 
 	got, ok := exam.NextCard()
-	assertEquals(t, got.ID, 0)
+	wantID := learn.CardID{ContentID: 0}
+	assertEquals(t, got.ID, wantID)
 	assertEquals(t, ok, false)
 }
 

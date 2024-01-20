@@ -6,7 +6,7 @@ package learn
 // Question, Answer, and MoreAnswers.
 // The Hint and Explanation are not depending on the learning mode.
 type Card struct {
-	ID          int      // unique identifier
+	ID          CardID   // unique identifier
 	Question    string   // what is presented first
 	Hint        string   // additional information for the question
 	Answer      string   // the correct answer

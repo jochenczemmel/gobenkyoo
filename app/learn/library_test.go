@@ -9,13 +9,13 @@ import (
 
 func TestConvertContentCards(t *testing.T) {
 	shelf := learn.NewLibrary()
-	boxTitle := learn.BoxInfo{Title: "lesson 1"}
+	boxTitle := learn.BoxID{}
 	shelf.NewWordBox(boxTitle, wordCards...)
 	shelf.NewKanjiBox(boxTitle, kanjiCards...)
 
 	testCases := []struct {
 		mode   string
-		method func(learn.Options, ...learn.BoxInfo) learn.Exam
+		method func(learn.Options, ...learn.BoxID) learn.Exam
 		want   []learn.Card
 	}{
 		{
@@ -69,3 +69,44 @@ func TestConvertContentCards(t *testing.T) {
 		})
 	}
 }
+
+func TestConvertCardsIDs(t *testing.T) {
+	shelf := learn.NewLibrary()
+	boxTitle := learn.BoxID{
+		Title: "box 1",
+		LessonID: learn.LessonID{
+			Title:       "lesson 1",
+			BookTitle:   "book 1",
+			SeriesTitle: "book",
+			Volume:      1,
+		},
+	}
+	shelf.NewWordBox(boxTitle, wordCards...)
+	shelf.NewKanjiBox(boxTitle, kanjiCards...)
+	opt := learn.Options{
+		Level:     learn.MinLevel,
+		NoShuffle: true,
+	}
+
+	t.Run("word cards", func(t *testing.T) {
+		opt.LearnMode = learn.Native2Japanese
+		got := shelf.StartWordExam(opt, boxTitle).Cards()
+		if diff := cmp.Diff(got, wantNative2JapaneseWithLesson); diff != "" {
+			t.Errorf("ERROR: -got +want\n%s", diff)
+		}
+	})
+
+	t.Run("kanji cards", func(t *testing.T) {
+		opt.LearnMode = learn.Kanji2Native
+		got := shelf.StartKanjiExam(opt, boxTitle).Cards()
+		if diff := cmp.Diff(got, wantKanji2NativeWithLesson); diff != "" {
+			t.Errorf("ERROR: -got +want\n%s", diff)
+		}
+	})
+}
+
+/*
+func TestDenyInverted(t *testing.T) {
+
+}
+*/

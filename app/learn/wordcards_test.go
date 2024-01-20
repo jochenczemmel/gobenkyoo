@@ -8,6 +8,7 @@ import (
 )
 
 var wordCards = []words.Card{{
+	ID:          1,
 	Nihongo:     "習います",
 	Kana:        "ならいます",
 	Romaji:      "naraimasu",
@@ -18,6 +19,7 @@ var wordCards = []words.Card{{
 	Hint:        "from somebody",
 	Explanation: "to study is benkyoo (勉強)",
 }, {
+	ID:      2,
 	Nihongo: "世界",
 	Kana:    "せかい",
 	Romaji:  "sekai",
@@ -25,6 +27,7 @@ var wordCards = []words.Card{{
 }}
 
 var wantNative2Japanese = []learn.Card{{
+	ID:       learn.CardID{ContentID: 1},
 	Question: "to learn",
 	Hint:     "from somebody",
 	Answer:   "習います",
@@ -37,6 +40,46 @@ var wantNative2Japanese = []learn.Card{{
 	},
 	Explanation: "to study is benkyoo (勉強)",
 }, {
+	ID:       learn.CardID{ContentID: 2},
+	Question: "world",
+	Answer:   "世界",
+	MoreAnswers: []string{
+		"せかい",
+		"sekai",
+	},
+}}
+
+var wantNative2JapaneseWithLesson = []learn.Card{{
+	ID: learn.CardID{
+		ContentID: 1,
+		LessonID: learn.LessonID{
+			Title:       "lesson 1",
+			BookTitle:   "book 1",
+			SeriesTitle: "book",
+			Volume:      1,
+		},
+	},
+	Question: "to learn",
+	Hint:     "from somebody",
+	Answer:   "習います",
+	MoreAnswers: []string{
+		"ならいます",
+		"naraimasu",
+		"習う",
+		"習って",
+		"習わない",
+	},
+	Explanation: "to study is benkyoo (勉強)",
+}, {
+	ID: learn.CardID{
+		ContentID: 2,
+		LessonID: learn.LessonID{
+			Title:       "lesson 1",
+			BookTitle:   "book 1",
+			SeriesTitle: "book",
+			Volume:      1,
+		},
+	},
 	Question: "world",
 	Answer:   "世界",
 	MoreAnswers: []string{
@@ -46,6 +89,7 @@ var wantNative2Japanese = []learn.Card{{
 }}
 
 var wantJapanese2Native = []learn.Card{{
+	ID:       learn.CardID{ContentID: 1},
 	Question: "習います",
 	Hint:     "from somebody",
 	Answer:   "to learn",
@@ -58,6 +102,7 @@ var wantJapanese2Native = []learn.Card{{
 	},
 	Explanation: "to study is benkyoo (勉強)",
 }, {
+	ID:       learn.CardID{ContentID: 2},
 	Question: "世界",
 	Answer:   "world",
 	MoreAnswers: []string{
@@ -67,6 +112,7 @@ var wantJapanese2Native = []learn.Card{{
 }}
 
 var wantNative2Kana = []learn.Card{{
+	ID:       learn.CardID{ContentID: 1},
 	Question: "to learn",
 	Hint:     "from somebody",
 	Answer:   "ならいます",
@@ -79,6 +125,7 @@ var wantNative2Kana = []learn.Card{{
 	},
 	Explanation: "to study is benkyoo (勉強)",
 }, {
+	ID:       learn.CardID{ContentID: 2},
 	Question: "world",
 	Answer:   "せかい",
 	MoreAnswers: []string{
@@ -88,6 +135,7 @@ var wantNative2Kana = []learn.Card{{
 }}
 
 var wantKana2Native = []learn.Card{{
+	ID:       learn.CardID{ContentID: 1},
 	Question: "ならいます",
 	Hint:     "from somebody",
 	Answer:   "to learn",
@@ -100,6 +148,7 @@ var wantKana2Native = []learn.Card{{
 	},
 	Explanation: "to study is benkyoo (勉強)",
 }, {
+	ID:       learn.CardID{ContentID: 2},
 	Question: "せかい",
 	Answer:   "world",
 	MoreAnswers: []string{

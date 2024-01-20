@@ -9,7 +9,7 @@ import (
 
 func TestBoxModes(t *testing.T) {
 
-	box := learn.NewBox(learn.BoxInfo{})
+	box := learn.NewBox(learn.BoxID{})
 
 	testCases := []struct {
 		name string
@@ -42,7 +42,7 @@ func TestBoxModes(t *testing.T) {
 
 func TestBoxCards(t *testing.T) {
 
-	box := learn.NewBox(learn.BoxInfo{})
+	box := learn.NewBox(learn.BoxID{})
 	boxMode := "mode 1"
 	box.Set(boxMode, cards1...)
 
@@ -92,7 +92,7 @@ func TestBoxCards(t *testing.T) {
 func TestBoxSetLevelLimits(t *testing.T) {
 	// SetCardLevel() is also tested when testing exam.Advance()
 	// so here only the limits are checked
-	box := learn.NewBox(learn.BoxInfo{})
+	box := learn.NewBox(learn.BoxID{})
 	boxMode := "mode 1"
 
 	testCases := []struct {

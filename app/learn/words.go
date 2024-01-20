@@ -30,10 +30,10 @@ func GetWordModes() []string {
 
 // makeWordCards transforms a list of word card to a learn card
 // using the given learn mode.
-func makeWordCards(mode string, cards ...words.Card) []Card {
+func (b Box) makeWordCards(mode string, cards ...words.Card) []Card {
 	result := make([]Card, 0, len(cards))
 	for _, card := range cards {
-		result = append(result, makeWordCard(mode, card))
+		result = append(result, b.makeWordCard(mode, card))
 	}
 	return result
 }
@@ -41,9 +41,9 @@ func makeWordCards(mode string, cards ...words.Card) []Card {
 // makeWordCard returns the learn.Card with the content of the
 // card accordig to the given learn mode. If the mode is not
 // known, the DefaultWordMode is used.
-func makeWordCard(mode string, card words.Card) Card {
+func (b Box) makeWordCard(mode string, card words.Card) Card {
 	result := Card{
-		ID:          card.ID,
+		ID:          CardID{ContentID: card.ID, LessonID: b.LessonID},
 		Hint:        card.Hint,
 		Explanation: card.Explanation,
 		// Default is: Native2Japanese

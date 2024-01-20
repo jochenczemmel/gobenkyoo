@@ -29,31 +29,59 @@ var kanjiCards = []kanjis.Card{{
 }}
 
 var wantKanji2Native = []learn.Card{{
-	ID:          1,
+	ID:          learn.CardID{ContentID: 1},
 	Question:    "方",
 	Answer:      "Richtung, Art und Weise, etwas zu tun, Person",
 	MoreAnswers: []string{"HOO, kata", "ホー, かた"},
 }, {
-	ID:          2,
+	ID:          learn.CardID{ContentID: 2},
+	Question:    "曜",
+	Answer:      "weekday",
+	MoreAnswers: []string{"yoo"},
+}}
+
+var wantKanji2NativeWithLesson = []learn.Card{{
+	ID: learn.CardID{
+		ContentID: 1,
+		LessonID: learn.LessonID{
+			Title:       "lesson 1",
+			BookTitle:   "book 1",
+			SeriesTitle: "book",
+			Volume:      1,
+		},
+	},
+	Question:    "方",
+	Answer:      "Richtung, Art und Weise, etwas zu tun, Person",
+	MoreAnswers: []string{"HOO, kata", "ホー, かた"},
+}, {
+	ID: learn.CardID{
+		ContentID: 2,
+		LessonID: learn.LessonID{
+			Title:       "lesson 1",
+			BookTitle:   "book 1",
+			SeriesTitle: "book",
+			Volume:      1,
+		},
+	},
 	Question:    "曜",
 	Answer:      "weekday",
 	MoreAnswers: []string{"yoo"},
 }}
 
 var wantNative2Kanji = []learn.Card{{
-	ID:          1,
+	ID:          learn.CardID{ContentID: 1},
 	Question:    "Richtung, Art und Weise, etwas zu tun, Person",
 	Answer:      "方",
 	MoreAnswers: []string{"HOO, kata", "ホー, かた"},
 }, {
-	ID:          2,
+	ID:          learn.CardID{ContentID: 2},
 	Question:    "weekday",
 	Answer:      "曜",
 	MoreAnswers: []string{"yoo"},
 }}
 
 var wantKana2Kanji = []learn.Card{{
-	ID:       1,
+	ID:       learn.CardID{ContentID: 1},
 	Question: "ホー, かた",
 	Answer:   "方",
 	MoreAnswers: []string{
@@ -61,7 +89,7 @@ var wantKana2Kanji = []learn.Card{{
 		"HOO, kata",
 	},
 }, {
-	ID:          2,
+	ID:          learn.CardID{ContentID: 2},
 	Question:    "yoo",
 	Answer:      "曜",
 	MoreAnswers: []string{"weekday"},
