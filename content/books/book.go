@@ -81,14 +81,14 @@ func (b Book) WordsFor(lessontitle string) []words.Card {
 	return currentLesson.wordCards
 }
 
-// FindKanjiCard returns the kanji card with the id from the lesson.
+// GetKanjiCard returns the kanji card with the id from the lesson.
 // If the lesson or id is not found, an empty card is returned.
-func (b Book) FindKanjiCard(lessontitle string, id int) kanjis.Card {
-	return b.lessonsByName[lessontitle].findKanjiCard(id)
+func (b Book) GetKanjiCard(lessontitle string, id int) kanjis.Card {
+	return b.lessonsByName[lessontitle].getKanjiCard(id)
 }
 
-// FindWordCard returns the word card with the id from the lesson.
+// GetWordCard returns the word card with the id from the lesson.
 // If the lesson or id is not found, an empty card is returned.
-func (b Book) FindWordCard(lessontitle string, id int) words.Card {
-	return b.lessonsByName[lessontitle].findWordCard(id)
+func (b Book) GetWordCard(lessontitle string, id int) words.Card {
+	return b.lessonsByName[lessontitle].getWordCard(id)
 }
