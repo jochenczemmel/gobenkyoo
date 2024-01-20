@@ -51,13 +51,13 @@ func library2json(library books.Library) Library {
 	result := Library{
 		Title: library.Title,
 	}
-	for _, book := range library.Books() {
+	for _, book := range library.Books {
 		jsonBook := Book{
 			Title:       book.ID.Title,
 			SeriesTitle: book.ID.SeriesTitle,
 			Volume:      book.ID.Volume,
 		}
-		jsonBook.LessonTitles = book.Lessons()
+		jsonBook.LessonTitles = book.LessonTitles()
 		jsonBook.LessonsByName = make(map[string]Lesson, len(jsonBook.LessonTitles))
 		for _, lesson := range jsonBook.LessonTitles {
 			jsonLesson := Lesson{

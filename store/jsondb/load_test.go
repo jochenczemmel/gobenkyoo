@@ -27,13 +27,12 @@ func TestLoadLibrary(t *testing.T) {
 		t.Errorf("Title: got %v, want %v", lib.Title, testLibraryName)
 	}
 
-	books := lib.Books()
 	wantLen = 2
-	if len(books) != wantLen {
-		t.Fatalf("number of books: got %v, want %v", len(books), wantLen)
+	if len(lib.Books) != wantLen {
+		t.Fatalf("number of books: got %v, want %v", len(lib.Books), wantLen)
 	}
 
-	book := books[0]
+	book := lib.Books[0]
 	if book.ID.Title != testBookTitle1 ||
 		book.ID.SeriesTitle != testBookSeriesTitle1 ||
 		book.ID.Volume != testBookVolume1 {
@@ -47,7 +46,7 @@ func TestLoadLibrary(t *testing.T) {
 		)
 	}
 
-	lessonTitles := book.Lessons()
+	lessonTitles := book.LessonTitles()
 	wantLessons := []string{testLessonTitle1, testLessonTitle2}
 	if diff := cmp.Diff(lessonTitles, wantLessons); diff != "" {
 		t.Errorf("Lessons(): -got +want\n%s", diff)

@@ -8,33 +8,27 @@ import (
 // Library provides access to a list of books.
 type Library struct {
 	Title string
-	books []Book
+	Books []Book
 }
 
 // NewLibrary returns a library object with the given title.
 func NewLibrary(title string) Library {
 	return Library{
 		Title: title,
-		books: []Book{},
+		Books: []Book{},
 	}
 }
 
 // AddBooks adds books to the library.
 // The order is preserved.
 func (l *Library) AddBooks(books ...Book) {
-	l.books = append(l.books, books...)
+	l.Books = append(l.Books, books...)
 }
 
 // SortedBooks returns a list of books sorted according to
 // series title, volume and book title.
 func (l Library) SortedBooks() []Book {
-	result := slices.Clone(l.books)
+	result := slices.Clone(l.Books)
 	sort.Sort(bySeriesVolumeTitle(result))
 	return result
-}
-
-// Books returns the list of books in the order they have
-// been added.
-func (l Library) Books() []Book {
-	return l.books
 }

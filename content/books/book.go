@@ -29,7 +29,8 @@ func New(title, seriestitle string, volume int) Book {
 	}
 }
 
-func (b Book) Lessons() []string {
+// LessonTitles returns the odered list of titles of all lessons.
+func (b Book) LessonTitles() []string {
 	return b.lessonTitles
 }
 
@@ -51,11 +52,13 @@ func (b *Book) AddWords(lessontitle string, cards ...words.Card) {
 	b.lessonsByName[lessontitle] = currentLesson
 }
 
+// setupLesson returns the lesson with the given title.
+// If it does not exist, an new lesson is created.
 func (b *Book) setupLesson(lessontitle string) lesson {
 	currentLesson, ok := b.lessonsByName[lessontitle]
 	if !ok {
 		b.lessonTitles = append(b.lessonTitles, lessontitle)
-		currentLesson = newLesson(lessontitle)
+		return newLesson(lessontitle)
 	}
 	return currentLesson
 }
