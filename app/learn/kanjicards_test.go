@@ -2,6 +2,7 @@ package learn_test
 
 import (
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
+	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 )
 
@@ -43,12 +44,7 @@ var wantKanji2Native = []learn.Card{{
 var wantKanji2NativeWithLesson = []learn.Card{{
 	ID: learn.CardID{
 		ContentID: 1,
-		LessonID: learn.LessonID{
-			Title:       "lesson 1",
-			BookTitle:   "book 1",
-			SeriesTitle: "book",
-			Volume:      1,
-		},
+		LessonID:  books.NewLessonID("lesson 1", "book 1", "book", 1),
 	},
 	Question:    "方",
 	Answer:      "Richtung, Art und Weise, etwas zu tun, Person",
@@ -56,12 +52,7 @@ var wantKanji2NativeWithLesson = []learn.Card{{
 }, {
 	ID: learn.CardID{
 		ContentID: 2,
-		LessonID: learn.LessonID{
-			Title:       "lesson 1",
-			BookTitle:   "book 1",
-			SeriesTitle: "book",
-			Volume:      1,
-		},
+		LessonID:  books.NewLessonID("lesson 1", "book 1", "book", 1),
 	},
 	Question:    "曜",
 	Answer:      "weekday",

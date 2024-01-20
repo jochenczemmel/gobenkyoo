@@ -11,30 +11,30 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 )
 
-func TestLibararySort(t *testing.T) {
+func TestLibrarySort(t *testing.T) {
 
 	// prepare test: sorted list of books
 	sortedBooks := []books.Book{
 		// book title starts numeric
-		books.New("200 quick and easy phrases  for japanese conversation", "", 0),
-		books.New("88 basic patterns for japanese conversation", "", 0),
+		books.New(books.ID{Title: "200 quick and easy phrases  for japanese conversation"}),
+		books.New(books.ID{Title: "88 basic patterns for japanese conversation"}),
 		// book title starts with character
-		books.New("first foreign japanese", "", 0),
-		books.New("how to speak osaka dialect", "", 0),
+		books.New(books.ID{Title: "first foreign japanese"}),
+		books.New(books.ID{Title: "how to speak osaka dialect"}),
 		// volume only in book title
-		books.New("Grundstudium Japanisch 1", "Grundstudium Japanisch", 0),
-		books.New("Grundstudium Japanisch 2", "Grundstudium Japanisch", 0),
+		books.New(books.NewID("Grundstudium Japanisch 1", "Grundstudium Japanisch", 0)),
+		books.New(books.NewID("Grundstudium Japanisch 2", "Grundstudium Japanisch", 0)),
 		// volume in book title and volume
 		// order is determined by volume, not title!
-		books.New("minna no nihongo sho 1", "minna no nihongo", 1),
-		books.New("minna no nihongo sho 2", "minna no nihongo", 2),
-		books.New("minna no nihongo chuu 1", "minna no nihongo", 3),
-		books.New("minna no nihongo chuu 2", "minna no nihongo", 4),
+		books.New(books.NewID("minna no nihongo sho 1", "minna no nihongo", 1)),
+		books.New(books.NewID("minna no nihongo sho 2", "minna no nihongo", 2)),
+		books.New(books.NewID("minna no nihongo chuu 1", "minna no nihongo", 3)),
+		books.New(books.NewID("minna no nihongo chuu 2", "minna no nihongo", 4)),
 		// volume not in book title
-		books.New("nihongo de doozo", "nihongo de doozo", 1),
-		books.New("nihongo de doozo", "nihongo de doozo", 2),
+		books.New(books.NewID("nihongo de doozo", "nihongo de doozo", 1)),
+		books.New(books.NewID("nihongo de doozo", "nihongo de doozo", 2)),
 		// title and series identical, no volume
-		books.New("nihongo e yookoso", "nihongo e yookoso", 0),
+		books.New(books.NewID("nihongo e yookoso", "nihongo e yookoso", 0)),
 	}
 
 	// test multiple times, shuffle may accidentially return the same order

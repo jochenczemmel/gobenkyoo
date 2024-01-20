@@ -10,7 +10,7 @@ import (
 )
 
 func TestBookLessons(t *testing.T) {
-	book := books.New("", "", 0)
+	book := books.New(books.ID{})
 	for _, lesson := range []string{"l1", "l2"} {
 		book.AddKanjis(lesson)
 	}
@@ -25,10 +25,12 @@ func TestBookLessons(t *testing.T) {
 }
 
 func TestBookAdd(t *testing.T) {
-	title := "minna1"
-	seriesTitle := "minna"
-	volume := 1
-	book := books.New(title, seriesTitle, volume)
+	id := books.ID{
+		Title:       "minna1",
+		SeriesTitle: "minna",
+		Volume:      1,
+	}
+	book := books.New(id)
 
 	lesson := "lesson 1"
 	missingLesson := "not existing"

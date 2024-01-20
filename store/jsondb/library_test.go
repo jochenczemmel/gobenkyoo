@@ -11,12 +11,14 @@ var (
 	testBookTitle1       = "minna no nihongo sho 1"
 	testBookSeriesTitle1 = "minna no nihongo"
 	testBookVolume1      = 1
-	testBook1            = books.New(
+	testBook1            = books.New(books.NewID(
 		testBookTitle1,
 		testBookSeriesTitle1,
 		testBookVolume1,
-	)
-	testBook2        = books.New("minna no nihongo sho 2", "minna no nihongo", 2)
+	))
+	testBook2 = books.New(books.NewID(
+		"minna no nihongo sho 2", "minna no nihongo", 2,
+	))
 	testLessonTitle1 = "lesson1"
 	testLessonTitle2 = "lesson2"
 )

@@ -60,7 +60,7 @@ func (l Loader) loadLibrary(name string) (books.Library, error) {
 	}
 	library = books.NewLibrary(jsonLibrary.Title)
 	for _, jsonBook := range jsonLibrary.Books {
-		book := books.New(jsonBook.Title, jsonBook.SeriesTitle, jsonBook.Volume)
+		book := books.New(books.NewID(jsonBook.Title, jsonBook.SeriesTitle, jsonBook.Volume))
 		for _, lessonTitle := range jsonBook.LessonTitles {
 			book.AddKanjis(lessonTitle,
 				json2KanjiCards(jsonBook.LessonsByName[lessonTitle].KanjiCards)...)

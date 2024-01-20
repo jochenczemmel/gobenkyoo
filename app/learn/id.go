@@ -1,12 +1,6 @@
 package learn
 
-// LessonID provides identification of a lesson in the books library.
-type LessonID struct {
-	Title       string // the title of the lesson
-	BookTitle   string // the title of the book
-	SeriesTitle string // the title of the book series
-	Volume      int    // the volume number in the series
-}
+import "github.com/jochenczemmel/gobenkyoo/content/books"
 
 // BoxID provides identification of a box in the learn library.
 // It consists of a name for the box and a lesson specification.
@@ -15,7 +9,7 @@ type LessonID struct {
 // created boxes.
 type BoxID struct {
 	Title string
-	LessonID
+	books.LessonID
 }
 
 // CardID provides unique Identifier for a card.
@@ -23,5 +17,5 @@ type BoxID struct {
 // in the books.library.
 type CardID struct {
 	ContentID int // id from the content card
-	LessonID
+	books.LessonID
 }

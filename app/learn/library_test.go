@@ -5,6 +5,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
+	"github.com/jochenczemmel/gobenkyoo/content/books"
 )
 
 func TestConvertContentCards(t *testing.T) {
@@ -73,13 +74,8 @@ func TestConvertContentCards(t *testing.T) {
 func TestConvertCardsIDs(t *testing.T) {
 	shelf := learn.NewLibrary()
 	boxTitle := learn.BoxID{
-		Title: "box 1",
-		LessonID: learn.LessonID{
-			Title:       "lesson 1",
-			BookTitle:   "book 1",
-			SeriesTitle: "book",
-			Volume:      1,
-		},
+		Title:    "box 1",
+		LessonID: books.NewLessonID("lesson 1", "book 1", "book", 1),
 	}
 	shelf.NewWordBox(boxTitle, wordCards...)
 	shelf.NewKanjiBox(boxTitle, kanjiCards...)
@@ -104,9 +100,3 @@ func TestConvertCardsIDs(t *testing.T) {
 		}
 	})
 }
-
-/*
-func TestDenyInverted(t *testing.T) {
-
-}
-*/
