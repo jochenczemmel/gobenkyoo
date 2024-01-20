@@ -14,27 +14,27 @@ package words
 // In the learning process, the hint is supposed to be presented
 // with the question, the explanation is supposed to be presented
 // with the answer. This hint can be used to add precision to the question,
-// the explanation can be used to display additional variants,
-// special cases, caveats etc.
+// the explanation can be used to display specific usage, additional variants,
+// special cases, special meanings, caveats etc.
 //
 // If the word is a verb, the three forms should be filled
-// with the dictionary form, the -te-form and the -nai-form.
-// The variable Nihongo contains the -masu-form
+// with the dictionary form, the te-form and the nai-form.
+// The variable Nihongo contains the masu-form
 //
 // To create a Card, the words.Builder can be used.
 type Card struct {
 	ID      int    // identifier of the card
-	Nihongo string // content as written in Japanese
+	Nihongo string // content as written in Japanese (Kanji, Kana, and/or Romaji)
 	Kana    string // content written in Kana
 	Romaji  string // content written in Romaji
 	Meaning string // meaning in the learners language
 
 	// additional infos, might be empty
-	Hint        string // hint
-	Explanation string // explanation
+	Hint        string
+	Explanation string
 
 	// only filled for verbs
-	DictForm string // dictionary-form
-	TeForm   string // te-form
-	NaiForm  string // nai-form
+	DictForm string
+	TeForm   string
+	NaiForm  string
 }
