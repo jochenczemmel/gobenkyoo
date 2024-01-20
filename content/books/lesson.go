@@ -27,3 +27,21 @@ func (l *lesson) addKanjis(cards ...kanjis.Card) {
 func (l *lesson) addWords(cards ...words.Card) {
 	l.wordCards = append(l.wordCards, cards...)
 }
+
+func (l lesson) findKanjiCard(id int) kanjis.Card {
+	for _, card := range l.kanjiCards {
+		if card.ID == id {
+			return card
+		}
+	}
+	return kanjis.Card{}
+}
+
+func (l lesson) findWordCard(id int) words.Card {
+	for _, card := range l.wordCards {
+		if card.ID == id {
+			return card
+		}
+	}
+	return words.Card{}
+}

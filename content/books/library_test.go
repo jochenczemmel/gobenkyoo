@@ -9,7 +9,64 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
+	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
+	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
+
+func TestLibraryFindCard(t *testing.T) {
+
+	bookID := books.ID{
+		Title:       "minna no nihongo sho 1",
+		SeriesTitle: "minna no nihongo",
+		Volume:      1,
+	}
+	book := books.New(bookID)
+	lessonID := books.LessonID{
+		Title: "lesson 1",
+		ID:    bookID,
+	}
+	cardID := 1
+	book.AddWords(lessonID.Title, wordCards...)
+	book.AddKanjis(lessonID.Title, kanjiCards...)
+	library := books.NewLibrary("")
+	library.AddBooks(book)
+
+	testCases := []struct {
+		name          string
+		lessonID      books.LessonID
+		wantKanjiCard kanjis.Card
+		wantWordCard  words.Card
+	}{{
+		name:          "book in library",
+		lessonID:      lessonID,
+		wantWordCard:  wordCards[0],
+		wantKanjiCard: kanjiCards[0],
+	}, {
+		name: "book not in library",
+		lessonID: books.LessonID{
+			Title: "lesson 1",
+			ID:    books.ID{Title: "not in library"},
+		},
+	}}
+
+	for _, c := range testCases {
+		t.Run(c.name, func(t *testing.T) {
+			t.Run("word", func(t *testing.T) {
+				got := library.FindWordCard(c.lessonID, cardID)
+				if diff := cmp.Diff(got, c.wantWordCard); diff != "" {
+					t.Errorf("FindWordCard(%v): -got, +want\n%s", cardID, diff)
+				}
+			})
+			t.Run("kanji", func(t *testing.T) {
+				got := library.FindKanjiCard(c.lessonID, cardID)
+				if diff := cmp.Diff(got, c.wantKanjiCard); diff != "" {
+					t.Errorf("FindKanjiCard(%v): -got, +want\n%s", cardID, diff)
+				}
+			})
+		})
+	}
+
+}
 
 func TestLibrarySort(t *testing.T) {
 

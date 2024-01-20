@@ -3,26 +3,38 @@ package books
 import (
 	"slices"
 	"sort"
+
+	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
+	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
 // Library provides access to a list of books.
 type Library struct {
-	Title string
-	Books []Book
+	Title     string
+	Books     []Book
+	booksByID map[ID]Book
 }
 
 // NewLibrary returns a library object with the given title.
 func NewLibrary(title string) Library {
 	return Library{
-		Title: title,
-		Books: []Book{},
+		Title:     title,
+		Books:     []Book{},
+		booksByID: map[ID]Book{},
 	}
 }
 
 // AddBooks adds books to the library.
 // The order is preserved.
+// Duplicate additions are ignored.
 func (l *Library) AddBooks(books ...Book) {
-	l.Books = append(l.Books, books...)
+	for _, book := range books {
+		_, ok := l.booksByID[book.ID]
+		if !ok {
+			l.booksByID[book.ID] = book
+			l.Books = append(l.Books, book)
+		}
+	}
 }
 
 // SortedBooks returns a list of books sorted according to
@@ -31,4 +43,16 @@ func (l Library) SortedBooks() []Book {
 	result := slices.Clone(l.Books)
 	sort.Sort(bySeriesVolumeTitle(result))
 	return result
+}
+
+// FindWordCard returns a the word card from the specified book and lesson
+// with the specified id. If it is not found, an empty card is returned.
+func (l Library) FindWordCard(lessonid LessonID, cardid int) words.Card {
+	return l.booksByID[lessonid.ID].FindWordCard(lessonid.Title, cardid)
+}
+
+// FindKanjiCard returns a the kanji card from the specified book and lesson
+// with the specified id. If it is not found, an empty card is returned.
+func (l Library) FindKanjiCard(lessonid LessonID, cardid int) kanjis.Card {
+	return l.booksByID[lessonid.ID].FindKanjiCard(lessonid.Title, cardid)
 }
