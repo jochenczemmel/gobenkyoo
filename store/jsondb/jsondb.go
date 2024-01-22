@@ -7,6 +7,6 @@ const (
 	jsonExtension = ".json"
 	// permissions for creating files
 	defaultFilePermissions = 0750
-	// option for reading all directory entries
+	// option for reading all files in a directory
 	readAllFiles = -1
 )

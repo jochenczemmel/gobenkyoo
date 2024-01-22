@@ -15,8 +15,8 @@ type App struct {
 	// Importer   Importer
 	// Storer     Storer
 
-	library *books.Library
-	shelf   *learn.Library
+	library   *books.Library
+	classroom *learn.Classroom
 }
 
 // New returns a configured App object.
@@ -32,6 +32,6 @@ func (a *App) LoadBoxes() (err error) {
 	if a.BoxLoader == nil {
 		return fmt.Errorf("no box loader")
 	}
-	a.shelf, err = a.BoxLoader.LoadBoxes()
+	a.classroom, err = a.BoxLoader.LoadBoxes()
 	return err
 }
