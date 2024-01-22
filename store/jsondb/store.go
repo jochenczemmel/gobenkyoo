@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
@@ -21,6 +22,31 @@ func NewStorer(path string) Storer {
 	return Storer{
 		path: path,
 	}
+}
+
+// StoreClassroom stores the specified learning classroom.
+func (s Storer) StoreClassroom(classroom learn.Classroom) error {
+	dirName := filepath.Join(s.path, classroomPath)
+	err := os.MkdirAll(dirName, defaultFilePermissions)
+	if err != nil {
+		return fmt.Errorf("store classroom: create directory: %w", err)
+	}
+	fileName := filepath.Join(dirName, "classroom"+jsonExtension)
+	file, err := os.Create(fileName)
+	if err != nil {
+		return fmt.Errorf("store classroom: create file: %w", err)
+	}
+	defer file.Close()
+	enc := json.NewEncoder(file)
+	enc.SetIndent("", "\t")
+	boxes := classroom.Boxes()
+	err = enc.Encode(boxes)
+	// TODO: write boxes2json
+	// err = enc.Encode(boxes2json(boxes))
+	if err != nil {
+		return fmt.Errorf("store classroom: encode json: %w", err)
+	}
+	return nil
 }
 
 // StoreLibrary stores the specified library.

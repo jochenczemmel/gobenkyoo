@@ -16,6 +16,9 @@ const (
 	Kana2Kanji = "kana_to_kanji"
 
 	DefaultKanjiMode = Kanji2Native
+
+	// box type
+	KanjiType = "kanji"
 )
 
 // GetKanjiModes returns a list of the implemented (=valid) kanji learning modes.

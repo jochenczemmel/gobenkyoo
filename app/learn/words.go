@@ -16,6 +16,9 @@ const (
 	Kana2Native = "kana_to_native"
 
 	DefaultWordMode = Native2Japanese
+
+	// box type
+	WordType = "word"
 )
 
 // GetWordModes returns a list of the implemented (=valid) word learning modes.
