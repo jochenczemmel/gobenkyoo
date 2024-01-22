@@ -1,5 +1,5 @@
-// Package books provides information about Books, Lessons and Libraqies.
-// It alos provides access to the content kanji and word cards.
+// Package books provides information about Books, Lessons and Libraries.
+// It also provides access to the content kanji and word cards.
 package books
 
 import (
@@ -83,12 +83,12 @@ func (b Book) WordsFor(lessontitle string) []words.Card {
 
 // GetKanjiCard returns the kanji card with the id from the lesson.
 // If the lesson or id is not found, an empty card is returned.
-func (b Book) GetKanjiCard(lessontitle string, id int) kanjis.Card {
+func (b Book) getKanjiCard(lessontitle string, id int) kanjis.Card {
 	return b.lessonsByName[lessontitle].getKanjiCard(id)
 }
 
 // GetWordCard returns the word card with the id from the lesson.
 // If the lesson or id is not found, an empty card is returned.
-func (b Book) GetWordCard(lessontitle string, id int) words.Card {
+func (b Book) getWordCard(lessontitle string, id int) words.Card {
 	return b.lessonsByName[lessontitle].getWordCard(id)
 }

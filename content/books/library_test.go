@@ -21,11 +21,11 @@ func TestLibraryFindCard(t *testing.T) {
 		Volume:      1,
 	}
 	book := books.New(bookID)
-	lessonID := books.LessonID{
-		Title: "lesson 1",
-		ID:    bookID,
-	}
-	cardID := 1
+
+	lesson := "lesson 1"
+	lessonID := books.NewLessonID(lesson, bookID.Title,
+		bookID.SeriesTitle, bookID.Volume)
+
 	book.AddWords(lessonID.Title, wordCards...)
 	book.AddKanjis(lessonID.Title, kanjiCards...)
 	library := books.NewLibrary("")
@@ -34,17 +34,47 @@ func TestLibraryFindCard(t *testing.T) {
 	testCases := []struct {
 		name          string
 		lessonID      books.LessonID
+		id            int
 		wantKanjiCard kanjis.Card
 		wantWordCard  words.Card
 	}{{
-		name:          "book in library",
+		name:          "book in library, word and kanji",
+		id:            1,
 		lessonID:      lessonID,
 		wantWordCard:  wordCards[0],
 		wantKanjiCard: kanjiCards[0],
 	}, {
-		name: "book not in library",
+		name:          "book in library, word and kanji",
+		id:            1,
+		lessonID:      lessonID,
+		wantWordCard:  wordCards[0],
+		wantKanjiCard: kanjiCards[0],
+	}, {
+		name:         "book in library, only word",
+		id:           5,
+		lessonID:     lessonID,
+		wantWordCard: wordCards[4],
+	}, {
+		name:          "book in library, only kanji",
+		id:            8,
+		lessonID:      lessonID,
+		wantKanjiCard: kanjiCards[4],
+	}, {
+		name:     "book in library, no match",
+		id:       42,
+		lessonID: lessonID,
+	}, {
+		name: "book in library, wrong lesson",
+		id:   1,
 		lessonID: books.LessonID{
-			Title: "lesson 1",
+			Title: "wrong lesson",
+			ID:    bookID,
+		},
+	}, {
+		name: "book not in library",
+		id:   1,
+		lessonID: books.LessonID{
+			Title: lesson,
 			ID:    books.ID{Title: "not in library"},
 		},
 	}}
@@ -52,20 +82,19 @@ func TestLibraryFindCard(t *testing.T) {
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 			t.Run("word", func(t *testing.T) {
-				got := library.GetWordCard(c.lessonID, cardID)
+				got := library.GetWordCard(c.lessonID, c.id)
 				if diff := cmp.Diff(got, c.wantWordCard); diff != "" {
-					t.Errorf("FindWordCard(%v): -got, +want\n%s", cardID, diff)
+					t.Errorf("FindWordCard(%v): -got, +want\n%s", c.id, diff)
 				}
 			})
 			t.Run("kanji", func(t *testing.T) {
-				got := library.GetKanjiCard(c.lessonID, cardID)
+				got := library.GetKanjiCard(c.lessonID, c.id)
 				if diff := cmp.Diff(got, c.wantKanjiCard); diff != "" {
-					t.Errorf("FindKanjiCard(%v): -got, +want\n%s", cardID, diff)
+					t.Errorf("FindKanjiCard(%v): -got, +want\n%s", c.id, diff)
 				}
 			})
 		})
 	}
-
 }
 
 func TestLibrarySort(t *testing.T) {
