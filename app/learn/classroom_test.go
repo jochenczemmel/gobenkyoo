@@ -9,7 +9,7 @@ import (
 )
 
 func TestConvertContentCards(t *testing.T) {
-	shelf := learn.NewClassroom()
+	shelf := learn.NewClassroom("")
 	boxTitle := learn.BoxID{}
 	shelf.NewWordBox(boxTitle, wordCards...)
 	shelf.NewKanjiBox(boxTitle, kanjiCards...)
@@ -72,7 +72,7 @@ func TestConvertContentCards(t *testing.T) {
 }
 
 func TestConvertCardsIDs(t *testing.T) {
-	shelf := learn.NewClassroom()
+	shelf := learn.NewClassroom("")
 	boxTitle := learn.BoxID{
 		Title:    "box 1",
 		LessonID: books.NewLessonID("lesson 1", "book 1", "book", 1),

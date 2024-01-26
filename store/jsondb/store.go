@@ -31,7 +31,7 @@ func (s Storer) StoreClassroom(classroom learn.Classroom) error {
 	if err != nil {
 		return fmt.Errorf("store classroom: create directory: %w", err)
 	}
-	fileName := filepath.Join(dirName, "classroom"+jsonExtension)
+	fileName := filepath.Join(dirName, classroom.Name+jsonExtension)
 	file, err := os.Create(fileName)
 	if err != nil {
 		return fmt.Errorf("store classroom: create file: %w", err)

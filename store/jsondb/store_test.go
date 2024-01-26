@@ -61,7 +61,8 @@ func TestStoreClassroom(t *testing.T) {
 		t.Errorf("remove %q: got error: %v", storePath, err)
 	}
 
-	room := learn.NewClassroom()
+	classroomName := "class 1"
+	room := learn.NewClassroom(classroomName)
 	boxTitle := learn.BoxID{
 		Title: "box 1",
 		LessonID: books.LessonID{

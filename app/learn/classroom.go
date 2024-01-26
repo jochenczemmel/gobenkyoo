@@ -14,6 +14,7 @@ import (
 
 // Classroom provides handling a set of learning boxes.
 type Classroom struct {
+	Name       string
 	wordBoxes  map[BoxID]Box
 	kanjiBoxes map[BoxID]Box
 	uniqIDs    map[BoxID]bool
@@ -21,8 +22,9 @@ type Classroom struct {
 }
 
 // NewClassroom creates a new learn shelf.
-func NewClassroom() Classroom {
+func NewClassroom(name string) Classroom {
 	return Classroom{
+		Name:       name,
 		wordBoxes:  make(map[BoxID]Box),
 		kanjiBoxes: make(map[BoxID]Box),
 		uniqIDs:    make(map[BoxID]bool),
