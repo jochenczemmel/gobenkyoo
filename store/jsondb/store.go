@@ -57,7 +57,7 @@ func (s Storer) StoreLibrary(library books.Library) error {
 		return fmt.Errorf("store library: create directory: %w", err)
 	}
 
-	fileName := filepath.Join(dirName, library.Title+jsonExtension)
+	fileName := filepath.Join(dirName, library.Name+jsonExtension)
 	file, err := os.Create(fileName)
 	if err != nil {
 		return fmt.Errorf("store library: create file: %w", err)
@@ -75,7 +75,7 @@ func (s Storer) StoreLibrary(library books.Library) error {
 
 func library2json(library books.Library) Library {
 	result := Library{
-		Title: library.Title,
+		Name: library.Name,
 	}
 	for _, book := range library.Books {
 		jsonBook := Book{
@@ -83,11 +83,11 @@ func library2json(library books.Library) Library {
 			SeriesTitle: book.ID.SeriesTitle,
 			Volume:      book.ID.Volume,
 		}
-		jsonBook.LessonTitles = book.LessonTitles()
-		jsonBook.LessonsByName = make(map[string]Lesson, len(jsonBook.LessonTitles))
-		for _, lesson := range jsonBook.LessonTitles {
+		jsonBook.LessonNames = book.LessonNames()
+		jsonBook.LessonsByName = make(map[string]Lesson, len(jsonBook.LessonNames))
+		for _, lesson := range jsonBook.LessonNames {
 			jsonLesson := Lesson{
-				Title:      lesson,
+				Name:       lesson,
 				KanjiCards: kanjiCards2Json(book.KanjisFor(lesson)...),
 				WordCards:  wordCards2Json(book.WordsFor(lesson)...),
 			}

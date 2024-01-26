@@ -19,8 +19,8 @@ var (
 	testBook2 = books.New(books.NewID(
 		"minna no nihongo sho 2", "minna no nihongo", 2,
 	))
-	testLessonTitle1 = "lesson1"
-	testLessonTitle2 = "lesson2"
+	testLessonName1 = "lesson1"
+	testLessonName2 = "lesson2"
 )
 
 var kanjiCardsLesson1 = []kanjis.Card{{

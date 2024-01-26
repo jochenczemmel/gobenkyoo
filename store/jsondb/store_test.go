@@ -22,10 +22,10 @@ func TestStoreLibrary(t *testing.T) {
 		t.Errorf("remove %q: got error: %v", storePath, err)
 	}
 
-	testBook1.AddKanjis(testLessonTitle1, kanjiCardsLesson1...)
-	testBook1.AddWords(testLessonTitle1, wordCardsLesson1...)
-	testBook1.AddKanjis(testLessonTitle2, kanjiCardsLesson2...)
-	testBook1.AddWords(testLessonTitle2, wordCardsLesson2...)
+	testBook1.AddKanjis(testLessonName1, kanjiCardsLesson1...)
+	testBook1.AddWords(testLessonName1, wordCardsLesson1...)
+	testBook1.AddKanjis(testLessonName2, kanjiCardsLesson2...)
+	testBook1.AddWords(testLessonName2, wordCardsLesson2...)
 
 	library := books.NewLibrary(testLibraryName)
 	library.AddBooks(testBook1, testBook2)
@@ -63,10 +63,10 @@ func TestStoreClassroom(t *testing.T) {
 
 	classroomName := "class 1"
 	room := learn.NewClassroom(classroomName)
-	boxTitle := learn.BoxID{
-		Title: "box 1",
+	boxID := learn.BoxID{
+		Name: "box 1",
 		LessonID: books.LessonID{
-			Title: "lesson 1",
+			Name: "lesson 1",
 			ID: books.ID{
 				Title:       "book 1",
 				SeriesTitle: "book",
@@ -74,10 +74,10 @@ func TestStoreClassroom(t *testing.T) {
 			},
 		},
 	}
-	room.NewWordBox(boxTitle, wordCards...)
-	room.NewKanjiBox(boxTitle, kanjiCards...)
-	boxTitle.Title = "box 2"
-	room.NewWordBox(boxTitle)
+	room.NewWordBox(boxID, wordCards...)
+	room.NewKanjiBox(boxID, kanjiCards...)
+	boxID.Name = "box 2"
+	room.NewWordBox(boxID)
 
 	storer := jsondb.NewStorer(storePath)
 	err = storer.StoreClassroom(room)

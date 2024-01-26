@@ -8,7 +8,7 @@ import "github.com/jochenczemmel/gobenkyoo/content/books"
 // The lesson specification might be empty for mixed or indiviudally
 // created boxes.
 type BoxID struct {
-	Title string
+	Name string
 	books.LessonID
 }
 

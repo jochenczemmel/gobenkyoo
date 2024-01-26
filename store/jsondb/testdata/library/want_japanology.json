@@ -1,17 +1,17 @@
 {
-	"Title": "japanology",
+	"Name": "japanology",
 	"Books": [
 		{
 			"Title": "minna no nihongo sho 1",
 			"SeriesTitle": "minna no nihongo",
 			"Volume": 1,
-			"LessonTitles": [
+			"LessonNames": [
 				"lesson1",
 				"lesson2"
 			],
 			"LessonsByName": {
 				"lesson1": {
-					"Title": "lesson1",
+					"Name": "lesson1",
 					"WordCards": [
 						{
 							"ID": 0,
@@ -73,7 +73,7 @@
 					]
 				},
 				"lesson2": {
-					"Title": "lesson2",
+					"Name": "lesson2",
 					"WordCards": [
 						{
 							"ID": 0,

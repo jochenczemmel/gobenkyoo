@@ -1,7 +1,7 @@
 package jsondb
 
 type Library struct {
-	Title string `json:"Title,omitempty"`
+	Name  string `json:"Name,omitempty"`
 	Books []Book `json:"Books,omitempty"`
 }
 
@@ -9,12 +9,12 @@ type Book struct {
 	Title         string            `json:"Title,omitempty"`
 	SeriesTitle   string            `json:"SeriesTitle,omitempty"`
 	Volume        int               `json:"Volume,omitempty"`
-	LessonTitles  []string          `json:"LessonTitles,omitempty"`
+	LessonNames   []string          `json:"LessonNames,omitempty"`
 	LessonsByName map[string]Lesson `json:"LessonsByName,omitempty"`
 }
 
 type Lesson struct {
-	Title      string      `json:"Title"`
+	Name       string      `json:"Name"`
 	WordCards  []WordCard  `json:"WordCards,omitempty"`
 	KanjiCards []KanjiCard `json:"KanjiCards,omitempty"`
 }

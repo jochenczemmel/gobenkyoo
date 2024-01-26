@@ -34,7 +34,7 @@ func TestBookLessons(t *testing.T) {
 		book.AddWords(lesson)
 	}
 	want := []string{"l1", "l2", "l3"}
-	got := book.LessonTitles()
+	got := book.LessonNames()
 	if diff := cmp.Diff(got, want); diff != "" {
 		t.Errorf("Lessons(): -got +want\n%s", diff)
 	}

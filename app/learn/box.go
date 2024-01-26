@@ -9,9 +9,9 @@ type Box struct {
 }
 
 // NewBox returns an initialized Box.
-func NewBox(name BoxID, contenttype string) Box {
+func NewBox(id BoxID, contenttype string) Box {
 	return Box{
-		BoxID:      name,
+		BoxID:      id,
 		Type:       contenttype,
 		modes:      []string{},
 		containers: map[string]container{},

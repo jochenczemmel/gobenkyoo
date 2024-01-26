@@ -2,13 +2,13 @@ package books
 
 // LessonID provides identification of a lesson in the library.
 type LessonID struct {
-	Title string // the title of the lesson
-	ID           // the book id
+	Name string // the name of the lesson
+	ID          // the book id
 }
 
-func NewLessonID(title, booktitle, seriestitle string, volume int) LessonID {
+func NewLessonID(name, booktitle, seriestitle string, volume int) LessonID {
 	return LessonID{
-		Title: title,
+		Name: name,
 		ID: ID{
 			Title:       booktitle,
 			SeriesTitle: seriestitle,

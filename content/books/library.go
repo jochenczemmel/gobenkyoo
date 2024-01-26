@@ -10,15 +10,15 @@ import (
 
 // Library provides access to a list of books.
 type Library struct {
-	Title     string
+	Name      string
 	Books     []Book
 	booksByID map[ID]Book
 }
 
 // NewLibrary returns a library object with the given title.
-func NewLibrary(title string) Library {
+func NewLibrary(name string) Library {
 	return Library{
-		Title:     title,
+		Name:      name,
 		Books:     []Book{},
 		booksByID: map[ID]Book{},
 	}
@@ -48,11 +48,11 @@ func (l Library) SortedBooks() []Book {
 // getWordCard returns a the word card from the specified book and lesson
 // with the specified id. If it is not found, an empty card is returned.
 func (l Library) GetWordCard(lessonid LessonID, cardid int) words.Card {
-	return l.booksByID[lessonid.ID].getWordCard(lessonid.Title, cardid)
+	return l.booksByID[lessonid.ID].getWordCard(lessonid.Name, cardid)
 }
 
 // getKanjiCard returns a the kanji card from the specified book and lesson
 // with the specified id. If it is not found, an empty card is returned.
 func (l Library) GetKanjiCard(lessonid LessonID, cardid int) kanjis.Card {
-	return l.booksByID[lessonid.ID].getKanjiCard(lessonid.Title, cardid)
+	return l.booksByID[lessonid.ID].getKanjiCard(lessonid.Name, cardid)
 }

@@ -7,14 +7,14 @@ import (
 
 // lesson represents a single lesson within a book.
 type lesson struct {
-	title      string        // Lesson title
+	name       string        // lesson name
 	wordCards  []words.Card  // word cards
 	kanjiCards []kanjis.Card // kanji cards
 }
 
-func newLesson(title string) lesson {
+func newLesson(name string) lesson {
 	return lesson{
-		title:      title,
+		name:       name,
 		wordCards:  []words.Card{},
 		kanjiCards: []kanjis.Card{},
 	}

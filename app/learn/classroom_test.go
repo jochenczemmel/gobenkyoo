@@ -10,9 +10,9 @@ import (
 
 func TestConvertContentCards(t *testing.T) {
 	shelf := learn.NewClassroom("")
-	boxTitle := learn.BoxID{}
-	shelf.NewWordBox(boxTitle, wordCards...)
-	shelf.NewKanjiBox(boxTitle, kanjiCards...)
+	boxID := learn.BoxID{}
+	shelf.NewWordBox(boxID, wordCards...)
+	shelf.NewKanjiBox(boxID, kanjiCards...)
 
 	testCases := []struct {
 		mode   string
@@ -63,7 +63,7 @@ func TestConvertContentCards(t *testing.T) {
 	for _, c := range testCases {
 		t.Run(c.mode, func(t *testing.T) {
 			opt.LearnMode = c.mode
-			got := c.method(opt, boxTitle).Cards()
+			got := c.method(opt, boxID).Cards()
 			if diff := cmp.Diff(got, c.want); diff != "" {
 				t.Errorf("ERROR: -got +want\n%s", diff)
 			}
@@ -73,12 +73,12 @@ func TestConvertContentCards(t *testing.T) {
 
 func TestConvertCardsIDs(t *testing.T) {
 	shelf := learn.NewClassroom("")
-	boxTitle := learn.BoxID{
-		Title:    "box 1",
+	boxID := learn.BoxID{
+		Name:     "box 1",
 		LessonID: books.NewLessonID("lesson 1", "book 1", "book", 1),
 	}
-	shelf.NewWordBox(boxTitle, wordCards...)
-	shelf.NewKanjiBox(boxTitle, kanjiCards...)
+	shelf.NewWordBox(boxID, wordCards...)
+	shelf.NewKanjiBox(boxID, kanjiCards...)
 	opt := learn.Options{
 		Level:     learn.MinLevel,
 		NoShuffle: true,
@@ -86,7 +86,7 @@ func TestConvertCardsIDs(t *testing.T) {
 
 	t.Run("word cards", func(t *testing.T) {
 		opt.LearnMode = learn.Native2Japanese
-		got := shelf.StartWordExam(opt, boxTitle).Cards()
+		got := shelf.StartWordExam(opt, boxID).Cards()
 		if diff := cmp.Diff(got, wantNative2JapaneseWithLesson); diff != "" {
 			t.Errorf("ERROR: -got +want\n%s", diff)
 		}
@@ -94,7 +94,7 @@ func TestConvertCardsIDs(t *testing.T) {
 
 	t.Run("kanji cards", func(t *testing.T) {
 		opt.LearnMode = learn.Kanji2Native
-		got := shelf.StartKanjiExam(opt, boxTitle).Cards()
+		got := shelf.StartKanjiExam(opt, boxID).Cards()
 		if diff := cmp.Diff(got, wantKanji2NativeWithLesson); diff != "" {
 			t.Errorf("ERROR: -got +want\n%s", diff)
 		}

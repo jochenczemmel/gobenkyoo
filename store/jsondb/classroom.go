@@ -11,7 +11,7 @@ type LearnCard struct {
 }
 
 type LessonID struct {
-	LessonTitle string `json:"Title,omitempty"`
+	Name        string `json:"Name,omitempty"`
 	BookTitle   string `json:"BookTitle,omitempty"`
 	SeriesTitle string `json:"SeriesTitle,omitempty"`
 	Volume      int    `json:"Volume,omitempty"`

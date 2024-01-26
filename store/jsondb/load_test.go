@@ -23,8 +23,8 @@ func TestLoadLibrary(t *testing.T) {
 	}
 
 	lib := libraries[0]
-	if lib.Title != testLibraryName {
-		t.Errorf("Title: got %v, want %v", lib.Title, testLibraryName)
+	if lib.Name != testLibraryName {
+		t.Errorf("Title: got %v, want %v", lib.Name, testLibraryName)
 	}
 
 	wantLen = 2
@@ -46,18 +46,18 @@ func TestLoadLibrary(t *testing.T) {
 		)
 	}
 
-	lessonTitles := book.LessonTitles()
-	wantLessons := []string{testLessonTitle1, testLessonTitle2}
-	if diff := cmp.Diff(lessonTitles, wantLessons); diff != "" {
+	lessonNames := book.LessonNames()
+	wantLessons := []string{testLessonName1, testLessonName2}
+	if diff := cmp.Diff(lessonNames, wantLessons); diff != "" {
 		t.Errorf("Lessons(): -got +want\n%s", diff)
 	}
 
-	gotKanjis := book.KanjisFor(testLessonTitle1)
+	gotKanjis := book.KanjisFor(testLessonName1)
 	if diff := cmp.Diff(gotKanjis, kanjiCardsLesson1); diff != "" {
 		t.Errorf("KanjisFor(): -got +want\n%s", diff)
 	}
 
-	gotWords := book.WordsFor(testLessonTitle1)
+	gotWords := book.WordsFor(testLessonName1)
 	if diff := cmp.Diff(gotWords, wordCardsLesson1); diff != "" {
 		t.Errorf("WordsFor(): -got +want\n%s", diff)
 	}

@@ -58,14 +58,14 @@ func (l Loader) loadLibrary(name string) (books.Library, error) {
 	if err != nil {
 		return library, fmt.Errorf("json decode: %w", err)
 	}
-	library = books.NewLibrary(jsonLibrary.Title)
+	library = books.NewLibrary(jsonLibrary.Name)
 	for _, jsonBook := range jsonLibrary.Books {
 		book := books.New(books.NewID(jsonBook.Title, jsonBook.SeriesTitle, jsonBook.Volume))
-		for _, lessonTitle := range jsonBook.LessonTitles {
-			book.AddKanjis(lessonTitle,
-				json2KanjiCards(jsonBook.LessonsByName[lessonTitle].KanjiCards)...)
-			book.AddWords(lessonTitle,
-				json2WordCards(jsonBook.LessonsByName[lessonTitle].WordCards)...)
+		for _, lessonName := range jsonBook.LessonNames {
+			book.AddKanjis(lessonName,
+				json2KanjiCards(jsonBook.LessonsByName[lessonName].KanjiCards)...)
+			book.AddWords(lessonName,
+				json2WordCards(jsonBook.LessonsByName[lessonName].WordCards)...)
 		}
 		library.AddBooks(book)
 	}
