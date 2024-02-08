@@ -22,6 +22,10 @@ PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/content/words
 PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/content/books
 PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/content/kanjis
 PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/content/kanjis/radicals
+PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/app
+PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/app/learn
+PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/store
+PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/store/jsondb
 
 # run test coverage
 cover:
