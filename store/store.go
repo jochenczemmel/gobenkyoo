@@ -2,6 +2,6 @@
 // kinds of application content.
 package store
 
-const dbTypeJson = "json"
+// const dbTypeJSON = "json"
 
 // var DbTypes = []string{dbTypeJson}

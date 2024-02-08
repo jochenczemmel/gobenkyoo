@@ -1,57 +1,57 @@
 {
-	"Name": "japanology",
-	"Books": [
+	"name": "japanology",
+	"books": [
 		{
-			"Title": "minna no nihongo sho 1",
-			"SeriesTitle": "minna no nihongo",
-			"Volume": 1,
-			"LessonNames": [
+			"title": "minna no nihongo sho 1",
+			"seriesTitle": "minna no nihongo",
+			"volume": 1,
+			"lessonNames": [
 				"lesson1",
 				"lesson2"
 			],
-			"LessonsByName": {
+			"lessonsByName": {
 				"lesson1": {
-					"Name": "lesson1",
-					"WordCards": [
+					"name": "lesson1",
+					"wordCards": [
 						{
-							"ID": 0,
-							"Nihongo": "日曜日",
-							"Kana": "にちようび",
-							"Romaji": "nichyoobi",
-							"Meaning": "sunday"
+							"id": 0,
+							"nihongo": "日曜日",
+							"kana": "にちようび",
+							"romaji": "nichyoobi",
+							"meaning": "sunday"
 						},
 						{
-							"ID": 0,
-							"Nihongo": "月曜日",
-							"Kana": "げつようび",
-							"Romaji": "getsuyoobi",
-							"Meaning": "monday"
+							"id": 0,
+							"nihongo": "月曜日",
+							"kana": "げつようび",
+							"romaji": "getsuyoobi",
+							"meaning": "monday"
 						},
 						{
-							"ID": 0,
-							"Nihongo": "火曜日",
-							"Kana": "かようび",
-							"Romaji": "kayoobi",
-							"Meaning": "tuesday"
+							"id": 0,
+							"nihongo": "火曜日",
+							"kana": "かようび",
+							"romaji": "kayoobi",
+							"meaning": "tuesday"
 						}
 					],
-					"KanjiCards": [
+					"kanjiCards": [
 						{
-							"ID": 0,
-							"Kanji": "方",
-							"KanjiDetails": [
+							"id": 0,
+							"kanji": "方",
+							"kanjiDetails": [
 								{
-									"Reading": "HOO",
-									"ReadingKana": "ホー",
-									"Meanings": [
+									"reading": "HOO",
+									"readingKana": "ホー",
+									"meanings": [
 										"Richtung",
 										"Art und Weise, etwas zu tun"
 									]
 								},
 								{
-									"Reading": "kata",
-									"ReadingKana": "かた",
-									"Meanings": [
+									"reading": "kata",
+									"readingKana": "かた",
+									"meanings": [
 										"Person",
 										"Art und Weise, etwas zu tun"
 									]
@@ -59,12 +59,12 @@
 							]
 						},
 						{
-							"ID": 0,
-							"Kanji": "曜",
-							"KanjiDetails": [
+							"id": 0,
+							"kanji": "曜",
+							"kanjiDetails": [
 								{
-									"Reading": "yoo",
-									"Meanings": [
+									"reading": "yoo",
+									"meanings": [
 										"weekday"
 									]
 								}
@@ -73,49 +73,49 @@
 					]
 				},
 				"lesson2": {
-					"Name": "lesson2",
-					"WordCards": [
+					"name": "lesson2",
+					"wordCards": [
 						{
-							"ID": 0,
-							"Nihongo": "習います",
-							"Kana": "ならいます",
-							"Romaji": "naraimasu",
-							"Meaning": "to learn",
-							"Hint": "from somebody",
-							"Explanation": "to study is benkyoo (勉強)",
-							"DictForm": "習う",
-							"TeForm": "習って",
-							"NaiForm": "習わない"
+							"id": 0,
+							"nihongo": "習います",
+							"kana": "ならいます",
+							"romaji": "naraimasu",
+							"meaning": "to learn",
+							"hint": "from somebody",
+							"explanation": "to study is benkyoo (勉強)",
+							"dictForm": "習う",
+							"teForm": "習って",
+							"naiForm": "習わない"
 						},
 						{
-							"ID": 0,
-							"Nihongo": "世界",
-							"Kana": "せかい",
-							"Romaji": "sekai",
-							"Meaning": "world"
+							"id": 0,
+							"nihongo": "世界",
+							"kana": "せかい",
+							"romaji": "sekai",
+							"meaning": "world"
 						}
 					],
-					"KanjiCards": [
+					"kanjiCards": [
 						{
-							"ID": 0,
-							"Kanji": "習",
-							"KanjiDetails": [
+							"id": 0,
+							"kanji": "習",
+							"kanjiDetails": [
 								{
-									"Reading": "narai(u)",
-									"ReadingKana": "なら（う）",
-									"Meanings": [
+									"reading": "narai(u)",
+									"readingKana": "なら（う）",
+									"meanings": [
 										"learn"
 									]
 								}
 							]
 						},
 						{
-							"ID": 0,
-							"Kanji": "世",
-							"KanjiDetails": [
+							"id": 0,
+							"kanji": "世",
+							"kanjiDetails": [
 								{
-									"Reading": "se",
-									"Meanings": [
+									"reading": "se",
+									"meanings": [
 										"world",
 										"era",
 										"generation"
@@ -124,12 +124,12 @@
 							]
 						},
 						{
-							"ID": 0,
-							"Kanji": "界",
-							"KanjiDetails": [
+							"id": 0,
+							"kanji": "界",
+							"kanjiDetails": [
 								{
-									"Reading": "kai",
-									"Meanings": [
+									"reading": "kai",
+									"meanings": [
 										"all"
 									]
 								}
@@ -140,9 +140,9 @@
 			}
 		},
 		{
-			"Title": "minna no nihongo sho 2",
-			"SeriesTitle": "minna no nihongo",
-			"Volume": 2
+			"title": "minna no nihongo sho 2",
+			"seriesTitle": "minna no nihongo",
+			"volume": 2
 		}
 	]
 }

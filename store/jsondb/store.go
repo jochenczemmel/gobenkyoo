@@ -46,6 +46,7 @@ func (s Storer) StoreClassroom(classroom learn.Classroom) error {
 	if err != nil {
 		return fmt.Errorf("store classroom: encode json: %w", err)
 	}
+
 	return nil
 }
 
@@ -95,6 +96,7 @@ func library2json(library books.Library) Library {
 		}
 		result.Books = append(result.Books, jsonBook)
 	}
+
 	return result
 }
 
@@ -115,6 +117,7 @@ func wordCards2Json(cards ...words.Card) []WordCard {
 		}
 		result = append(result, jsonCard)
 	}
+
 	return result
 }
 
@@ -134,5 +137,6 @@ func kanjiCards2Json(cards ...kanjis.Card) []KanjiCard {
 		}
 		result = append(result, jsonCard)
 	}
+
 	return result
 }

@@ -5,7 +5,7 @@ const (
 	// AllLevel represents cards on all Levels.
 	// A card can never be on this level.
 	AllLevel = -1
-	// MinLevel is the default (intial) level for all cards
+	// MinLevel is the default (initial) level for all cards
 	// Reset should put the card back to this level.
 	MinLevel = 0
 	// MaxLevel is the final level.

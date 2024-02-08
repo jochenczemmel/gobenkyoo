@@ -8,7 +8,7 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 )
 
-// static data for test fixture setup
+// static data for test fixture setup.
 var cards1 = []learn.Card{
 	{ID: learn.CardID{ContentID: 1}},
 	{ID: learn.CardID{ContentID: 2}},
@@ -35,6 +35,7 @@ func makeBoxes() (learn.Box, learn.Box) {
 	box2 := learn.NewBox(learn.BoxID{}, "")
 	box2.Set(mode1, cards2...)
 	box2.Set(mode2, cards2...)
+
 	return box1, box2
 }
 
@@ -44,6 +45,7 @@ func makeExam(level int, boxes ...learn.Box) learn.Exam {
 		Level:     level,
 		NoShuffle: true,
 	}
+
 	return learn.NewExam(opt, boxes...)
 }
 
@@ -96,6 +98,7 @@ func TestExamShuffled(t *testing.T) {
 		got := exam.Cards()
 		if diff := cmp.Diff(got, want); diff != "" {
 			t.Logf("DEBUG: %d", i)
+
 			return
 		}
 	}

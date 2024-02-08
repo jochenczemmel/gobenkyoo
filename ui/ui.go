@@ -1,3 +1,6 @@
 package ui
 
-const UITypeCLILearn = "learn"
+const (
+	UITypeCLILearn  = "learn"
+	UITypeCLISearch = "search"
+)

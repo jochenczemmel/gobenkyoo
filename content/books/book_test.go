@@ -18,11 +18,11 @@ var wordCards = []words.Card{
 }
 
 var kanjiCards = []kanjis.Card{
-	kanjis.Card{ID: 1, Kanji: '方'},
-	kanjis.Card{ID: 2, Kanji: '世'},
-	kanjis.Card{ID: 6, Kanji: '界'},
-	kanjis.Card{ID: 7, Kanji: '日'},
-	kanjis.Card{ID: 8, Kanji: '本'},
+	{ID: 1, Kanji: '方'},
+	{ID: 2, Kanji: '世'},
+	{ID: 6, Kanji: '界'},
+	{ID: 7, Kanji: '日'},
+	{ID: 8, Kanji: '本'},
 }
 
 func TestBookLessons(t *testing.T) {

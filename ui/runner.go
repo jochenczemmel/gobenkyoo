@@ -1,8 +1,6 @@
 package ui
 
 import (
-	"fmt"
-
 	"github.com/jochenczemmel/gobenkyoo/app"
 	"github.com/jochenczemmel/gobenkyoo/ui/cli"
 )
@@ -13,6 +11,9 @@ func New(uitype string, application *app.App) app.Runner {
 	switch uitype {
 	case UITypeCLILearn:
 		return cli.NewLearner(application)
+	case UITypeCLISearch:
+		// not yet implemented
+		return UnknownRunner{uitype: uitype}
 	}
 
 	return UnknownRunner{uitype: uitype}
@@ -24,6 +25,12 @@ type UnknownRunner struct {
 }
 
 // Run always returns an error.
-func (n UnknownRunner) Run() error {
-	return fmt.Errorf("unknown ui type: %q", n.uitype)
+func (u UnknownRunner) Run() error {
+	return UnknownTypeError(u.uitype)
+}
+
+type UnknownTypeError string
+
+func (e UnknownTypeError) Error() string {
+	return "unknown ui type: " + string(e)
 }

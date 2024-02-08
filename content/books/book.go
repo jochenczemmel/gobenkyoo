@@ -18,7 +18,6 @@ type Book struct {
 }
 
 // New returns a new book with the specified information.
-// func New(title, seriestitle string, volume int) Book {
 func New(id ID) Book {
 	return Book{
 		ID:            id,
@@ -58,6 +57,7 @@ func (b *Book) setupLesson(lessonname string) lesson {
 		b.lessonNames = append(b.lessonNames, lessonname)
 		return newLesson(lessonname)
 	}
+
 	return currentLesson
 }
 
@@ -68,6 +68,7 @@ func (b Book) KanjisFor(lessonname string) []kanjis.Card {
 	if !ok {
 		return []kanjis.Card{}
 	}
+
 	return currentLesson.kanjiCards
 }
 
@@ -78,6 +79,7 @@ func (b Book) WordsFor(lessonname string) []words.Card {
 	if !ok {
 		return []words.Card{}
 	}
+
 	return currentLesson.wordCards
 }
 

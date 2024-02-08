@@ -8,16 +8,16 @@ import (
 
 // Available kanji learning modes.
 const (
-	// ask kanji, answer native (and all other infos)
+	// ask kanji, answer native (and all other infos).
 	Kanji2Native = "kanji_to_native"
-	// ask native, answer kanji (and all other infos)
+	// ask native, answer kanji (and all other infos).
 	Native2Kanji = "native_to_kanji"
-	// ask kana (=spellings), answer kanji (and all other infos)
+	// ask kana (=spellings), answer kanji (and all other infos).
 	Kana2Kanji = "kana_to_kanji"
 
 	DefaultKanjiMode = Kanji2Native
 
-	// box type
+	// box type.
 	KanjiType = "kanji"
 )
 
@@ -33,6 +33,7 @@ func (b Box) makeKanjiCards(mode string, cards ...kanjis.Card) []Card {
 	for _, card := range cards {
 		result = append(result, b.makeKanjiCard(mode, card))
 	}
+
 	return result
 }
 

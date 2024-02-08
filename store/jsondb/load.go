@@ -89,6 +89,7 @@ func json2WordCards(jsoncards []WordCard) []words.Card {
 			NaiForm:     jsoncard.NaiForm,
 		})
 	}
+
 	return result
 }
 
@@ -106,6 +107,7 @@ func json2KanjiCards(jsoncards []KanjiCard) []kanjis.Card {
 		}
 		result = append(result, card)
 	}
+
 	return result
 }
 

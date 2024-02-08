@@ -6,26 +6,30 @@ import (
 	"os"
 )
 
-// command line flags
+// command line flags.
 var (
 	optDbPath string // data base path specification
 	optDbType string // type of data base
 	optUI     string // type of user interface
 )
 
-// main program
+const ERROR_RC = 2
+
+// main program.
 func main() {
 
+	getOptions()
 	err := doBenkyoo()
 	if err != nil {
 		fmt.Printf("%v\n", err)
-		os.Exit(2)
+		os.Exit(ERROR_RC)
 	}
 }
 
 // doBenkyoo executes the program.
 func doBenkyoo() error {
 	// TODO:
+	fmt.Printf("ui: %s, path: %s, type: %s\n", optUI, optDbPath, optDbType)
 	return nil
 }
 
@@ -40,7 +44,7 @@ func getOptions() {
 
 	// define flags
 	flag.StringVar(&optDbType, "dbtype", "", "config file")
-	flag.StringVar(&optDbPath, "db", "", "database path")
+	// flag.StringVar(&optDbPath, "db", "", "database path")
 
 	flag.StringVar(&optUI, "ui", "", "user interface mode")
 

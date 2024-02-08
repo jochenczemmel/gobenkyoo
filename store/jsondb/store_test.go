@@ -37,7 +37,7 @@ func TestStoreLibrary(t *testing.T) {
 	}
 
 	jsonFile := filepath.Join(storePath, jsondb.LibraryPath,
-		testLibraryName+jsondb.JsonExtension)
+		testLibraryName+jsondb.JSONExtension)
 	got, err := os.ReadFile(jsonFile)
 	if err != nil {
 		t.Fatalf("ReadFile(%v): got error: %v", jsonFile, err)

@@ -5,7 +5,7 @@ import "github.com/jochenczemmel/gobenkyoo/content/books"
 // BoxID provides identification of a box in the learn library.
 // It consists of a name for the box and a lesson specification.
 // Usually the BoxID is the name of the lesson.
-// The lesson specification might be empty for mixed or indiviudally
+// The lesson specification might be empty for mixed or individually
 // created boxes.
 type BoxID struct {
 	Name string

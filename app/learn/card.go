@@ -2,7 +2,7 @@ package learn
 
 // Card provides the information that is needed for learning drills.
 // Cards can be created from kanji or word content.
-// The learning mode determines which information is is put in the
+// The learning mode determines which information is put in the
 // Question, Answer, and MoreAnswers.
 // The Hint and Explanation are not depending on the learning mode.
 type Card struct {
@@ -10,7 +10,7 @@ type Card struct {
 	Question    string   // what is presented first
 	Hint        string   // additional information for the question
 	Answer      string   // the correct answer
-	MoreAnswers []string // addional information (verb forms, kanji readings, ...)
+	MoreAnswers []string // additional information (verb forms, kanji readings, ...)
 	Explanation string   // further information
 }
 

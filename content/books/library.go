@@ -42,6 +42,7 @@ func (l *Library) AddBooks(books ...Book) {
 func (l Library) SortedBooks() []Book {
 	result := slices.Clone(l.Books)
 	sort.Sort(bySeriesVolumeTitle(result))
+
 	return result
 }
 

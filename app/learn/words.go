@@ -6,18 +6,18 @@ import (
 
 // Available word learning modes.
 const (
-	// ask native, answer in japanese
+	// ask native, answer in japanese.
 	Native2Japanese = "native_to_japanese"
-	// ask japanese, answer in native
+	// ask japanese, answer in native.
 	Japanese2Native = "japanese_to_native"
-	// ask native, answer in kana
+	// ask native, answer in kana.
 	Native2Kana = "native_to_kana"
-	// ask kana, answer in native
+	// ask kana, answer in native.
 	Kana2Native = "kana_to_native"
 
 	DefaultWordMode = Native2Japanese
 
-	// box type
+	// box type.
 	WordType = "word"
 )
 
@@ -38,6 +38,7 @@ func (b Box) makeWordCards(mode string, cards ...words.Card) []Card {
 	for _, card := range cards {
 		result = append(result, b.makeWordCard(mode, card))
 	}
+
 	return result
 }
 

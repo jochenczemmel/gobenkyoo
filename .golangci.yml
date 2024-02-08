@@ -6,8 +6,8 @@ run:
   timeout: 5m
   skip-files:
     # under development
-    - content/books/book_test.go
-    - content/books/lesson_test.go
+    # - content/books/book_test.go
+    # - content/books/lesson_test.go
     # - .*_test\.go
 
 
@@ -44,8 +44,27 @@ linters-settings:
       - empty
       - stdlib
       - generic
+      - Runner
       # generic interface names
       - ^(E|K|L|T|V)$
+
+  gocritic:
+    disabled-checks:
+      - appendAssign
+
+  nlreturn:      
+    block-size: 10
+
+  revive:
+    rules:
+    - name: var-naming
+      severity: warning
+      disabled: false
+      arguments:
+      - ["ID"] # AllowList
+      - [] # DenyList
+      - - upperCaseConst: true
+
 
 linters:
   enable:
@@ -73,9 +92,7 @@ linters:
     - execinquery
     - exhaustive
     - exportloopref
-    - forbidigo
     - forcetypeassert
-    - funlen
     - gci
     - ginkgolinter
     - gocheckcompilerdirectives
@@ -111,7 +128,6 @@ linters:
     - nlreturn
     - noctx
     - nolintlint
-    - nonamedreturns # might be disabled
     - nosprintfhostport
     - prealloc
     - predeclared
@@ -119,12 +135,10 @@ linters:
     - revive
     - rowserrcheck
     - sqlclosecheck
-    - stylecheck
     - tagalign
     - tagliatelle
     - tenv
     - testableexamples
-    - testpackage # might be removed, whitebox tests sometimes useful
     - thelper
     - tparallel
     - unconvert
@@ -147,4 +161,9 @@ linters:
     - whitespace # newline at start of function is ok
     - wsl # newline at start of function is ok
     - zerologlint # zerolog is not used
+    - testpackage # might be removed, whitebox tests sometimes useful
+    - nonamedreturns # might be disabled
+    - funlen
+    - forbidigo
+    - stylecheck
 

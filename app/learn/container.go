@@ -19,6 +19,7 @@ func newContainer(cards ...Card) container {
 	for _, card := range cards {
 		result.levels[card.ID] = MinLevel
 	}
+
 	return result
 }
 
@@ -31,6 +32,7 @@ func (c container) cards(level int) []Card {
 			result = append(result, card)
 		}
 	}
+
 	return result
 }
 

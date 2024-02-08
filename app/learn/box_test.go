@@ -137,9 +137,9 @@ func TestBoxSetLevelLimits(t *testing.T) {
 	}
 }
 
-func assertEquals[T comparable](t testing.TB, got, want T) {
-	t.Helper()
+func assertEquals[T comparable](tb testing.TB, got, want T) {
+	tb.Helper()
 	if got != want {
-		t.Errorf("ERROR: got %v, want %v", got, want)
+		tb.Errorf("ERROR: got %v, want %v", got, want)
 	}
 }

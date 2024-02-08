@@ -5,17 +5,14 @@ import (
 	"fmt"
 
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
-	"github.com/jochenczemmel/gobenkyoo/content/books"
 )
 
-// App provides access to the application
+// App provides access to the application.
 type App struct {
 	BookLoader BookLoader
 	BoxLoader  BoxLoader
-	// Importer   Importer
-	// Storer     Storer
 
-	library   *books.Library
+	// library   *books.Library
 	classroom *learn.Classroom
 }
 
@@ -30,8 +27,15 @@ func New(loader Loader) *App {
 // LoadBoxes loads the learn box data from the storage.
 func (a *App) LoadBoxes() (err error) {
 	if a.BoxLoader == nil {
-		return fmt.Errorf("no box loader")
+		return MissingLoaderError("no box loader")
 	}
 	a.classroom, err = a.BoxLoader.LoadBoxes()
-	return err
+
+	return fmt.Errorf("load boxes: %w", err)
+}
+
+type MissingLoaderError string
+
+func (e MissingLoaderError) Error() string {
+	return string(e)
 }

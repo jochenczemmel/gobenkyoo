@@ -1,45 +1,45 @@
 package jsondb
 
 type Library struct {
-	Name  string `json:"Name,omitempty"`
-	Books []Book `json:"Books,omitempty"`
+	Name  string `json:"name,omitempty"`
+	Books []Book `json:"books,omitempty"`
 }
 
 type Book struct {
-	Title         string            `json:"Title,omitempty"`
-	SeriesTitle   string            `json:"SeriesTitle,omitempty"`
-	Volume        int               `json:"Volume,omitempty"`
-	LessonNames   []string          `json:"LessonNames,omitempty"`
-	LessonsByName map[string]Lesson `json:"LessonsByName,omitempty"`
+	Title         string            `json:"title,omitempty"`
+	SeriesTitle   string            `json:"seriesTitle,omitempty"`
+	Volume        int               `json:"volume,omitempty"`
+	LessonNames   []string          `json:"lessonNames,omitempty"`
+	LessonsByName map[string]Lesson `json:"lessonsByName,omitempty"`
 }
 
 type Lesson struct {
-	Name       string      `json:"Name"`
-	WordCards  []WordCard  `json:"WordCards,omitempty"`
-	KanjiCards []KanjiCard `json:"KanjiCards,omitempty"`
+	Name       string      `json:"name"`
+	WordCards  []WordCard  `json:"wordCards,omitempty"`
+	KanjiCards []KanjiCard `json:"kanjiCards,omitempty"`
 }
 
 type WordCard struct {
-	ID          int    `json:"ID"`
-	Nihongo     string `json:"Nihongo,omitempty"`
-	Kana        string `json:"Kana,omitempty"`
-	Romaji      string `json:"Romaji,omitempty"`
-	Meaning     string `json:"Meaning"`
-	Hint        string `json:"Hint,omitempty"`
-	Explanation string `json:"Explanation,omitempty"`
-	DictForm    string `json:"DictForm,omitempty"`
-	TeForm      string `json:"TeForm,omitempty"`
-	NaiForm     string `json:"NaiForm,omitempty"`
+	ID          int    `json:"id"`
+	Nihongo     string `json:"nihongo,omitempty"`
+	Kana        string `json:"kana,omitempty"`
+	Romaji      string `json:"romaji,omitempty"`
+	Meaning     string `json:"meaning"`
+	Hint        string `json:"hint,omitempty"`
+	Explanation string `json:"explanation,omitempty"`
+	DictForm    string `json:"dictForm,omitempty"`
+	TeForm      string `json:"teForm,omitempty"`
+	NaiForm     string `json:"naiForm,omitempty"`
 }
 
 type KanjiCard struct {
-	ID           int           `json:"ID"`
-	Kanji        string        `json:"Kanji"`
-	KanjiDetails []KanjiDetail `json:"KanjiDetails"`
+	ID           int           `json:"id"`
+	Kanji        string        `json:"kanji"`
+	KanjiDetails []KanjiDetail `json:"kanjiDetails"`
 }
 
 type KanjiDetail struct {
-	Reading     string   `json:"Reading"`
-	ReadingKana string   `json:"ReadingKana,omitempty"`
-	Meanings    []string `json:"Meanings"`
+	Reading     string   `json:"reading"`
+	ReadingKana string   `json:"readingKana,omitempty"`
+	Meanings    []string `json:"meanings"`
 }

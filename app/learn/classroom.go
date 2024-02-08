@@ -43,6 +43,7 @@ func (c Classroom) Boxes() []Box {
 			result = append(result, box)
 		}
 	}
+
 	return result
 }
 
@@ -72,6 +73,7 @@ func (c *Classroom) StartWordExam(opt Options, boxids ...BoxID) Exam {
 	for _, boxName := range boxids {
 		boxes = append(boxes, c.wordBoxes[boxName])
 	}
+
 	return NewExam(opt, boxes...)
 }
 
@@ -100,5 +102,6 @@ func (c *Classroom) StartKanjiExam(opt Options, boxids ...BoxID) Exam {
 	for _, boxName := range boxids {
 		boxes = append(boxes, c.kanjiBoxes[boxName])
 	}
+
 	return NewExam(opt, boxes...)
 }

@@ -34,6 +34,7 @@ func (l lesson) getKanjiCard(id int) kanjis.Card {
 			return card
 		}
 	}
+
 	return kanjis.Card{}
 }
 
@@ -43,5 +44,6 @@ func (l lesson) getWordCard(id int) words.Card {
 			return card
 		}
 	}
+
 	return words.Card{}
 }
