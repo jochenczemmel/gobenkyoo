@@ -6,13 +6,19 @@ COVERAGE_FILE=testcoverage.html
 # develop: systemtest
 
 # run all unit tests
-testall: cover vulncheck lint
+testall: vulncheck vet lint test
 
 # vulnerability check
 vulncheck:
 	govulncheck ./...
 
 # static code analysis
+# https://pkg.go.dev/cmd/vet
+vet:
+	go vet ./...
+
+# static code analysis
+# https://golangci-lint.run/
 lint:
 	golangci-lint run
 
