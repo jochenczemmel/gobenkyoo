@@ -7,101 +7,101 @@
 // an exam is started.
 package learn
 
-import (
-	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
-	"github.com/jochenczemmel/gobenkyoo/content/words"
-)
-
 // Classroom provides handling a set of learning boxes.
 type Classroom struct {
-	Name       string
-	wordBoxes  map[BoxID]Box
-	kanjiBoxes map[BoxID]Box
-	uniqIDs    map[BoxID]bool
-	boxIDs     []BoxID
+	Name        string
+	kanjiBoxIDs []BoxID
+	wordBoxIDs  []BoxID
+	kanjiBoxes  map[BoxID]Box
+	wordBoxes   map[BoxID]Box
 }
 
 // NewClassroom creates a new learn shelf.
 func NewClassroom(name string) Classroom {
 	return Classroom{
-		Name:       name,
-		wordBoxes:  make(map[BoxID]Box),
-		kanjiBoxes: make(map[BoxID]Box),
-		uniqIDs:    make(map[BoxID]bool),
+		Name:        name,
+		kanjiBoxIDs: []BoxID{},
+		wordBoxIDs:  []BoxID{},
+		kanjiBoxes:  make(map[BoxID]Box),
+		wordBoxes:   make(map[BoxID]Box),
 	}
 }
 
-// Boxes returns the boxes in the order they
-// have been added to the classroom.
-func (c Classroom) Boxes() []Box {
-	result := make([]Box, 0, len(c.boxIDs))
-	for _, id := range c.boxIDs {
-		if box, ok := c.wordBoxes[id]; ok {
-			result = append(result, box)
+// SetKanjiBoxes adds or replaces a list of kanji boxes.
+func (c *Classroom) SetKanjiBoxes(boxes ...Box) {
+	for _, box := range boxes {
+		if box.Type != KanjiType {
+			continue
 		}
-		if box, ok := c.kanjiBoxes[id]; ok {
+		if _, ok := c.kanjiBoxes[box.BoxID]; !ok {
+			c.kanjiBoxIDs = append(c.kanjiBoxIDs, box.BoxID)
+		}
+		c.kanjiBoxes[box.BoxID] = box
+	}
+}
+
+// SetWordBoxes adds or replaces a list of word boxes.
+func (c *Classroom) SetWordBoxes(boxes ...Box) {
+	for _, box := range boxes {
+		if box.Type != WordType {
+			continue
+		}
+		if _, ok := c.wordBoxes[box.BoxID]; !ok {
+			c.wordBoxIDs = append(c.wordBoxIDs, box.BoxID)
+		}
+		c.wordBoxes[box.BoxID] = box
+	}
+}
+
+// KanjiBox returns the kanji box with the given id.
+func (c Classroom) KanjiBox(boxid BoxID) Box {
+	box, ok := c.kanjiBoxes[boxid]
+	if !ok {
+		return NewKanjiBox(BoxID{})
+	}
+	return box
+}
+
+// WordBox returns the word box with the given id.
+func (c Classroom) WordBox(boxid BoxID) Box {
+	box, ok := c.wordBoxes[boxid]
+	if !ok {
+		return NewWordBox(BoxID{})
+	}
+	return box
+}
+
+// getBoxes returns a list of boxes that match the given ids.
+func getBoxes(boxes map[BoxID]Box, boxids ...BoxID) []Box {
+	result := []Box{}
+	for _, boxName := range boxids {
+		if box, ok := boxes[boxName]; ok {
 			result = append(result, box)
 		}
 	}
-
 	return result
 }
 
-// NewWordBox adds a list of word cards to a newly created box.
-func (c *Classroom) NewWordBox(boxid BoxID, cards ...words.Card) {
-	_, ok := c.wordBoxes[boxid]
-	if ok {
-		// append?
-		return
-	}
-	box := NewBox(boxid, WordType)
-	for _, mode := range GetWordModes() {
-		box.Set(mode, box.makeWordCards(mode, cards...)...)
-	}
-	c.wordBoxes[boxid] = box
+// KanjiBoxes returns the kanji boxes in the order they
+// have been added to the classroom.
+func (c Classroom) KanjiBoxes() []Box {
+	return getBoxes(c.kanjiBoxes, c.kanjiBoxIDs...)
+}
 
-	if !c.uniqIDs[boxid] {
-		c.boxIDs = append(c.boxIDs, boxid)
-		c.uniqIDs[boxid] = true
-	}
+// WordBoxes returns the word boxes in the order they
+// have been added to the classroom.
+func (c Classroom) WordBoxes() []Box {
+	return getBoxes(c.wordBoxes, c.wordBoxIDs...)
 }
 
 // StartWordExam starts an exam with the given options that uses
 // the cards from the specified box(es).
 func (c *Classroom) StartWordExam(opt Options, boxids ...BoxID) Exam {
-	boxes := []Box{}
-	for _, boxName := range boxids {
-		boxes = append(boxes, c.wordBoxes[boxName])
-	}
-
-	return NewExam(opt, boxes...)
-}
-
-// NewKanjiBox adds a list of kanji cards to a newly created box.
-func (c *Classroom) NewKanjiBox(boxid BoxID, cards ...kanjis.Card) {
-	_, ok := c.kanjiBoxes[boxid]
-	if ok {
-		// append?
-		return
-	}
-	box := NewBox(boxid, KanjiType)
-	for _, mode := range GetKanjiModes() {
-		box.Set(mode, box.makeKanjiCards(mode, cards...)...)
-	}
-	c.kanjiBoxes[boxid] = box
-	if !c.uniqIDs[boxid] {
-		c.boxIDs = append(c.boxIDs, boxid)
-		c.uniqIDs[boxid] = true
-	}
+	return NewExam(opt, getBoxes(c.wordBoxes, boxids...)...)
 }
 
 // StartKanjiExam starts an exam with the given options that uses
 // the cards from the specified box(es).
 func (c *Classroom) StartKanjiExam(opt Options, boxids ...BoxID) Exam {
-	boxes := []Box{}
-	for _, boxName := range boxids {
-		boxes = append(boxes, c.kanjiBoxes[boxName])
-	}
-
-	return NewExam(opt, boxes...)
+	return NewExam(opt, getBoxes(c.kanjiBoxes, boxids...)...)
 }

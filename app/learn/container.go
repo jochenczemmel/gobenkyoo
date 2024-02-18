@@ -12,14 +12,8 @@ type container struct {
 // newContainer returns a container with the cards.
 // All cards are stored in level MinLevel.
 func newContainer(cards ...Card) container {
-	result := container{
-		cardList: cards,
-		levels:   make(map[CardID]int, len(cards)),
-	}
-	for _, card := range cards {
-		result.levels[card.ID] = MinLevel
-	}
-
+	result := container{levels: make(map[CardID]int, len(cards))}
+	result.addCards(MinLevel, cards...)
 	return result
 }
 
@@ -36,27 +30,53 @@ func (c container) cards(level int) []Card {
 	return result
 }
 
-// setLevel sets the level for the given card.
-// If the card is unknown, nothing happens.
+// addCards adds the cards at the specified level.
+// If the card is already known, it is set to the new level.
+// If it is not known, it is added to the list.
 // If the level is lower than MinLevel or larger than MaxLevel,
 // the value is adjusted to MinLevel respectively MaxLevel.
-func (c *container) setLevel(card Card, level int) {
-	// level too low
-	if level < MinLevel {
-		level = MinLevel
+func (c *container) addCards(level int, cards ...Card) {
+	for _, card := range cards {
+		if _, ok := c.levels[card.ID]; !ok {
+			c.cardList = append(c.cardList, card)
+		}
+		c.setLevel(level, card)
 	}
-	// level too high
-	if level > MaxLevel {
-		level = MaxLevel
-	}
-	// card not in box
-	if _, ok := c.levels[card.ID]; !ok {
-		return
-	}
-	c.levels[card.ID] = level
 }
 
 // advance puts the card in the next level.
 func (c *container) advance(card Card) {
-	c.setLevel(card, c.levels[card.ID]+1)
+	c.setCardLevel(c.levels[card.ID]+1, card)
+}
+
+// setCardLevel sets the level for the given card.
+// If the card is unknown, nothing happens.
+// If the level is lower than MinLevel or larger than MaxLevel,
+// the value is adjusted to MinLevel respectively MaxLevel.
+func (c *container) setCardLevel(level int, card Card) {
+	if _, ok := c.levels[card.ID]; !ok {
+		// card not in box
+		return
+	}
+	c.setLevel(level, card)
+}
+
+// setLevel setzts the card to the adjusted level.
+func (c *container) setLevel(level int, card Card) {
+	level = adjustLevel(level)
+	c.levels[card.ID] = level
+}
+
+// adjustLevel adjusts the given level to be within
+// the lower and upper limit.
+func adjustLevel(level int) int {
+	// level too low
+	if level < MinLevel {
+		return MinLevel
+	}
+	// level too high
+	if level > MaxLevel {
+		return MaxLevel
+	}
+	return level
 }

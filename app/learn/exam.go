@@ -33,6 +33,7 @@ func NewExam(opt Options, boxes ...Box) Exam {
 		cards = append(cards, box.Cards(opt.LearnMode, opt.Level)...)
 		containers = append(containers, box.containers[opt.LearnMode])
 	}
+
 	result := Exam{
 		opt:          opt,
 		containers:   containers,
@@ -84,7 +85,7 @@ func (e Exam) Pass() {
 // Reset puts the card on the minimum (starting) level.
 func (e Exam) Reset(card Card) {
 	for _, c := range e.containers {
-		c.setLevel(card, MinLevel)
+		c.setCardLevel(MinLevel, card)
 	}
 }
 

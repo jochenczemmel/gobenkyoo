@@ -1,43 +1,67 @@
 package learn
 
+import (
+	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
+	"github.com/jochenczemmel/gobenkyoo/content/words"
+)
+
 // Box provides access to learning cards with different learn modes.
 type Box struct {
-	BoxID
-	Type       string
+	BoxID             // id of the box
+	Type       string // type of the box ("word" or "kanji")
 	modes      []string
 	containers map[string]container
 }
 
-// NewBox returns an initialized Box.
-func NewBox(id BoxID, contenttype string) Box {
-	return Box{
+// NewKanjiBox returns an initialized box with banji cards.
+func NewKanjiBox(id BoxID, cards ...kanjis.Card) Box {
+	box := Box{
 		BoxID:      id,
-		Type:       contenttype,
-		modes:      []string{},
+		Type:       KanjiType,
+		modes:      GetKanjiModes(),
 		containers: map[string]container{},
 	}
+	for _, mode := range box.modes {
+		box.containers[mode] = newContainer(
+			box.makeKanjiCards(mode, cards...)...)
+	}
+	return box
 }
 
-// Set fills a new container for the given mode with the given cards.
-func (b *Box) Set(mode string, cards ...Card) {
-	if _, ok := b.containers[mode]; !ok {
-		b.modes = append(b.modes, mode)
+// NewWordBox returns an initialized box with word cards.
+// The cards are initially set to the minimum level on each learn mode.
+func NewWordBox(id BoxID, cards ...words.Card) Box {
+	box := Box{
+		BoxID:      id,
+		Type:       WordType,
+		modes:      GetWordModes(),
+		containers: map[string]container{},
 	}
-	b.containers[mode] = newContainer(cards...)
+	for _, mode := range box.modes {
+		box.containers[mode] = newContainer(
+			box.makeWordCards(mode, cards...)...)
+	}
+	return box
+}
+
+// AddCards adds new cards to the given mode in the given level.
+// If the mode does not match the box modes, nothing happens.
+func (b *Box) AddCards(mode string, level int, cards ...Card) {
+	container, ok := b.containers[mode]
+	if !ok {
+		return
+	}
+	container.addCards(level, cards...)
+	b.containers[mode] = container
 }
 
 // Cards returns a list of cards in the given level for the given mode.
+// The cards are initially set to the minimum level on each learn mode.
 func (b Box) Cards(mode string, level int) []Card {
 	return b.containers[mode].cards(level)
 }
 
 // NCards returns the number of cards in the given level for the given mode.
 func (b Box) NCards(mode string, level int) int {
-	return len(b.containers[mode].cards(level))
-}
-
-// SetCardLevel sets the level of the given card for the given mode.
-func (b *Box) SetCardLevel(mode string, card Card, level int) {
-	container := b.containers[mode]
-	container.setLevel(card, level)
+	return len(b.Cards(mode, level))
 }

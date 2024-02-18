@@ -8,14 +8,14 @@ import "github.com/jochenczemmel/gobenkyoo/content/books"
 // The lesson specification might be empty for mixed or individually
 // created boxes.
 type BoxID struct {
-	Name string
-	books.LessonID
+	Name           string // Name of the box
+	books.LessonID        // reference to the lesson
 }
 
 // CardID provides unique Identifier for a card.
 // It contains the info about the book and the lesson where it is stored
 // in the books.library.
 type CardID struct {
-	ContentID int // id from the content card
-	books.LessonID
+	ContentID      int // id from the content card
+	books.LessonID     // reference to the lesson
 }
