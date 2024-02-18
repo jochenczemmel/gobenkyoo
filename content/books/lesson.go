@@ -5,30 +5,41 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
-// lesson represents a single lesson within a book.
-type lesson struct {
-	name       string        // lesson name
+// Lesson represents a single Lesson within a book.
+type Lesson struct {
+	Name       string        // lesson name
 	wordCards  []words.Card  // word cards
 	kanjiCards []kanjis.Card // kanji cards
 }
 
-func newLesson(name string) lesson {
-	return lesson{
-		name:       name,
+// NewLesson returns an initialized Lesson with the given name.
+func NewLesson(name string) Lesson {
+	return Lesson{
+		Name:       name,
 		wordCards:  []words.Card{},
 		kanjiCards: []kanjis.Card{},
 	}
 }
 
-func (l *lesson) addKanjis(cards ...kanjis.Card) {
+// AddKanjis adds a list of kanji cards to the lesson.
+func (l *Lesson) AddKanjis(cards ...kanjis.Card) {
+	if l.kanjiCards == nil {
+		l.kanjiCards = make([]kanjis.Card, 0, len(cards))
+	}
 	l.kanjiCards = append(l.kanjiCards, cards...)
 }
 
-func (l *lesson) addWords(cards ...words.Card) {
+// AddWords adds a list of word cards to the lesson.
+func (l *Lesson) AddWords(cards ...words.Card) {
+	if l.wordCards == nil {
+		l.wordCards = make([]words.Card, 0, len(cards))
+	}
 	l.wordCards = append(l.wordCards, cards...)
 }
 
-func (l lesson) getKanjiCard(id int) kanjis.Card {
+// KanjiCard returns the kanji card with the given id.
+// If it is not found, an empty card is returned.
+func (l Lesson) KanjiCard(id int) kanjis.Card {
 	for _, card := range l.kanjiCards {
 		if card.ID == id {
 			return card
@@ -38,7 +49,9 @@ func (l lesson) getKanjiCard(id int) kanjis.Card {
 	return kanjis.Card{}
 }
 
-func (l lesson) getWordCard(id int) words.Card {
+// WordCard returns the word card with the given id.
+// If it is not found, an empty card is returned.
+func (l Lesson) WordCard(id int) words.Card {
 	for _, card := range l.wordCards {
 		if card.ID == id {
 			return card
@@ -46,4 +59,20 @@ func (l lesson) getWordCard(id int) words.Card {
 	}
 
 	return words.Card{}
+}
+
+// KanjiCards returns all the kanji cards in the lesson.
+func (l Lesson) KanjiCards() []kanjis.Card {
+	if l.kanjiCards == nil {
+		return []kanjis.Card{}
+	}
+	return l.kanjiCards
+}
+
+// WordCards returns all the word cards in the lesson.
+func (l Lesson) WordCards() []words.Card {
+	if l.wordCards == nil {
+		return []words.Card{}
+	}
+	return l.wordCards
 }

@@ -9,6 +9,8 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
+var allNames = []string{"lesson 1", "lesson 2", "lesson 3"}
+
 var wordCards = []words.Card{
 	{ID: 1, Nihongo: "世界"},
 	{ID: 2, Nihongo: "日本"},
@@ -25,7 +27,51 @@ var kanjiCards = []kanjis.Card{
 	{ID: 8, Kanji: '本'},
 }
 
-func TestBookLessons(t *testing.T) {
+func TestBookSetLesson(t *testing.T) {
+	wantNames := allNames[:2]
+	book := books.New(books.ID{})
+	lesson1 := books.NewLesson(wantNames[0])
+	lesson2 := books.NewLesson(wantNames[1])
+	book.SetLessons(lesson1, lesson2)
+
+	t.Run("LessonNames", func(t *testing.T) {
+		got := book.LessonNames()
+		if diff := cmp.Diff(got, wantNames); diff != "" {
+			t.Errorf("ERROR: got- want+\n%s", diff)
+		}
+	})
+
+	testCases := []struct {
+		name        string
+		input, want string
+		wantOK      bool
+	}{
+		{
+			name:   "lesson in book",
+			input:  allNames[1],
+			want:   allNames[1],
+			wantOK: true,
+		},
+		{
+			name:   "lesson in book",
+			input:  allNames[2],
+			want:   "",
+			wantOK: false,
+		},
+	}
+	for _, c := range testCases {
+
+		t.Run(c.name, func(t *testing.T) {
+			got, ok := book.Lesson(c.input)
+			if got.Name != c.want || ok != c.wantOK {
+				t.Errorf("ERROR: got %q, %v, want %q, %v",
+					got.Name, ok, c.want, c.wantOK)
+			}
+		})
+	}
+}
+
+func TestBookLessonNames(t *testing.T) {
 	book := books.New(books.ID{})
 	for _, lesson := range []string{"l1", "l2"} {
 		book.AddKanjis(lesson)
