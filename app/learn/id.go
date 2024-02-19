@@ -16,6 +16,6 @@ type BoxID struct {
 // It contains the info about the book and the lesson where it is stored
 // in the books.library.
 type CardID struct {
-	ContentID      int // id from the content card
-	books.LessonID     // reference to the lesson
+	ContentID      string // id from the content card
+	books.LessonID        // reference to the lesson
 }

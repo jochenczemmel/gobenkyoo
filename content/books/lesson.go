@@ -39,7 +39,7 @@ func (l *Lesson) AddWords(cards ...words.Card) {
 
 // KanjiCard returns the kanji card with the given id.
 // If it is not found, an empty card is returned.
-func (l Lesson) KanjiCard(id int) kanjis.Card {
+func (l Lesson) KanjiCard(id string) kanjis.Card {
 	for _, card := range l.kanjiCards {
 		if card.ID == id {
 			return card
@@ -51,7 +51,7 @@ func (l Lesson) KanjiCard(id int) kanjis.Card {
 
 // WordCard returns the word card with the given id.
 // If it is not found, an empty card is returned.
-func (l Lesson) WordCard(id int) words.Card {
+func (l Lesson) WordCard(id string) words.Card {
 	for _, card := range l.wordCards {
 		if card.ID == id {
 			return card

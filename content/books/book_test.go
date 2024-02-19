@@ -12,19 +12,19 @@ import (
 var allNames = []string{"lesson 1", "lesson 2", "lesson 3"}
 
 var wordCards = []words.Card{
-	{ID: 1, Nihongo: "世界"},
-	{ID: 2, Nihongo: "日本"},
-	{ID: 3, Nihongo: "白鳳"},
-	{ID: 4, Nihongo: "大相撲"},
-	{ID: 5, Nihongo: "福岡"},
+	{ID: "1", Nihongo: "世界"},
+	{ID: "2", Nihongo: "日本"},
+	{ID: "3", Nihongo: "白鳳"},
+	{ID: "4", Nihongo: "大相撲"},
+	{ID: "5", Nihongo: "福岡"},
 }
 
 var kanjiCards = []kanjis.Card{
-	{ID: 1, Kanji: '方'},
-	{ID: 2, Kanji: '世'},
-	{ID: 6, Kanji: '界'},
-	{ID: 7, Kanji: '日'},
-	{ID: 8, Kanji: '本'},
+	{ID: "1", Kanji: '方'},
+	{ID: "2", Kanji: '世'},
+	{ID: "6", Kanji: '界'},
+	{ID: "7", Kanji: '日'},
+	{ID: "8", Kanji: '本'},
 }
 
 func TestBookSetLesson(t *testing.T) {

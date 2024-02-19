@@ -36,45 +36,45 @@ func TestLibraryFindCard(t *testing.T) {
 	testCases := []struct {
 		name          string
 		lessonID      books.LessonID
-		id            int
+		id            string
 		wantKanjiCard kanjis.Card
 		wantWordCard  words.Card
 	}{{
 		name:          "book in library, word and kanji",
-		id:            1,
+		id:            "1",
 		lessonID:      lessonID,
 		wantWordCard:  wordCards[0],
 		wantKanjiCard: kanjiCards[0],
 	}, {
 		name:          "book in library, word and kanji",
-		id:            1,
+		id:            "1",
 		lessonID:      lessonID,
 		wantWordCard:  wordCards[0],
 		wantKanjiCard: kanjiCards[0],
 	}, {
 		name:         "book in library, only word",
-		id:           5,
+		id:           "5",
 		lessonID:     lessonID,
 		wantWordCard: wordCards[4],
 	}, {
 		name:          "book in library, only kanji",
-		id:            8,
+		id:            "8",
 		lessonID:      lessonID,
 		wantKanjiCard: kanjiCards[4],
 	}, {
 		name:     "book in library, no match",
-		id:       42,
+		id:       "42",
 		lessonID: lessonID,
 	}, {
 		name: "book in library, wrong lesson",
-		id:   1,
+		id:   "1",
 		lessonID: books.LessonID{
 			Name: "wrong lesson",
 			ID:   bookID,
 		},
 	}, {
 		name: "book not in library",
-		id:   1,
+		id:   "1",
 		lessonID: books.LessonID{
 			Name: lessonName,
 			ID:   books.ID{Title: "not in library"},

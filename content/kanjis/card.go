@@ -16,7 +16,7 @@ import (
 // their meanings, an optional hint and an optional explanation.
 // Use kanjis.Builder to create a new kanjis card.
 type Card struct {
-	ID          int
+	ID          string
 	Kanji       rune
 	Hint        string
 	Explanation string

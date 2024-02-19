@@ -48,12 +48,12 @@ func (l Library) SortedBooks() []Book {
 
 // getWordCard returns a the word card from the specified book and lesson
 // with the specified id. If it is not found, an empty card is returned.
-func (l Library) GetWordCard(lessonid LessonID, cardid int) words.Card {
+func (l Library) GetWordCard(lessonid LessonID, cardid string) words.Card {
 	return l.booksByID[lessonid.ID].getWordCard(lessonid.Name, cardid)
 }
 
 // getKanjiCard returns a the kanji card from the specified book and lesson
 // with the specified id. If it is not found, an empty card is returned.
-func (l Library) GetKanjiCard(lessonid LessonID, cardid int) kanjis.Card {
+func (l Library) GetKanjiCard(lessonid LessonID, cardid string) kanjis.Card {
 	return l.booksByID[lessonid.ID].getKanjiCard(lessonid.Name, cardid)
 }

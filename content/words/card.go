@@ -23,7 +23,7 @@ package words
 //
 // To create a Card, the words.Builder can be used.
 type Card struct {
-	ID      int    // identifier of the card
+	ID      string // identifier of the card
 	Nihongo string // content as written in Japanese (Kanji, Kana, and/or Romaji)
 	Kana    string // content written in Kana
 	Romaji  string // content written in Romaji
