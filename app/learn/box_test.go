@@ -97,23 +97,20 @@ func TestBoxUninitialized(t *testing.T) {
 }
 */
 
-/*
 func TestBoxSetLevelLimits(t *testing.T) {
 	// SetCardLevel() is also tested when testing exam.Advance()
 	// so here only the limits are checked
-	box := learn.NewKanjiBox(learn.BoxID{})
-	boxMode := "mode 1"
+
+	boxMode := learn.Kanji2Native
 
 	testCases := []struct {
 		name              string
-		box               learn.Box
 		mode              string
 		level, checkLevel int
 		want              []learn.Card
 	}{
 		{
 			name:       "stay at min level",
-			box:        box,
 			mode:       boxMode,
 			level:      learn.MinLevel - 1,
 			checkLevel: learn.MinLevel,
@@ -121,7 +118,6 @@ func TestBoxSetLevelLimits(t *testing.T) {
 		},
 		{
 			name:       "set to max level",
-			box:        box,
 			mode:       boxMode,
 			level:      learn.MaxLevel + 1,
 			checkLevel: learn.MaxLevel,
@@ -129,33 +125,24 @@ func TestBoxSetLevelLimits(t *testing.T) {
 		},
 		{
 			name:       "unknown mode, cards stay at min",
-			box:        box,
 			mode:       "unknown",
 			level:      learn.MaxLevel + 1,
 			checkLevel: learn.MinLevel,
 			want:       cards1,
 		},
-		{
-			name:       "zero value box",
-			box:        learn.Box{},
-			mode:       boxMode,
-			level:      learn.MaxLevel + 1,
-			checkLevel: learn.MaxLevel,
-			want:       cards1[1:2],
-		},
 	}
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
-			c.box.SetCards(boxMode, learn.MinLevel, cards1...)
 
-			c.box.SetCards(c.mode, c.level, cards1[1])
-			got := c.box.Cards(boxMode, c.checkLevel)
+			box := learn.NewKanjiBox(learn.BoxID{})
+			box.AddCards(boxMode, learn.MinLevel, cards1...)
+
+			box.AddCards(c.mode, c.level, cards1[1])
+			got := box.Cards(boxMode, c.checkLevel)
 			if diff := cmp.Diff(got, c.want); diff != "" {
-				t.Errorf("ERROR: -got +want\n%s", diff)
+				t.Errorf("ERROR: got- want+\n%s", diff)
 			}
 		})
-
 	}
 }
-*/

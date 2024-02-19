@@ -1,6 +1,7 @@
 package learn_test
 
 import (
+	"strconv"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -48,7 +49,6 @@ func makeExam(level int, boxes ...learn.Box) learn.Exam {
 	return learn.NewExam(opt, boxes...)
 }
 
-/*
 func TestExamCards(t *testing.T) {
 	box1, box2 := makeBoxes()
 	exam := makeExam(learn.AllLevel, box1, box2)
@@ -67,7 +67,6 @@ func TestExamCards(t *testing.T) {
 		}
 	})
 }
-*/
 
 func TestExamEmpty(t *testing.T) {
 	opt := learn.Options{
@@ -106,7 +105,6 @@ func TestExamShuffled(t *testing.T) {
 	t.Errorf("ERROR: shuffle returned %d times the ordered cards", nTries)
 }
 
-/*
 func TestExamAdvance(t *testing.T) {
 	box1, box2 := makeBoxes()
 	exam := makeExam(learn.AllLevel, box1, box2)
@@ -166,9 +164,7 @@ func TestExamAdvance(t *testing.T) {
 		}
 	})
 }
-*/
 
-/*
 func TestExamReset(t *testing.T) {
 	box1, box2 := makeBoxes()
 	card := cards1[1]
@@ -185,9 +181,7 @@ func TestExamReset(t *testing.T) {
 		t.Errorf("ERROR: -got +want\n%s", diff)
 	}
 }
-*/
 
-/*
 func TestExamNextCard(t *testing.T) {
 	box1, box2 := makeBoxes()
 	exam := makeExam(learn.MinLevel, box1, box2)
@@ -208,14 +202,12 @@ func TestExamNextCard(t *testing.T) {
 	assertEquals(t, got.ID, wantID)
 	assertEquals(t, ok, false)
 }
-*/
 
-/*
 func TestExamPassFail(t *testing.T) {
 	box1, _ := makeBoxes()
 	level := learn.MinLevel + 1
 	for _, card := range cards1 {
-		box1.SetCards(mode1, level, card)
+		box1.AddCards(mode1, level, card)
 	}
 	exam := learn.NewExam(
 		learn.Options{
@@ -243,14 +235,12 @@ func TestExamPassFail(t *testing.T) {
 		assertEquals(t, box1.NCards(mode1, level+1), 1)
 	})
 }
-*/
 
-/*
 func TestExamKeepLevel(t *testing.T) {
 	box1, _ := makeBoxes()
 	level := learn.MinLevel + 1
 	for _, card := range cards1 {
-		box1.SetCards(mode1, level, card)
+		box1.AddCards(mode1, level, card)
 	}
 	exam := learn.NewExam(
 		learn.Options{
@@ -279,9 +269,7 @@ func TestExamKeepLevel(t *testing.T) {
 		assertEquals(t, box1.NCards(mode1, level+1), 0)
 	})
 }
-*/
 
-/*
 func TestExamRepeat(t *testing.T) {
 
 	t.Run("no more cards", func(t *testing.T) {
@@ -303,28 +291,27 @@ func TestExamRepeat(t *testing.T) {
 		assertEquals(t, ok, false)
 	})
 
-		t.Run("repeat cards", func(t *testing.T) {
-			box1, _ := makeBoxes()
-			exam := learn.NewExam(
-				learn.Options{
-					LearnMode: mode1,
-					Level:     learn.MinLevel,
-					NoShuffle: true,
-					Repeat:    true,
-				},
-				box1)
+	t.Run("repeat cards", func(t *testing.T) {
+		box1, _ := makeBoxes()
+		exam := learn.NewExam(
+			learn.Options{
+				LearnMode: mode1,
+				Level:     learn.MinLevel,
+				NoShuffle: true,
+				Repeat:    true,
+			},
+			box1)
 
-			for range cards1 {
-				exam.NextCard()
-				exam.Fail()
-			}
+		for range cards1 {
+			exam.NextCard()
+			exam.Fail()
+		}
 
-			got, ok := exam.NextCard()
-			assertEquals(t, ok, true)
-			assertEquals(t, got.ID, cards1[0].ID)
+		got, ok := exam.NextCard()
+		assertEquals(t, ok, true)
+		assertEquals(t, got.ID, cards1[0].ID)
 
-			// NCards returns the number of initial cards
-			assertEquals(t, exam.NCards(), len(cards1))
-		})
+		// NCards returns the number of initial cards
+		assertEquals(t, exam.NCards(), len(cards1))
+	})
 }
-*/
