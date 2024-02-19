@@ -22,12 +22,14 @@ func TestLibraryFindCard(t *testing.T) {
 	}
 	book := books.New(bookID)
 
-	lesson := "lesson 1"
-	lessonID := books.NewLessonID(lesson, bookID.Title,
+	lessonName := "lesson 1"
+	lessonID := books.NewLessonID(lessonName, bookID.Title,
 		bookID.SeriesTitle, bookID.Volume)
+	lesson := books.NewLesson(lessonName)
 
-	book.AddWords(lessonID.Name, wordCards...)
-	book.AddKanjis(lessonID.Name, kanjiCards...)
+	lesson.AddWords(wordCards...)
+	lesson.AddKanjis(kanjiCards...)
+	book.SetLessons(lesson)
 	library := books.NewLibrary("")
 	library.AddBooks(book)
 
@@ -74,7 +76,7 @@ func TestLibraryFindCard(t *testing.T) {
 		name: "book not in library",
 		id:   1,
 		lessonID: books.LessonID{
-			Name: lesson,
+			Name: lessonName,
 			ID:   books.ID{Title: "not in library"},
 		},
 	}}

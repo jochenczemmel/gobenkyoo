@@ -51,49 +51,6 @@ func (b Book) Lesson(lessonname string) (Lesson, bool) {
 	return found, ok
 }
 
-// AddKanjis adds the list of kanjis to the specified lesson.
-// If the lesson does not exist, it is created.
-// The order of the added lessons is preserved.
-func (b *Book) AddKanjis(lessonname string, cards ...kanjis.Card) {
-	currentLesson := b.setupLesson(lessonname)
-	currentLesson.AddKanjis(cards...)
-	b.lessonsByName[lessonname] = currentLesson
-}
-
-// AddWords adds the list of words to the specified lesson.
-// If the lesson does not exist, it is created.
-// The order of the added lessons is preserved.
-func (b *Book) AddWords(lessonname string, cards ...words.Card) {
-	currentLesson := b.setupLesson(lessonname)
-	currentLesson.AddWords(cards...)
-	b.lessonsByName[lessonname] = currentLesson
-}
-
-// setupLesson returns the lesson with the given name.
-// If it does not exist, an new lesson is created.
-func (b *Book) setupLesson(lessonname string) Lesson {
-	currentLesson, ok := b.lessonsByName[lessonname]
-	if !ok {
-		b.lessonNames = append(b.lessonNames, lessonname)
-		return Lesson{Name: lessonname}
-		// return NewLesson(lessonname)
-	}
-
-	return currentLesson
-}
-
-// KanjisFor returns the list of kanjis for the given lesson.
-// If the lesson does not exist, an empty list is returned.
-func (b Book) KanjisFor(lessonname string) []kanjis.Card {
-	return b.lessonsByName[lessonname].KanjiCards()
-}
-
-// WordsFor returns the list of words for the given lesson.
-// If the lesson does not exist, an empty list is returned.
-func (b Book) WordsFor(lessonname string) []words.Card {
-	return b.lessonsByName[lessonname].WordCards()
-}
-
 // GetKanjiCard returns the kanji card with the id from the lesson.
 // If the lesson or id is not found, an empty card is returned.
 func (b Book) getKanjiCard(lessonname string, id int) kanjis.Card {
