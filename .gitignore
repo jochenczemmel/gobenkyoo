@@ -5,6 +5,8 @@
 # test coverage files
 testcoverage.html
 testcoverage.txt
+coverage.html
+coverage.txt
 
 # executables
 *.exe
