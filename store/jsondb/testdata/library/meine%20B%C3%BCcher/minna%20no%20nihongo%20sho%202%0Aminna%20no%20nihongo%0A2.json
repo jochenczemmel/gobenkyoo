@@ -1,0 +1,31 @@
+{
+	"id": {
+		"title": "minna no nihongo sho 2",
+		"seriesTitle": "minna no nihongo",
+		"volume": 2
+	},
+	"lessonNames": [
+		"lesson 3"
+	],
+	"lessonsByName": {
+		"lesson 3": {
+			"name": "lesson 3",
+			"kanjiCards": [
+				{
+					"id": "",
+					"kanji": "外",
+					"kanjiDetails": [
+						{
+							"reading": "soto",
+							"readingKana": "そと",
+							"meanings": [
+								"außen",
+								"draußen"
+							]
+						}
+					]
+				}
+			]
+		}
+	}
+}

@@ -1,5 +1,6 @@
 package jsondb
 
+/*
 type LearnCard struct {
 	ID          int      `json:"id"`
 	LessonID    LessonID `json:"lessonId,omitempty"`
@@ -16,3 +17,4 @@ type LessonID struct {
 	SeriesTitle string `json:"seriesTitle,omitempty"`
 	Volume      int    `json:"volume,omitempty"`
 }
+*/

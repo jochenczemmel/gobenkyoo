@@ -1,18 +1,6 @@
 package jsondb_test
 
-import (
-	"os"
-	"path/filepath"
-	"testing"
-
-	"github.com/google/go-cmp/cmp"
-	"github.com/jochenczemmel/gobenkyoo/app/learn"
-	"github.com/jochenczemmel/gobenkyoo/content/books"
-	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
-	"github.com/jochenczemmel/gobenkyoo/content/words"
-	"github.com/jochenczemmel/gobenkyoo/store/jsondb"
-)
-
+/*
 var storePath = filepath.Join("testdata", "store")
 
 func TestStoreLibrary(t *testing.T) {
@@ -125,3 +113,4 @@ var kanjiCards = []kanjis.Card{{
 		Meanings: []string{"weekday"},
 	}},
 }}
+*/

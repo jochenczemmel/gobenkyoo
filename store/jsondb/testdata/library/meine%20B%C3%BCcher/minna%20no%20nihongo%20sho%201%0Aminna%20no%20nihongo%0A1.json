@@ -1,0 +1,140 @@
+{
+	"id": {
+		"title": "minna no nihongo sho 1",
+		"seriesTitle": "minna no nihongo",
+		"volume": 1
+	},
+	"lessonNames": [
+		"lesson 1",
+		"lesson 2"
+	],
+	"lessonsByName": {
+		"lesson 1": {
+			"name": "lesson 1",
+			"wordCards": [
+				{
+					"id": "",
+					"nihongo": "日曜日",
+					"kana": "にちようび",
+					"romaji": "nichyoobi",
+					"meaning": "Sonntag"
+				},
+				{
+					"id": "",
+					"nihongo": "月曜日",
+					"kana": "げつようび",
+					"romaji": "getsuyoobi",
+					"meaning": "Montag"
+				},
+				{
+					"id": "",
+					"nihongo": "火曜日",
+					"kana": "かようび",
+					"romaji": "kayoobi",
+					"meaning": "Dienstag"
+				}
+			],
+			"kanjiCards": [
+				{
+					"id": "",
+					"kanji": "方",
+					"kanjiDetails": [
+						{
+							"reading": "HOO",
+							"readingKana": "ホー",
+							"meanings": [
+								"Richtung",
+								"Art und Weise, etwas zu tun"
+							]
+						},
+						{
+							"reading": "kata",
+							"readingKana": "かた",
+							"meanings": [
+								"Person",
+								"Art und Weise, etwas zu tun"
+							]
+						}
+					]
+				},
+				{
+					"id": "",
+					"kanji": "曜",
+					"kanjiDetails": [
+						{
+							"reading": "yoo",
+							"meanings": [
+								"Wochentag"
+							]
+						}
+					]
+				}
+			]
+		},
+		"lesson 2": {
+			"name": "lesson 2",
+			"wordCards": [
+				{
+					"id": "",
+					"nihongo": "習います",
+					"kana": "ならいます",
+					"romaji": "naraimasu",
+					"meaning": "lernen",
+					"hint": "von jemandem",
+					"explanation": "studieren ist benkyoo (勉強)",
+					"dictForm": "習う",
+					"teForm": "習って",
+					"naiForm": "習わない"
+				},
+				{
+					"id": "",
+					"nihongo": "世界",
+					"kana": "せかい",
+					"romaji": "sekai",
+					"meaning": "Welt"
+				}
+			],
+			"kanjiCards": [
+				{
+					"id": "",
+					"kanji": "習",
+					"kanjiDetails": [
+						{
+							"reading": "narai(u)",
+							"readingKana": "なら（う）",
+							"meanings": [
+								"lernen"
+							]
+						}
+					]
+				},
+				{
+					"id": "",
+					"kanji": "世",
+					"kanjiDetails": [
+						{
+							"reading": "se",
+							"meanings": [
+								"Welt",
+								"Ära",
+								"Generation"
+							]
+						}
+					]
+				},
+				{
+					"id": "",
+					"kanji": "界",
+					"kanjiDetails": [
+						{
+							"reading": "kai",
+							"meanings": [
+								"alle"
+							]
+						}
+					]
+				}
+			]
+		}
+	}
+}

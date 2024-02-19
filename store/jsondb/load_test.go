@@ -1,13 +1,6 @@
 package jsondb_test
 
-import (
-	"path/filepath"
-	"testing"
-
-	"github.com/google/go-cmp/cmp"
-	"github.com/jochenczemmel/gobenkyoo/store/jsondb"
-)
-
+/*
 func TestLoadLibrary(t *testing.T) {
 	dirName := filepath.Join("testdata", jsondb.LibraryPath)
 	loader := jsondb.NewLoader(dirName)
@@ -62,3 +55,4 @@ func TestLoadLibrary(t *testing.T) {
 		t.Errorf("WordsFor(): -got +want\n%s", diff)
 	}
 }
+*/

@@ -1,45 +1,33 @@
 package jsondb
 
+import (
+	"fmt"
+	"net/url"
+	"path/filepath"
+
+	"github.com/jochenczemmel/gobenkyoo/content/books"
+)
+
 type Library struct {
-	Name  string `json:"name,omitempty"`
-	Books []Book `json:"books,omitempty"`
+	baseDir string
+	library books.Library
 }
 
-type Book struct {
-	Title         string            `json:"title,omitempty"`
-	SeriesTitle   string            `json:"seriesTitle,omitempty"`
-	Volume        int               `json:"volume,omitempty"`
-	LessonNames   []string          `json:"lessonNames,omitempty"`
-	LessonsByName map[string]Lesson `json:"lessonsByName,omitempty"`
+func NewLibrary(dir string, library books.Library) Library {
+	return Library{
+		baseDir: dir,
+		library: library,
+	}
 }
 
-type Lesson struct {
-	Name       string      `json:"name"`
-	WordCards  []WordCard  `json:"wordCards,omitempty"`
-	KanjiCards []KanjiCard `json:"kanjiCards,omitempty"`
-}
+func (l Library) Store() error {
+	dirName := filepath.Join(l.baseDir, libraryPath, url.PathEscape(l.library.Name))
+	for _, book := range l.library.Books {
+		err := storeBook(dirName, book)
+		if err != nil {
+			return fmt.Errorf("store library: %w", err)
+		}
+	}
 
-type WordCard struct {
-	ID          int    `json:"id"`
-	Nihongo     string `json:"nihongo,omitempty"`
-	Kana        string `json:"kana,omitempty"`
-	Romaji      string `json:"romaji,omitempty"`
-	Meaning     string `json:"meaning"`
-	Hint        string `json:"hint,omitempty"`
-	Explanation string `json:"explanation,omitempty"`
-	DictForm    string `json:"dictForm,omitempty"`
-	TeForm      string `json:"teForm,omitempty"`
-	NaiForm     string `json:"naiForm,omitempty"`
-}
-
-type KanjiCard struct {
-	ID           int           `json:"id"`
-	Kanji        string        `json:"kanji"`
-	KanjiDetails []KanjiDetail `json:"kanjiDetails"`
-}
-
-type KanjiDetail struct {
-	Reading     string   `json:"reading"`
-	ReadingKana string   `json:"readingKana,omitempty"`
-	Meanings    []string `json:"meanings"`
+	return nil
 }

@@ -1,17 +1,6 @@
 package jsondb
 
-import (
-	"encoding/json"
-	"fmt"
-	"os"
-	"path/filepath"
-
-	"github.com/jochenczemmel/gobenkyoo/app/learn"
-	"github.com/jochenczemmel/gobenkyoo/content/books"
-	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
-	"github.com/jochenczemmel/gobenkyoo/content/words"
-)
-
+/*
 // Storer provides storing content.
 type Storer struct {
 	path string
@@ -140,3 +129,4 @@ func kanjiCards2Json(cards ...kanjis.Card) []KanjiCard {
 
 	return result
 }
+*/

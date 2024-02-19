@@ -1,18 +1,6 @@
 package jsondb
 
-import (
-	"encoding/json"
-	"fmt"
-	"os"
-	"path/filepath"
-	"strings"
-	"unicode/utf8"
-
-	"github.com/jochenczemmel/gobenkyoo/content/books"
-	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
-	"github.com/jochenczemmel/gobenkyoo/content/words"
-)
-
+/*
 // Loader provides loading content.
 type Loader struct {
 	path string
@@ -132,3 +120,4 @@ func fileList(path string) ([]string, error) {
 
 	return result, nil
 }
+*/
