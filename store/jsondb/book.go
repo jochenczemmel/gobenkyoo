@@ -15,9 +15,9 @@ import (
 )
 
 // storeBook stores a book as json file in the given directory.
-func storeBook(dir string, book books.Book) error {
+func storeBook(dirname string, book books.Book) error {
 
-	err := os.MkdirAll(dir, defaultFilePermissions)
+	err := os.MkdirAll(dirname, defaultFilePermissions)
 	if err != nil {
 		return fmt.Errorf("store book: create directory: %w", err)
 	}
@@ -39,7 +39,7 @@ func storeBook(dir string, book books.Book) error {
 		}
 	}
 
-	fileName := filepath.Join(dir, jsonBook.ID.fileName())
+	fileName := filepath.Join(dirname, jsonBook.ID.fileName())
 	file, err := os.Create(fileName)
 	if err != nil {
 		return fmt.Errorf("store book: create file: %w", err)

@@ -41,8 +41,8 @@ func TestLibraryStore(t *testing.T) {
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
-			lib := jsondb.NewLibrary(c.dir)
-			err := lib.Store(bookLib)
+			lib := jsondb.New(c.dir)
+			err := lib.StoreLibrary(bookLib)
 			if c.wantErr {
 				if err == nil {
 					t.Fatalf("ERROR: error not detected")
@@ -91,8 +91,8 @@ func TestLibraryLoad(t *testing.T) {
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
-			lib := jsondb.NewLibrary(c.dir)
-			got, err := lib.Load(c.libName)
+			lib := jsondb.New(c.dir)
+			got, err := lib.LoadLibrary(c.libName)
 			if c.wantErr {
 				if err == nil {
 					t.Fatalf("ERROR: error not detected")

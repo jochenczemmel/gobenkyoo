@@ -11,19 +11,9 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 )
 
-// Library provides loading and storing book libraries in json format.
-type Library struct {
-	baseDir string
-}
-
-func NewLibrary(dir string) Library {
-	return Library{
-		baseDir: dir,
-	}
-}
-
-// Store stores the specified library in the base dir of the json library object.
-func (l Library) Store(library books.Library) error {
+// StoreLibrary stores the specified library in the base dir
+// of the json library object.
+func (l DB) StoreLibrary(library books.Library) error {
 	dirName := filepath.Join(l.baseDir, libraryPath, url.PathEscape(library.Name))
 	for _, book := range library.Books {
 		err := storeBook(dirName, book)
@@ -36,7 +26,7 @@ func (l Library) Store(library books.Library) error {
 }
 
 // Store loads the specified library from the base dir of the json library object.
-func (l Library) Load(name string) (books.Library, error) {
+func (l DB) LoadLibrary(name string) (books.Library, error) {
 	dirName := filepath.Join(l.baseDir, libraryPath, url.PathEscape(name))
 	library, err := readLibrary(name, dirName)
 	if err != nil {
