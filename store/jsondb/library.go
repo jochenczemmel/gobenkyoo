@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 )
@@ -58,6 +59,9 @@ func readLibrary(name, dirname string) (books.Library, error) {
 	errorList := []error{}
 	files, err := dir.ReadDir(readAllFiles)
 	for _, file := range files {
+		if !strings.HasSuffix(file.Name(), jsonExtension) {
+			continue
+		}
 		book, err := readBook(filepath.Join(dirname, file.Name()))
 		if err != nil {
 			errorList = append(errorList, err)
