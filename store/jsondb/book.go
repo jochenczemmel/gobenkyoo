@@ -7,12 +7,14 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"unicode/utf8"
 
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
+// storeBook stores a book as json file in the given directory.
 func storeBook(dir string, book books.Book) error {
 
 	err := os.MkdirAll(dir, defaultFilePermissions)
@@ -54,6 +56,38 @@ func storeBook(dir string, book books.Book) error {
 	return nil
 }
 
+// readBook reads a single book file and returrns the content.
+func readBook(filename string) (books.Book, error) {
+	var book books.Book
+	file, err := os.Open(filename)
+	if err != nil {
+		return book, fmt.Errorf("open book file: %w", err)
+	}
+	defer file.Close()
+
+	var jsonBook Book
+	err = json.NewDecoder(file).Decode(&jsonBook)
+	if err != nil {
+		return book, fmt.Errorf("json book decode: %w", err)
+	}
+
+	book = books.New(books.ID{
+		Title:       jsonBook.ID.Title,
+		SeriesTitle: jsonBook.ID.SeriesTitle,
+		Volume:      jsonBook.ID.Volume,
+	})
+
+	for _, ln := range jsonBook.LessonNames {
+		lesson := books.NewLesson(ln)
+		lesson.AddKanjis(json2KanjiCards(jsonBook.LessonsByName[ln].KanjiCards)...)
+		lesson.AddWords(json2WordCards(jsonBook.LessonsByName[ln].WordCards)...)
+		book.SetLessons(lesson)
+	}
+
+	return book, nil
+}
+
+// lesson2json converts a book lesson to a jsondb lesson.
 func lesson2json(lesson books.Lesson) Lesson {
 	return Lesson{
 		Name:       lesson.Name,
@@ -111,6 +145,48 @@ type KanjiDetail struct {
 	Meanings    []string `json:"meanings"`
 }
 
+// kanjiCards2Json converts a list of kanjis.Card to json.KanjiCard.
+func kanjiCards2Json(cards []kanjis.Card) []KanjiCard {
+	result := make([]KanjiCard, 0, len(cards))
+	for _, card := range cards {
+		jsonCard := KanjiCard{
+			Kanji: card.String(),
+		}
+		for _, details := range card.Details {
+			jsonDetail := KanjiDetail{
+				Reading:     details.Reading,
+				ReadingKana: details.ReadingKana,
+				Meanings:    details.Meanings,
+			}
+			jsonCard.KanjiDetails = append(jsonCard.KanjiDetails, jsonDetail)
+		}
+		result = append(result, jsonCard)
+	}
+
+	return result
+}
+
+// json2KanjiCards converts a list of json.KanjiCard to kanjis.Card.
+func json2KanjiCards(jsoncards []KanjiCard) []kanjis.Card {
+	result := make([]kanjis.Card, 0, len(jsoncards))
+	for _, jsoncard := range jsoncards {
+		kanji, _ := utf8.DecodeRuneInString(jsoncard.Kanji)
+		card := kanjis.Card{Kanji: kanji}
+		for _, jsonDetail := range jsoncard.KanjiDetails {
+			detail := kanjis.Detail{
+				Reading:     jsonDetail.Reading,
+				ReadingKana: jsonDetail.ReadingKana,
+				Meanings:    jsonDetail.Meanings,
+			}
+			card.Details = append(card.Details, detail)
+		}
+		result = append(result, card)
+	}
+
+	return result
+}
+
+// wordCards2Json converts a list of words.Card to json.WordCard.
 func wordCards2Json(cards []words.Card) []WordCard {
 	result := make([]WordCard, 0, len(cards))
 	for _, card := range cards {
@@ -132,21 +208,24 @@ func wordCards2Json(cards []words.Card) []WordCard {
 	return result
 }
 
-func kanjiCards2Json(cards []kanjis.Card) []KanjiCard {
-	result := make([]KanjiCard, 0, len(cards))
-	for _, card := range cards {
-		jsonCard := KanjiCard{
-			Kanji: card.String(),
+// json2WordCards converts a list of json.WordCard to words.Card.
+func json2WordCards(jsoncards []WordCard) []words.Card {
+	result := make([]words.Card, 0, len(jsoncards))
+
+	for _, jsonCard := range jsoncards {
+		card := words.Card{
+			ID:          jsonCard.ID,
+			Nihongo:     jsonCard.Nihongo,
+			Kana:        jsonCard.Kana,
+			Romaji:      jsonCard.Romaji,
+			Meaning:     jsonCard.Meaning,
+			Hint:        jsonCard.Hint,
+			Explanation: jsonCard.Explanation,
+			DictForm:    jsonCard.DictForm,
+			TeForm:      jsonCard.TeForm,
+			NaiForm:     jsonCard.NaiForm,
 		}
-		for _, details := range card.Details {
-			jsonDetail := KanjiDetail{
-				Reading:     details.Reading,
-				ReadingKana: details.ReadingKana,
-				Meanings:    details.Meanings,
-			}
-			jsonCard.KanjiDetails = append(jsonCard.KanjiDetails, jsonDetail)
-		}
-		result = append(result, jsonCard)
+		result = append(result, card)
 	}
 
 	return result

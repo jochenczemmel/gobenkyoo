@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
@@ -18,8 +19,8 @@ const (
 func TestLibraryStore(t *testing.T) {
 
 	bookLib := makeBooksLibrary()
-	storeDir := filepath.Join(testDataDir, "store")
-	err := os.RemoveAll(storeDir)
+	baseDir := filepath.Join(testDataDir, "store")
+	err := os.RemoveAll(baseDir)
 	if err != nil {
 		t.Fatalf("ERROR: remove store dir failed: %v", err)
 	}
@@ -28,24 +29,88 @@ func TestLibraryStore(t *testing.T) {
 		name    string
 		dir     string
 		wantErr bool
-	}{
-		{
-			name:    "ok",
-			dir:     storeDir,
-			wantErr: false,
-		},
-	}
+	}{{
+		name:    "ok",
+		dir:     baseDir,
+		wantErr: false,
+	}, {
+		name:    "not ok",
+		dir:     "/can/not/create",
+		wantErr: true,
+	}}
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
-			lib := jsondb.NewLibrary(c.dir, bookLib)
-			err := lib.Store()
+			lib := jsondb.NewLibrary(c.dir)
+			err := lib.Store(bookLib)
+			if c.wantErr {
+				if err == nil {
+					t.Fatalf("ERROR: error not detected")
+				}
+				t.Logf("INFO: got error: %v", err)
+				return
+			}
 			if err != nil {
 				t.Errorf("ERROR: got error %v", err)
 			}
 		})
 	}
 }
+
+func TestLibraryLoad(t *testing.T) {
+
+	baseDir := filepath.Join(testDataDir, "load")
+
+	testCases := []struct {
+		name    string
+		dir     string
+		libName string
+		wantErr bool
+		wantLib books.Library
+	}{{
+		name:    "ok",
+		dir:     baseDir,
+		libName: testLibraryName,
+		wantLib: makeBooksLibrary(),
+	}, {
+		name:    "library not found",
+		dir:     baseDir,
+		libName: "does not exist",
+		wantErr: true,
+	}, {
+		name:    "dir not found",
+		dir:     "does/not/exist",
+		libName: testLibraryName,
+		wantErr: true,
+	}}
+
+	for _, c := range testCases {
+		t.Run(c.name, func(t *testing.T) {
+			lib := jsondb.NewLibrary(c.dir)
+			got, err := lib.Load(c.libName)
+			if c.wantErr {
+				if err == nil {
+					t.Fatalf("ERROR: error not detected")
+				}
+				t.Logf("INFO: got error: %v", err)
+				return
+			}
+			if err != nil {
+				t.Errorf("ERROR: got error %v", err)
+			}
+
+			if diff := cmp.Diff(got, c.wantLib, cmp.AllowUnexported(
+				books.Library{},
+				books.Book{},
+				books.Lesson{},
+			)); diff != "" {
+				t.Fatalf("ERROR: got- want+\n%s", diff)
+			}
+		})
+	}
+}
+
+const testLibraryName = "meine Bücher"
 
 func makeBooksLibrary() books.Library {
 
@@ -71,7 +136,7 @@ func makeBooksLibrary() books.Library {
 	})
 	book2.SetLessons(lesson3)
 
-	library := books.NewLibrary("meine Bücher")
+	library := books.NewLibrary(testLibraryName)
 	library.AddBooks(book1, book2)
 
 	return library
