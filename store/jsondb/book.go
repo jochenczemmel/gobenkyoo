@@ -68,7 +68,7 @@ func readBook(filename string) (books.Book, error) {
 	var jsonBook Book
 	err = json.NewDecoder(file).Decode(&jsonBook)
 	if err != nil {
-		return book, fmt.Errorf("json book decode: %w", err)
+		return book, fmt.Errorf("json book %q: decode: %w", filename, err)
 	}
 
 	book = books.New(books.ID{

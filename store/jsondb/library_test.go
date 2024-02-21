@@ -82,6 +82,11 @@ func TestLibraryLoad(t *testing.T) {
 		dir:     "does/not/exist",
 		libName: testLibraryName,
 		wantErr: true,
+	}, {
+		name:    "invalid json",
+		dir:     baseDir,
+		libName: "invalid",
+		wantErr: true,
 	}}
 
 	for _, c := range testCases {
