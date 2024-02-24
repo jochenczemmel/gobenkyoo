@@ -14,6 +14,33 @@ func assertEquals[T comparable](tb testing.TB, got, want T) {
 	}
 }
 
+func TestBoxModes(t *testing.T) {
+	testCases := []struct {
+		name string
+		box  learn.Box
+		want []string
+	}{
+		{
+			name: "kanji",
+			box:  learn.NewKanjiBox(learn.BoxID{}),
+			want: learn.GetKanjiModes(),
+		},
+		{
+			name: "words",
+			box:  learn.NewWordBox(learn.BoxID{}),
+			want: learn.GetWordModes(),
+		},
+	}
+	for _, c := range testCases {
+		t.Run(c.name, func(t *testing.T) {
+			got := c.box.Modes()
+			if diff := cmp.Diff(got, c.want); diff != "" {
+				t.Errorf("ERROR: got- want+\n%s", diff)
+			}
+		})
+	}
+}
+
 func TestBoxCards(t *testing.T) {
 
 	box := learn.NewKanjiBox(learn.BoxID{})
@@ -63,39 +90,6 @@ func TestBoxCards(t *testing.T) {
 		})
 	}
 }
-
-/*
-func TestBoxUninitialized(t *testing.T) {
-
-	t.Run("Cards", func(t *testing.T) {
-		var box learn.Box
-		got := box.Cards("", 1)
-		want := []learn.Card{}
-		if diff := cmp.Diff(got, want); diff != "" {
-			t.Errorf("ERROR: -got +want\n%s", diff)
-		}
-	})
-
-	t.Run("NCards", func(t *testing.T) {
-		var box learn.Box
-		got := box.NCards("", 1)
-		want := 0
-		if got != want {
-			t.Errorf("ERROR: got %v, want %v", got, want)
-		}
-	})
-
-		t.Run("SetCardLevel", func(t *testing.T) {
-			var box learn.Box
-			defer func() {
-				if err := recover(); err != nil {
-					t.Errorf("ERROR: got error: %v", err)
-				}
-			}()
-			box.SetCardLevel("", 1, learn.Card{})
-		})
-}
-*/
 
 func TestBoxSetLevelLimits(t *testing.T) {
 	// SetCardLevel() is also tested when testing exam.Advance()

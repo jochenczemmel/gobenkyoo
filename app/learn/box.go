@@ -65,3 +65,11 @@ func (b Box) Cards(mode string, level int) []Card {
 func (b Box) NCards(mode string, level int) int {
 	return len(b.Cards(mode, level))
 }
+
+// Modes returns the list of learn modes for the box.
+func (b Box) Modes() []string {
+	if b.Type == KanjiType {
+		return GetKanjiModes()
+	}
+	return GetWordModes()
+}

@@ -13,7 +13,6 @@ const (
 	MaxLevel = 5
 )
 
-/*
 // Levels returns the levels from MinLevel to MaxLevel
 // (both included) as int list.
 func Levels() []int {
@@ -23,4 +22,3 @@ func Levels() []int {
 	}
 	return result
 }
-*/
