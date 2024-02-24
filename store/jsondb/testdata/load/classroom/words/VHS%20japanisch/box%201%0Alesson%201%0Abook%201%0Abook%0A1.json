@@ -1,0 +1,206 @@
+{
+	"boxId": {
+		"name": "box 1",
+		"lessonId": {
+			"name": "lesson 1",
+			"bookId": {
+				"title": "book 1",
+				"seriesTitle": "book",
+				"volume": 1
+			}
+		}
+	},
+	"type": "word",
+	"cards": {
+		"japanese_to_native": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "習います",
+					"hint": "from somebody",
+					"answer": "to learn",
+					"moreAnswers": [
+						"ならいます",
+						"naraimasu",
+						"習う",
+						"習って",
+						"習わない"
+					],
+					"explanation": "to study is benkyoo (勉強)"
+				},
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "世界",
+					"answer": "world",
+					"moreAnswers": [
+						"せかい",
+						"sekai"
+					]
+				}
+			]
+		},
+		"kana_to_native": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "ならいます",
+					"hint": "from somebody",
+					"answer": "to learn",
+					"moreAnswers": [
+						"naraimasu",
+						"習います",
+						"習う",
+						"習って",
+						"習わない"
+					],
+					"explanation": "to study is benkyoo (勉強)"
+				},
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "せかい",
+					"answer": "world",
+					"moreAnswers": [
+						"sekai",
+						"世界"
+					]
+				}
+			]
+		},
+		"native_to_japanese": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "to learn",
+					"hint": "from somebody",
+					"answer": "習います",
+					"moreAnswers": [
+						"ならいます",
+						"naraimasu",
+						"習う",
+						"習って",
+						"習わない"
+					],
+					"explanation": "to study is benkyoo (勉強)"
+				}
+			],
+			"1": [
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "world",
+					"answer": "世界",
+					"moreAnswers": [
+						"せかい",
+						"sekai"
+					]
+				}
+			]
+		},
+		"native_to_kana": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "to learn",
+					"hint": "from somebody",
+					"answer": "ならいます",
+					"moreAnswers": [
+						"naraimasu",
+						"習います",
+						"習う",
+						"習って",
+						"習わない"
+					],
+					"explanation": "to study is benkyoo (勉強)"
+				},
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "world",
+					"answer": "せかい",
+					"moreAnswers": [
+						"sekai",
+						"世界"
+					]
+				}
+			]
+		}
+	}
+}

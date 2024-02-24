@@ -73,3 +73,15 @@ func (b Box) Modes() []string {
 	}
 	return WordModes()
 }
+
+// SetCardLevel moves an existing Card to the specified level
+// in the specified learn mode.
+func (b *Box) SetCardLevel(mode string, level int, cards ...Card) {
+	container, ok := b.containers[mode]
+	if !ok {
+		return
+	}
+	for _, card := range cards {
+		container.setCardLevel(level, card)
+	}
+}

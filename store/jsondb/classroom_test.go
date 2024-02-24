@@ -1,16 +1,111 @@
 package jsondb_test
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
+	"sort"
 	"testing"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 	"github.com/jochenczemmel/gobenkyoo/store/jsondb"
 )
+
+func TestClassroomLoad(t *testing.T) {
+	baseDir := filepath.Join(testDataDir, "load")
+	testCases := []struct {
+		name     string
+		dir      string
+		roomName string
+		wantErr  bool
+		want     learn.Classroom
+	}{
+		{
+			name:     "ok",
+			dir:      baseDir,
+			roomName: testClassroomName,
+			want:     makeLearnClassroom(),
+		},
+	}
+
+	for _, c := range testCases {
+		t.Run(c.name, func(t *testing.T) {
+			lib := jsondb.New(c.dir)
+			got, err := lib.LoadClassroom(c.roomName)
+			if c.wantErr {
+				if err == nil {
+					t.Fatalf("ERROR: error not detected")
+				}
+				t.Logf("INFO: got error: %v", err)
+				return
+			}
+			if err != nil {
+				t.Errorf("ERROR: got error %v", err)
+			}
+
+			compareClassrom(t, got, c.want)
+		})
+	}
+}
+
+func compareClassrom(t *testing.T, got, want learn.Classroom) {
+
+	t.Run("name", func(t *testing.T) {
+		if got.Name != want.Name {
+			t.Errorf("ERROR: Name: got %q, want %q", got.Name, want.Name)
+		}
+	})
+
+	testCases := []struct {
+		name                string
+		gotBoxes, wantBoxes []learn.Box
+	}{
+		{
+			name:      "kanji",
+			gotBoxes:  got.KanjiBoxes(),
+			wantBoxes: want.KanjiBoxes(),
+		},
+	}
+
+	for _, c := range testCases {
+		t.Run(c.name, func(t *testing.T) {
+
+			if len(c.gotBoxes) != len(c.wantBoxes) {
+				t.Fatalf("ERROR: length KanjiBoxes: got %v, want %v",
+					len(c.gotBoxes), len(c.wantBoxes))
+			}
+
+			// ensure same box order
+			sort.Slice(c.gotBoxes, func(a, b int) bool {
+				return c.gotBoxes[a].Name < c.gotBoxes[b].Name
+			})
+			sort.Slice(c.wantBoxes, func(a, b int) bool {
+				return c.wantBoxes[a].Name < c.wantBoxes[b].Name
+			})
+
+			for i, gotBox := range c.gotBoxes {
+				for _, mode := range gotBox.Modes() {
+					for _, level := range learn.Levels() {
+
+						t.Run(fmt.Sprintf("%d %s %s %d", i, gotBox.Name, mode, level),
+							func(t *testing.T) {
+								if diff := cmp.Diff(
+									gotBox.Cards(mode, level),
+									c.wantBoxes[i].Cards(mode, level),
+								); diff != "" {
+									t.Fatalf("ERROR: (%s/%v) got- want+\n%s", mode, level, diff)
+								}
+							})
+					}
+				}
+			}
+		})
+	}
+}
 
 func TestClassroomStore(t *testing.T) {
 
@@ -71,11 +166,13 @@ func makeLearnClassroom() learn.Classroom {
 
 	kb1 := learn.NewKanjiBox(boxID, kanjiCards1...)
 	wb1 := learn.NewWordBox(boxID, wordCards1...)
+	wb1.SetCardLevel(learn.Native2Japanese, 1, wb1.Cards(learn.Native2Japanese, 0)[1])
 
 	boxID.Name = "box 2"
 	boxID.LessonID.Name = "lesson 2"
 
 	kb2 := learn.NewKanjiBox(boxID, kanjiCards2...)
+	kb2.SetCardLevel(learn.Kanji2Native, 2, kb2.Cards(learn.Kanji2Native, 0)[1])
 
 	room.SetKanjiBoxes(kb1, kb2)
 	room.SetWordBoxes(wb1)

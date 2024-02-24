@@ -9,7 +9,48 @@ import (
 	"strconv"
 
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
+	"github.com/jochenczemmel/gobenkyoo/content/books"
 )
+
+func readBox(filename string) (learn.Box, error) {
+	var box learn.Box
+	file, err := os.Open(filename)
+	if err != nil {
+		return box, fmt.Errorf("open box file: %w", err)
+	}
+	defer file.Close()
+
+	var jsonBox Box
+	err = json.NewDecoder(file).Decode(&jsonBox)
+	if err != nil {
+		return box, fmt.Errorf("json box %q: decode: %w", filename, err)
+	}
+
+	boxID := learn.BoxID{
+		Name: jsonBox.BoxID.Name,
+		LessonID: books.LessonID{
+			Name: jsonBox.BoxID.LessonID.Name,
+			ID: books.ID{
+				Title:       jsonBox.BoxID.LessonID.BookID.Title,
+				SeriesTitle: jsonBox.BoxID.LessonID.BookID.SeriesTitle,
+				Volume:      jsonBox.BoxID.LessonID.BookID.Volume,
+			},
+		},
+	}
+	if jsonBox.Type == learn.KanjiType {
+		box = learn.NewKanjiBox(boxID)
+	} else {
+		box = learn.NewWordBox(boxID)
+	}
+
+	for mode, modeLevels := range jsonBox.Cards {
+		for level, cards := range modeLevels {
+			box.AddCards(mode, level, json2LearnCards(cards)...)
+		}
+	}
+
+	return box, nil
+}
 
 func storeBox(dirname string, box learn.Box) error {
 	err := os.MkdirAll(dirname, defaultFilePermissions)
@@ -121,6 +162,33 @@ func learnCards2Json(cards []learn.Card) []LearnCard {
 			MoreAnswers: c.MoreAnswers,
 			Explanation: c.Explanation,
 		})
+	}
+
+	return jsonCards
+}
+
+func json2LearnCards(cards []LearnCard) []learn.Card {
+	jsonCards := make([]learn.Card, 0, len(cards))
+	for _, c := range cards {
+		card := learn.Card{
+			ID: learn.CardID{
+				ContentID: c.ID.ContentID,
+				LessonID: books.LessonID{
+					Name: c.ID.LessonID.Name,
+					ID: books.ID{
+						Title:       c.ID.LessonID.BookID.Title,
+						SeriesTitle: c.ID.LessonID.BookID.SeriesTitle,
+						Volume:      c.ID.LessonID.BookID.Volume,
+					},
+				},
+			},
+			Question:    c.Question,
+			Hint:        c.Hint,
+			Answer:      c.Answer,
+			MoreAnswers: c.MoreAnswers,
+			Explanation: c.Explanation,
+		}
+		jsonCards = append(jsonCards, card)
 	}
 
 	return jsonCards

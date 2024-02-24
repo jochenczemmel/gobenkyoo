@@ -1,0 +1,195 @@
+{
+	"boxId": {
+		"name": "box 2",
+		"lessonId": {
+			"name": "lesson 2",
+			"bookId": {
+				"title": "book 1",
+				"seriesTitle": "book",
+				"volume": 1
+			}
+		}
+	},
+	"type": "kanji",
+	"cards": {
+		"kana_to_kanji": {
+			"0": [
+				{
+					"id": {
+						"contentId": "3",
+						"lessonId": {
+							"name": "lesson 2",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "もと",
+					"answer": "本",
+					"moreAnswers": [
+						"Wurzel, Ursprung",
+						"moto"
+					]
+				},
+				{
+					"id": {
+						"contentId": "4",
+						"lessonId": {
+							"name": "lesson 2",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "ki",
+					"answer": "木",
+					"moreAnswers": [
+						"Baum, Holz"
+					]
+				},
+				{
+					"id": {
+						"contentId": "5",
+						"lessonId": {
+							"name": "lesson 2",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "mizu",
+					"answer": "水",
+					"moreAnswers": [
+						"Wasser"
+					]
+				}
+			]
+		},
+		"kanji_to_native": {
+			"0": [
+				{
+					"id": {
+						"contentId": "3",
+						"lessonId": {
+							"name": "lesson 2",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "本",
+					"answer": "Wurzel, Ursprung",
+					"moreAnswers": [
+						"moto",
+						"もと"
+					]
+				},
+				{
+					"id": {
+						"contentId": "5",
+						"lessonId": {
+							"name": "lesson 2",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "水",
+					"answer": "Wasser",
+					"moreAnswers": [
+						"mizu"
+					]
+				}
+			],
+			"2": [
+				{
+					"id": {
+						"contentId": "4",
+						"lessonId": {
+							"name": "lesson 2",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "木",
+					"answer": "Baum, Holz",
+					"moreAnswers": [
+						"ki"
+					]
+				}
+			]
+		},
+		"native_to_kanji": {
+			"0": [
+				{
+					"id": {
+						"contentId": "3",
+						"lessonId": {
+							"name": "lesson 2",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "Wurzel, Ursprung",
+					"answer": "本",
+					"moreAnswers": [
+						"moto",
+						"もと"
+					]
+				},
+				{
+					"id": {
+						"contentId": "4",
+						"lessonId": {
+							"name": "lesson 2",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "Baum, Holz",
+					"answer": "木",
+					"moreAnswers": [
+						"ki"
+					]
+				},
+				{
+					"id": {
+						"contentId": "5",
+						"lessonId": {
+							"name": "lesson 2",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "Wasser",
+					"answer": "水",
+					"moreAnswers": [
+						"mizu"
+					]
+				}
+			]
+		}
+	}
+}

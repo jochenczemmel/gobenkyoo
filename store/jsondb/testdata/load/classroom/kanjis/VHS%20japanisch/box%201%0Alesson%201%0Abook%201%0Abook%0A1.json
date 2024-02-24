@@ -1,0 +1,139 @@
+{
+	"boxId": {
+		"name": "box 1",
+		"lessonId": {
+			"name": "lesson 1",
+			"bookId": {
+				"title": "book 1",
+				"seriesTitle": "book",
+				"volume": 1
+			}
+		}
+	},
+	"type": "kanji",
+	"cards": {
+		"kana_to_kanji": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "ホー, かた",
+					"answer": "方",
+					"moreAnswers": [
+						"Richtung, Art und Weise, etwas zu tun, Person",
+						"HOO, kata"
+					]
+				},
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "yoo",
+					"answer": "曜",
+					"moreAnswers": [
+						"weekday"
+					]
+				}
+			]
+		},
+		"kanji_to_native": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "方",
+					"answer": "Richtung, Art und Weise, etwas zu tun, Person",
+					"moreAnswers": [
+						"HOO, kata",
+						"ホー, かた"
+					]
+				},
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "曜",
+					"answer": "weekday",
+					"moreAnswers": [
+						"yoo"
+					]
+				}
+			]
+		},
+		"native_to_kanji": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "Richtung, Art und Weise, etwas zu tun, Person",
+					"answer": "方",
+					"moreAnswers": [
+						"HOO, kata",
+						"ホー, かた"
+					]
+				},
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "book 1",
+								"seriesTitle": "book",
+								"volume": 1
+							}
+						}
+					},
+					"question": "weekday",
+					"answer": "曜",
+					"moreAnswers": [
+						"yoo"
+					]
+				}
+			]
+		}
+	}
+}
