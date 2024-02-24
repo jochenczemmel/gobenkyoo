@@ -65,7 +65,7 @@ func TestBoxSetCardLevel(t *testing.T) {
 
 	// 2 cards in initial, 1 card in new level
 	assertIntEqual(t, box.NCards(boxMode, initialLevel), len(cards1)-1)
-	assertIntEqual(t, box.NCards(boxMode, newLevel), 2)
+	assertIntEqual(t, box.NCards(boxMode, newLevel), 1)
 }
 
 func assertIntEqual(t *testing.T, got, want int) {
