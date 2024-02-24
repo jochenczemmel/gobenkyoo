@@ -22,14 +22,14 @@ func TestIntegrationLibraryStoreLoad(t *testing.T) {
 	}
 
 	bookLib := makeBooksLibrary()
-	lib := jsondb.NewLibrary(baseDir)
+	lib := jsondb.New(baseDir)
 
-	err = lib.Store(bookLib)
+	err = lib.StoreLibrary(bookLib)
 	if err != nil {
 		t.Errorf("ERROR: got error %v", err)
 	}
 
-	got, err := lib.Load(testLibraryName)
+	got, err := lib.LoadLibrary(testLibraryName)
 	if err != nil {
 		t.Errorf("ERROR: got error %v", err)
 	}

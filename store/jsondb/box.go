@@ -30,6 +30,17 @@ func storeBox(dirname string, box learn.Box) error {
 				},
 			},
 		},
+		Cards: map[string]map[int][]LearnCard{},
+	}
+
+	for _, mode := range box.Modes() {
+		jsonBox.Cards[mode] = map[int][]LearnCard{}
+		for _, level := range learn.Levels() {
+			cards := learnCards2Json(box.Cards(mode, level))
+			if len(cards) > 0 {
+				jsonBox.Cards[mode][level] = cards
+			}
+		}
 	}
 
 	fileName := filepath.Join(dirname, jsonBox.BoxID.fileName())
@@ -38,8 +49,6 @@ func storeBox(dirname string, box learn.Box) error {
 		return fmt.Errorf("store box: create file: %w", err)
 	}
 	defer file.Close()
-
-	// TODO: extract cards, levels, learn modes, store them...
 
 	enc := json.NewEncoder(file)
 	enc.SetIndent("", "\t")
@@ -52,9 +61,9 @@ func storeBox(dirname string, box learn.Box) error {
 }
 
 type Box struct {
-	BoxID BoxID       `json:"boxId"`
-	Type  string      `json:"type"`
-	Cards []LearnCard `json:"cards"`
+	BoxID BoxID                          `json:"boxId"`
+	Type  string                         `json:"type"`
+	Cards map[string]map[int][]LearnCard `json:"cards"`
 }
 
 type BoxID struct {

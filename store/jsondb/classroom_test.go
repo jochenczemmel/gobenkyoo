@@ -29,12 +29,10 @@ func TestClassroomStore(t *testing.T) {
 		name:    "ok",
 		dir:     baseDir,
 		wantErr: false,
-		/*
-			}, {
-				name:    "not ok",
-				dir:     "/can/not/create",
-				wantErr: true,
-		*/
+	}, {
+		name:    "not ok",
+		dir:     "/can/not/create",
+		wantErr: true,
 	}}
 
 	for _, c := range testCases {
