@@ -41,6 +41,40 @@ func TestBoxModes(t *testing.T) {
 	}
 }
 
+func TestBoxSetCardLevel(t *testing.T) {
+	box := learn.NewKanjiBox(learn.BoxID{})
+	boxMode := learn.Kanji2Native
+	initialLevel := learn.MinLevel + 1
+	newLevel := initialLevel + 1
+
+	box.AddCards(boxMode, initialLevel, cards1...)
+
+	// 3 cards in initial, 0 cards in new level
+	assertIntEqual(t, box.NCards(boxMode, initialLevel), len(cards1))
+	assertIntEqual(t, box.NCards(boxMode, newLevel), 0)
+
+	// set one card to the next level
+	box.SetCardLevel(boxMode, newLevel, cards1[0])
+
+	// 2 cards in initial, 1 card in new level
+	assertIntEqual(t, box.NCards(boxMode, initialLevel), len(cards1)-1)
+	assertIntEqual(t, box.NCards(boxMode, newLevel), 1)
+
+	// invalid mode, nothing happens:
+	box.SetCardLevel("invalid", newLevel, cards1[1])
+
+	// 2 cards in initial, 1 card in new level
+	assertIntEqual(t, box.NCards(boxMode, initialLevel), len(cards1)-1)
+	assertIntEqual(t, box.NCards(boxMode, newLevel), 2)
+}
+
+func assertIntEqual(t *testing.T, got, want int) {
+	t.Helper()
+	if got != want {
+		t.Errorf("ERROR: got %v, want %v", got, want)
+	}
+}
+
 func TestBoxCards(t *testing.T) {
 
 	box := learn.NewKanjiBox(learn.BoxID{})
