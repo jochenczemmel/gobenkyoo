@@ -41,3 +41,28 @@ func TestIntegrationLibraryStoreLoad(t *testing.T) {
 		t.Fatalf("ERROR: got- want+\n%s", diff)
 	}
 }
+
+func TestIntegrationClassroomStoreLoad(t *testing.T) {
+	// store, load, compare
+
+	baseDir := filepath.Join(testDataDir, "store")
+	err := os.RemoveAll(baseDir)
+	if err != nil {
+		t.Fatalf("ERROR: remove store dir failed: %v", err)
+	}
+
+	room := makeLearnClassroom()
+	lib := jsondb.New(baseDir)
+
+	err = lib.StoreClassroom(room)
+	if err != nil {
+		t.Errorf("ERROR: got error %v", err)
+	}
+
+	got, err := lib.LoadClassroom(testClassroomName)
+	if err != nil {
+		t.Errorf("ERROR: got error %v", err)
+	}
+
+	compareClassrom(t, got, room)
+}

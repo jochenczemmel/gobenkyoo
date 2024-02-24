@@ -23,14 +23,27 @@ func TestClassroomLoad(t *testing.T) {
 		roomName string
 		wantErr  bool
 		want     learn.Classroom
-	}{
-		{
-			name:     "ok",
-			dir:      baseDir,
-			roomName: testClassroomName,
-			want:     makeLearnClassroom(),
-		},
-	}
+	}{{
+		name:     "ok",
+		dir:      baseDir,
+		roomName: testClassroomName,
+		want:     makeLearnClassroom(),
+	}, {
+		name:     "classroom not found",
+		dir:      baseDir,
+		roomName: "does not exist",
+		wantErr:  true,
+	}, {
+		name:     "dir not found",
+		dir:      "does/not/exist",
+		roomName: testClassroomName,
+		wantErr:  true,
+	}, {
+		name:     "invalid json",
+		dir:      baseDir,
+		roomName: "invalid",
+		wantErr:  true,
+	}}
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {

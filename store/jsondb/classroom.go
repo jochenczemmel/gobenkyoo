@@ -1,6 +1,7 @@
 package jsondb
 
 import (
+	"errors"
 	"fmt"
 	"net/url"
 	"os"
@@ -35,21 +36,24 @@ func (l DB) StoreClassroom(classroom learn.Classroom) error {
 }
 
 func (l DB) LoadClassroom(name string) (learn.Classroom, error) {
-	room := learn.NewClassroom(name)
+	var room learn.Classroom
+
 	baseDirName := filepath.Join(l.baseDir, classroomPath)
-	boxes, err := readBoxes(name,
+	kanjiBoxes, err := readBoxes(name,
 		filepath.Join(baseDirName, kanjiPath, url.PathEscape(name)))
 	if err != nil {
 		return room, fmt.Errorf("load classroom: %w", err)
 	}
-	room.SetKanjiBoxes(boxes...)
 
-	boxes, err = readBoxes(name,
+	wordBoxes, err := readBoxes(name,
 		filepath.Join(baseDirName, wordPath, url.PathEscape(name)))
 	if err != nil {
 		return room, fmt.Errorf("load classroom: %w", err)
 	}
-	room.SetWordBoxes(boxes...)
+
+	room = learn.NewClassroom(name)
+	room.SetKanjiBoxes(kanjiBoxes...)
+	room.SetWordBoxes(wordBoxes...)
 
 	return room, nil
 }
@@ -75,6 +79,10 @@ func readBoxes(name, dirname string) ([]learn.Box, error) {
 			continue
 		}
 		result = append(result, box)
+	}
+
+	if len(errorList) > 0 {
+		return result, fmt.Errorf("read box: %w", errors.Join(errorList...))
 	}
 
 	return result, nil
