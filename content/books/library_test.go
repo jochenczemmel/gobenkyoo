@@ -84,13 +84,13 @@ func TestLibraryFindCard(t *testing.T) {
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 			t.Run("word", func(t *testing.T) {
-				got := library.GetWordCard(c.lessonID, c.id)
+				got := library.WordCard(c.lessonID, c.id)
 				if diff := cmp.Diff(got, c.wantWordCard); diff != "" {
 					t.Errorf("FindWordCard(%v): -got, +want\n%s", c.id, diff)
 				}
 			})
 			t.Run("kanji", func(t *testing.T) {
-				got := library.GetKanjiCard(c.lessonID, c.id)
+				got := library.KanjiCard(c.lessonID, c.id)
 				if diff := cmp.Diff(got, c.wantKanjiCard); diff != "" {
 					t.Errorf("FindKanjiCard(%v): -got, +want\n%s", c.id, diff)
 				}
