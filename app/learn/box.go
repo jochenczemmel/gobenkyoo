@@ -18,7 +18,7 @@ func NewKanjiBox(id BoxID, cards ...kanjis.Card) Box {
 	box := Box{
 		BoxID:      id,
 		Type:       KanjiType,
-		modes:      GetKanjiModes(),
+		modes:      KanjiModes(),
 		containers: map[string]container{},
 	}
 	for _, mode := range box.modes {
@@ -34,7 +34,7 @@ func NewWordBox(id BoxID, cards ...words.Card) Box {
 	box := Box{
 		BoxID:      id,
 		Type:       WordType,
-		modes:      GetWordModes(),
+		modes:      WordModes(),
 		containers: map[string]container{},
 	}
 	for _, mode := range box.modes {
@@ -69,7 +69,7 @@ func (b Box) NCards(mode string, level int) int {
 // Modes returns the list of learn modes for the box.
 func (b Box) Modes() []string {
 	if b.Type == KanjiType {
-		return GetKanjiModes()
+		return KanjiModes()
 	}
-	return GetWordModes()
+	return WordModes()
 }

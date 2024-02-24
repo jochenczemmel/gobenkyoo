@@ -23,12 +23,12 @@ func TestBoxModes(t *testing.T) {
 		{
 			name: "kanji",
 			box:  learn.NewKanjiBox(learn.BoxID{}),
-			want: learn.GetKanjiModes(),
+			want: learn.KanjiModes(),
 		},
 		{
 			name: "words",
 			box:  learn.NewWordBox(learn.BoxID{}),
-			want: learn.GetWordModes(),
+			want: learn.WordModes(),
 		},
 	}
 	for _, c := range testCases {

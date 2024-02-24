@@ -21,8 +21,8 @@ const (
 	KanjiType = "kanji"
 )
 
-// GetKanjiModes returns a list of the implemented (=valid) kanji learning modes.
-func GetKanjiModes() []string {
+// KanjiModes returns a list of the implemented (=valid) kanji learning modes.
+func KanjiModes() []string {
 	return []string{Kanji2Native, Native2Kanji, Kana2Kanji}
 }
 

@@ -21,8 +21,8 @@ const (
 	WordType = "word"
 )
 
-// GetWordModes returns a list of the implemented (=valid) word learning modes.
-func GetWordModes() []string {
+// WordModes returns a list of the implemented (=valid) word learning modes.
+func WordModes() []string {
 	return []string{
 		Native2Japanese,
 		Japanese2Native,
