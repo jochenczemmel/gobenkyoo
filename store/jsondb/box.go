@@ -12,6 +12,7 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 )
 
+// readBox reads a single learn box from the given file.
 func readBox(filename string) (learn.Box, error) {
 	var box learn.Box
 	file, err := os.Open(filename)
@@ -52,6 +53,9 @@ func readBox(filename string) (learn.Box, error) {
 	return box, nil
 }
 
+// storeBox stores a single box in the given directory.
+// The name of the file is determined by calling fileName()
+// on the boxID.
 func storeBox(dirname string, box learn.Box) error {
 	err := os.MkdirAll(dirname, defaultFilePermissions)
 	if err != nil {
@@ -112,6 +116,10 @@ type boxIDJSON struct {
 	LessonID lessonIDJSON `json:"lessonId"`
 }
 
+// fileName returns the name of the file for storage.
+// It consists of the box name, the lesson name, the book title,
+// the book series title and the book volume. The name is
+// path escaped to ensure it is a valid file name.
 func (b boxIDJSON) fileName() string {
 	return url.PathEscape(
 		b.Name+"\n"+
@@ -141,6 +149,7 @@ type learnCardJSON struct {
 	Explanation string     `json:"explanation,omitempty"`
 }
 
+// learnCardJSON converts a list of learn cards to json cards.
 func learnCards2Json(cards []learn.Card) []learnCardJSON {
 	jsonCards := make([]learnCardJSON, 0, len(cards))
 	for _, c := range cards {
@@ -167,6 +176,7 @@ func learnCards2Json(cards []learn.Card) []learnCardJSON {
 	return jsonCards
 }
 
+// json2LearnCards converts a list of json cards to learn cards.
 func json2LearnCards(cards []learnCardJSON) []learn.Card {
 	jsonCards := make([]learn.Card, 0, len(cards))
 	for _, c := range cards {

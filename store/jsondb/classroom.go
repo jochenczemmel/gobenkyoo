@@ -11,8 +11,7 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 )
 
-// StoreClassroom stores the specified classroom in the base dir
-// of the json library object.
+// StoreClassroom stores all boxes that the specified classroom contains.
 func (l DB) StoreClassroom(classroom learn.Classroom) error {
 
 	classroomDir := filepath.Join(l.baseDir, classroomPath)
@@ -35,6 +34,7 @@ func (l DB) StoreClassroom(classroom learn.Classroom) error {
 	return nil
 }
 
+// LoadClassroom loads all boxes that the specified classroom contains.
 func (l DB) LoadClassroom(name string) (learn.Classroom, error) {
 	var room learn.Classroom
 
@@ -58,6 +58,7 @@ func (l DB) LoadClassroom(name string) (learn.Classroom, error) {
 	return room, nil
 }
 
+// readBoxes reads all learn boxes that are found in the given directory.
 func readBoxes(name, dirname string) ([]learn.Box, error) {
 	result := []learn.Box{}
 

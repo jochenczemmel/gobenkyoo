@@ -11,8 +11,7 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 )
 
-// StoreLibrary stores the specified library in the base dir
-// of the json library object.
+// StoreLibrary stores all the books that are in the specified library.
 func (l DB) StoreLibrary(library books.Library) error {
 	dirName := filepath.Join(l.baseDir, libraryPath, url.PathEscape(library.Name))
 	for _, book := range library.Books {
@@ -25,7 +24,7 @@ func (l DB) StoreLibrary(library books.Library) error {
 	return nil
 }
 
-// Store loads the specified library from the base dir of the json library object.
+// LoadLibrary loads all the books in the specified library.
 func (l DB) LoadLibrary(name string) (books.Library, error) {
 	dirName := filepath.Join(l.baseDir, libraryPath, url.PathEscape(name))
 	library, err := readLibrary(name, dirName)
@@ -36,7 +35,8 @@ func (l DB) LoadLibrary(name string) (books.Library, error) {
 	return library, nil
 }
 
-// readLibrary reads the json book files from the library directory.
+// readLibrary reads the json book files from the given directory
+// and returns a library with the provided name.
 func readLibrary(name, dirname string) (books.Library, error) {
 	library := books.NewLibrary(name)
 

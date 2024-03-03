@@ -145,7 +145,7 @@ type kanjiDetailJSON struct {
 	Meanings    []string `json:"meanings"`
 }
 
-// kanjiCards2Json converts a list of kanjis.Card to json.KanjiCard.
+// kanjiCards2Json converts a list of kanji cards to json cards.
 func kanjiCards2Json(cards []kanjis.Card) []kanjiCardJSON {
 	result := make([]kanjiCardJSON, 0, len(cards))
 	for _, card := range cards {
@@ -166,7 +166,7 @@ func kanjiCards2Json(cards []kanjis.Card) []kanjiCardJSON {
 	return result
 }
 
-// json2KanjiCards converts a list of json.KanjiCard to kanjis.Card.
+// json2KanjiCards converts a list of cards from json cards.
 func json2KanjiCards(jsoncards []kanjiCardJSON) []kanjis.Card {
 	result := make([]kanjis.Card, 0, len(jsoncards))
 	for _, jsoncard := range jsoncards {
@@ -186,7 +186,7 @@ func json2KanjiCards(jsoncards []kanjiCardJSON) []kanjis.Card {
 	return result
 }
 
-// wordCards2Json converts a list of words.Card to json.WordCard.
+// wordCards2Json converts a list of word cards to json cards.
 func wordCards2Json(cards []words.Card) []wordCardJSON {
 	result := make([]wordCardJSON, 0, len(cards))
 	for _, card := range cards {
@@ -208,7 +208,7 @@ func wordCards2Json(cards []words.Card) []wordCardJSON {
 	return result
 }
 
-// json2WordCards converts a list of json.WordCard to words.Card.
+// json2WordCards converts a list of json cards to word cards.
 func json2WordCards(jsoncards []wordCardJSON) []words.Card {
 	result := make([]words.Card, 0, len(jsoncards))
 
