@@ -22,14 +22,14 @@ func storeBook(dirname string, book books.Book) error {
 		return fmt.Errorf("store book: create directory: %w", err)
 	}
 
-	jsonBook := Book{
-		ID: BookID{
+	jsonBook := bookJSON{
+		ID: bookIDJSON{
 			Title:       book.ID.Title,
 			SeriesTitle: book.ID.SeriesTitle,
 			Volume:      book.ID.Volume,
 		},
 		LessonNames:   book.LessonNames(),
-		LessonsByName: map[string]Lesson{},
+		LessonsByName: map[string]lessonJSON{},
 	}
 
 	for _, name := range jsonBook.LessonNames {
@@ -65,7 +65,7 @@ func readBook(filename string) (books.Book, error) {
 	}
 	defer file.Close()
 
-	var jsonBook Book
+	var jsonBook bookJSON
 	err = json.NewDecoder(file).Decode(&jsonBook)
 	if err != nil {
 		return book, fmt.Errorf("json book %q: decode: %w", filename, err)
@@ -88,39 +88,39 @@ func readBook(filename string) (books.Book, error) {
 }
 
 // lesson2json converts a book lesson to a jsondb lesson.
-func lesson2json(lesson books.Lesson) Lesson {
-	return Lesson{
+func lesson2json(lesson books.Lesson) lessonJSON {
+	return lessonJSON{
 		Name:       lesson.Name,
 		KanjiCards: kanjiCards2Json(lesson.KanjiCards()),
 		WordCards:  wordCards2Json(lesson.WordCards()),
 	}
 }
 
-type Book struct {
-	ID            BookID            `json:"id"`
-	LessonNames   []string          `json:"lessonNames,omitempty"`
-	LessonsByName map[string]Lesson `json:"lessonsByName,omitempty"`
+type bookJSON struct {
+	ID            bookIDJSON            `json:"id"`
+	LessonNames   []string              `json:"lessonNames,omitempty"`
+	LessonsByName map[string]lessonJSON `json:"lessonsByName,omitempty"`
 }
 
-type BookID struct {
+type bookIDJSON struct {
 	Title       string `json:"title,omitempty"`
 	SeriesTitle string `json:"seriesTitle,omitempty"`
 	Volume      int    `json:"volume,omitempty"`
 }
 
-func (b BookID) fileName() string {
+func (b bookIDJSON) fileName() string {
 	return url.PathEscape(
 		b.Title+"\n"+b.SeriesTitle+"\n"+strconv.Itoa(b.Volume)) + jsonExtension
 }
 
-type Lesson struct {
-	Name       string      `json:"name"`
-	WordCards  []WordCard  `json:"wordCards,omitempty"`
-	KanjiCards []KanjiCard `json:"kanjiCards,omitempty"`
+type lessonJSON struct {
+	Name       string          `json:"name"`
+	WordCards  []wordCardJSON  `json:"wordCards,omitempty"`
+	KanjiCards []kanjiCardJSON `json:"kanjiCards,omitempty"`
 	// BookID     BookID      `json:"id"`
 }
 
-type WordCard struct {
+type wordCardJSON struct {
 	ID          string `json:"id"`
 	Nihongo     string `json:"nihongo,omitempty"`
 	Kana        string `json:"kana,omitempty"`
@@ -133,27 +133,27 @@ type WordCard struct {
 	NaiForm     string `json:"naiForm,omitempty"`
 }
 
-type KanjiCard struct {
-	ID           string        `json:"id"`
-	Kanji        string        `json:"kanji"`
-	KanjiDetails []KanjiDetail `json:"kanjiDetails"`
+type kanjiCardJSON struct {
+	ID           string            `json:"id"`
+	Kanji        string            `json:"kanji"`
+	KanjiDetails []kanjiDetailJSON `json:"kanjiDetails"`
 }
 
-type KanjiDetail struct {
+type kanjiDetailJSON struct {
 	Reading     string   `json:"reading"`
 	ReadingKana string   `json:"readingKana,omitempty"`
 	Meanings    []string `json:"meanings"`
 }
 
 // kanjiCards2Json converts a list of kanjis.Card to json.KanjiCard.
-func kanjiCards2Json(cards []kanjis.Card) []KanjiCard {
-	result := make([]KanjiCard, 0, len(cards))
+func kanjiCards2Json(cards []kanjis.Card) []kanjiCardJSON {
+	result := make([]kanjiCardJSON, 0, len(cards))
 	for _, card := range cards {
-		jsonCard := KanjiCard{
+		jsonCard := kanjiCardJSON{
 			Kanji: card.String(),
 		}
 		for _, details := range card.Details {
-			jsonDetail := KanjiDetail{
+			jsonDetail := kanjiDetailJSON{
 				Reading:     details.Reading,
 				ReadingKana: details.ReadingKana,
 				Meanings:    details.Meanings,
@@ -167,7 +167,7 @@ func kanjiCards2Json(cards []kanjis.Card) []KanjiCard {
 }
 
 // json2KanjiCards converts a list of json.KanjiCard to kanjis.Card.
-func json2KanjiCards(jsoncards []KanjiCard) []kanjis.Card {
+func json2KanjiCards(jsoncards []kanjiCardJSON) []kanjis.Card {
 	result := make([]kanjis.Card, 0, len(jsoncards))
 	for _, jsoncard := range jsoncards {
 		kanji, _ := utf8.DecodeRuneInString(jsoncard.Kanji)
@@ -187,10 +187,10 @@ func json2KanjiCards(jsoncards []KanjiCard) []kanjis.Card {
 }
 
 // wordCards2Json converts a list of words.Card to json.WordCard.
-func wordCards2Json(cards []words.Card) []WordCard {
-	result := make([]WordCard, 0, len(cards))
+func wordCards2Json(cards []words.Card) []wordCardJSON {
+	result := make([]wordCardJSON, 0, len(cards))
 	for _, card := range cards {
-		jsonCard := WordCard{
+		jsonCard := wordCardJSON{
 			ID:          card.ID,
 			Nihongo:     card.Nihongo,
 			Kana:        card.Kana,
@@ -209,7 +209,7 @@ func wordCards2Json(cards []words.Card) []WordCard {
 }
 
 // json2WordCards converts a list of json.WordCard to words.Card.
-func json2WordCards(jsoncards []WordCard) []words.Card {
+func json2WordCards(jsoncards []wordCardJSON) []words.Card {
 	result := make([]words.Card, 0, len(jsoncards))
 
 	for _, jsonCard := range jsoncards {

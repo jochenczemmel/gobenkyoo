@@ -20,7 +20,7 @@ func readBox(filename string) (learn.Box, error) {
 	}
 	defer file.Close()
 
-	var jsonBox Box
+	var jsonBox boxJSON
 	err = json.NewDecoder(file).Decode(&jsonBox)
 	if err != nil {
 		return box, fmt.Errorf("json box %q: decode: %w", filename, err)
@@ -58,24 +58,24 @@ func storeBox(dirname string, box learn.Box) error {
 		return fmt.Errorf("store book: create directory: %w", err)
 	}
 
-	jsonBox := Box{
+	jsonBox := boxJSON{
 		Type: box.Type,
-		BoxID: BoxID{
+		BoxID: boxIDJSON{
 			Name: box.BoxID.Name,
-			LessonID: LessonID{
+			LessonID: lessonIDJSON{
 				Name: box.BoxID.LessonID.Name,
-				BookID: BookID{
+				BookID: bookIDJSON{
 					Title:       box.BoxID.LessonID.ID.Title,
 					SeriesTitle: box.BoxID.LessonID.ID.SeriesTitle,
 					Volume:      box.BoxID.LessonID.ID.Volume,
 				},
 			},
 		},
-		Cards: map[string]map[int][]LearnCard{},
+		Cards: map[string]map[int][]learnCardJSON{},
 	}
 
 	for _, mode := range box.Modes() {
-		jsonBox.Cards[mode] = map[int][]LearnCard{}
+		jsonBox.Cards[mode] = map[int][]learnCardJSON{}
 		for _, level := range learn.Levels() {
 			cards := learnCards2Json(box.Cards(mode, level))
 			if len(cards) > 0 {
@@ -101,18 +101,18 @@ func storeBox(dirname string, box learn.Box) error {
 	return nil
 }
 
-type Box struct {
-	BoxID BoxID                          `json:"boxId"`
-	Type  string                         `json:"type"`
-	Cards map[string]map[int][]LearnCard `json:"cards"`
+type boxJSON struct {
+	BoxID boxIDJSON                          `json:"boxId"`
+	Type  string                             `json:"type"`
+	Cards map[string]map[int][]learnCardJSON `json:"cards"`
 }
 
-type BoxID struct {
-	Name     string   `json:"name"`
-	LessonID LessonID `json:"lessonId"`
+type boxIDJSON struct {
+	Name     string       `json:"name"`
+	LessonID lessonIDJSON `json:"lessonId"`
 }
 
-func (b BoxID) fileName() string {
+func (b boxIDJSON) fileName() string {
 	return url.PathEscape(
 		b.Name+"\n"+
 			b.LessonID.Name+"\n"+
@@ -122,34 +122,34 @@ func (b BoxID) fileName() string {
 		jsonExtension
 }
 
-type LessonID struct {
-	Name   string `json:"name"`
-	BookID BookID `json:"bookId"`
+type lessonIDJSON struct {
+	Name   string     `json:"name"`
+	BookID bookIDJSON `json:"bookId"`
 }
 
-type CardID struct {
-	ContentID string   `json:"contentId"`
-	LessonID  LessonID `json:"lessonId"`
+type cardIDJSON struct {
+	ContentID string       `json:"contentId"`
+	LessonID  lessonIDJSON `json:"lessonId"`
 }
 
-type LearnCard struct {
-	ID          CardID   `json:"id"`
-	Question    string   `json:"question"`
-	Hint        string   `json:"hint,omitempty"`
-	Answer      string   `json:"answer"`
-	MoreAnswers []string `json:"moreAnswers,omitempty"`
-	Explanation string   `json:"explanation,omitempty"`
+type learnCardJSON struct {
+	ID          cardIDJSON `json:"id"`
+	Question    string     `json:"question"`
+	Hint        string     `json:"hint,omitempty"`
+	Answer      string     `json:"answer"`
+	MoreAnswers []string   `json:"moreAnswers,omitempty"`
+	Explanation string     `json:"explanation,omitempty"`
 }
 
-func learnCards2Json(cards []learn.Card) []LearnCard {
-	jsonCards := make([]LearnCard, 0, len(cards))
+func learnCards2Json(cards []learn.Card) []learnCardJSON {
+	jsonCards := make([]learnCardJSON, 0, len(cards))
 	for _, c := range cards {
-		jsonCards = append(jsonCards, LearnCard{
-			ID: CardID{
+		jsonCards = append(jsonCards, learnCardJSON{
+			ID: cardIDJSON{
 				ContentID: c.ID.ContentID,
-				LessonID: LessonID{
+				LessonID: lessonIDJSON{
 					Name: c.ID.LessonID.Name,
-					BookID: BookID{
+					BookID: bookIDJSON{
 						Title:       c.ID.LessonID.ID.Title,
 						SeriesTitle: c.ID.LessonID.ID.SeriesTitle,
 						Volume:      c.ID.LessonID.ID.Volume,
@@ -167,7 +167,7 @@ func learnCards2Json(cards []learn.Card) []LearnCard {
 	return jsonCards
 }
 
-func json2LearnCards(cards []LearnCard) []learn.Card {
+func json2LearnCards(cards []learnCardJSON) []learn.Card {
 	jsonCards := make([]learn.Card, 0, len(cards))
 	for _, c := range cards {
 		card := learn.Card{
