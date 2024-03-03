@@ -23,5 +23,5 @@ cover:
 	echo "chromium-browser $(COVERAGE_FILE) &"
 
 
-.PHONY: test testv cover
+.PHONY: test testv inttest cover
 

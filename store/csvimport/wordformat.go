@@ -1,11 +1,19 @@
 package csvimport
 
 import (
-	"fmt"
+	"errors"
 	"strings"
 
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
+
+var ErrNoKey = errors.New("no keys defined")
+
+type InvalidKeyError string
+
+func (e InvalidKeyError) Error() string {
+	return "invalid key: " + string(e)
+}
 
 type WordFormat struct {
 	fields []string
@@ -17,7 +25,7 @@ func NewWordFormat(keys ...string) (WordFormat, error) {
 		fields: make([]string, 0, len(keys)),
 	}
 	if len(keys) < 1 {
-		return result, fmt.Errorf("no keys defined")
+		return result, ErrNoKey
 	}
 
 	for i, key := range keys {
@@ -26,7 +34,7 @@ func NewWordFormat(keys ...string) (WordFormat, error) {
 		case "NIHONGO", "KANA", "ROMAJI", "MEANING", "HINT",
 			"EXPLANATION", "DICTFORM", "TEFORM", "NAIFORM", "":
 		default:
-			return result, fmt.Errorf("invalid key: %q", keys[i])
+			return result, InvalidKeyError(keys[i])
 		}
 		result.fields = append(result.fields, key)
 	}
@@ -58,6 +66,7 @@ func (f WordFormat) lineToWordCard(line []string) words.Card {
 			card.NaiForm = field
 		}
 	}
+
 	return card
 }
 

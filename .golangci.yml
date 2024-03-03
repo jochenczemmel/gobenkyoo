@@ -10,13 +10,16 @@ run:
     # - content/books/lesson_test.go
     # - .*_test\.go
 
-
 issues:
   max-issues-per-linter: 0
   max-same-issues: 0
 
 
 linters-settings:
+
+  thelper:
+    test:
+      begin: false
 
   cyclop:
     max-complexity: 16

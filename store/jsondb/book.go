@@ -117,7 +117,6 @@ type lessonJSON struct {
 	Name       string          `json:"name"`
 	WordCards  []wordCardJSON  `json:"wordCards,omitempty"`
 	KanjiCards []kanjiCardJSON `json:"kanjiCards,omitempty"`
-	// BookID     BookID      `json:"id"`
 }
 
 type wordCardJSON struct {

@@ -39,14 +39,14 @@ func (l DB) LoadClassroom(name string) (learn.Classroom, error) {
 	var room learn.Classroom
 
 	baseDirName := filepath.Join(l.baseDir, classroomPath)
-	kanjiBoxes, err := readBoxes(name,
-		filepath.Join(baseDirName, kanjiPath, url.PathEscape(name)))
+	kanjiBoxes, err := readBoxes(filepath.Join(
+		baseDirName, kanjiPath, url.PathEscape(name)))
 	if err != nil {
 		return room, fmt.Errorf("load classroom: %w", err)
 	}
 
-	wordBoxes, err := readBoxes(name,
-		filepath.Join(baseDirName, wordPath, url.PathEscape(name)))
+	wordBoxes, err := readBoxes(filepath.Join(
+		baseDirName, wordPath, url.PathEscape(name)))
 	if err != nil {
 		return room, fmt.Errorf("load classroom: %w", err)
 	}
@@ -59,7 +59,7 @@ func (l DB) LoadClassroom(name string) (learn.Classroom, error) {
 }
 
 // readBoxes reads all learn boxes that are found in the given directory.
-func readBoxes(name, dirname string) ([]learn.Box, error) {
+func readBoxes(dirname string) ([]learn.Box, error) {
 	result := []learn.Box{}
 
 	dir, err := os.Open(dirname)
@@ -70,6 +70,9 @@ func readBoxes(name, dirname string) ([]learn.Box, error) {
 
 	errorList := []error{}
 	files, err := dir.ReadDir(readAllFiles)
+	if err != nil {
+		return result, fmt.Errorf("read directory files: %w", err)
+	}
 	for _, file := range files {
 		if !strings.HasSuffix(file.Name(), jsonExtension) {
 			continue

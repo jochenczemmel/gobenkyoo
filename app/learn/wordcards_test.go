@@ -4,7 +4,6 @@ package learn_test
 
 import (
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
-	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
@@ -42,35 +41,6 @@ var wantNative2Japanese = []learn.Card{{
 	Explanation: "to study is benkyoo (勉強)",
 }, {
 	ID:       learn.CardID{ContentID: "2"},
-	Question: "world",
-	Answer:   "世界",
-	MoreAnswers: []string{
-		"せかい",
-		"sekai",
-	},
-}}
-
-var wantNative2JapaneseWithLesson = []learn.Card{{
-	ID: learn.CardID{
-		ContentID: "1",
-		LessonID:  books.NewLessonID("lesson 1", "book 1", "book", 1),
-	},
-	Question: "to learn",
-	Hint:     "from somebody",
-	Answer:   "習います",
-	MoreAnswers: []string{
-		"ならいます",
-		"naraimasu",
-		"習う",
-		"習って",
-		"習わない",
-	},
-	Explanation: "to study is benkyoo (勉強)",
-}, {
-	ID: learn.CardID{
-		ContentID: "2",
-		LessonID:  books.NewLessonID("lesson 1", "book 1", "book", 1),
-	},
 	Question: "world",
 	Answer:   "世界",
 	MoreAnswers: []string{

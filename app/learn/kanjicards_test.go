@@ -2,7 +2,6 @@ package learn_test
 
 import (
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
-	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 )
 
@@ -36,24 +35,6 @@ var wantKanji2Native = []learn.Card{{
 	MoreAnswers: []string{"HOO, kata", "ホー, かた"},
 }, {
 	ID:          learn.CardID{ContentID: "2"},
-	Question:    "曜",
-	Answer:      "weekday",
-	MoreAnswers: []string{"yoo"},
-}}
-
-var wantKanji2NativeWithLesson = []learn.Card{{
-	ID: learn.CardID{
-		ContentID: "1",
-		LessonID:  books.NewLessonID("lesson 1", "book 1", "book", 1),
-	},
-	Question:    "方",
-	Answer:      "Richtung, Art und Weise, etwas zu tun, Person",
-	MoreAnswers: []string{"HOO, kata", "ホー, かた"},
-}, {
-	ID: learn.CardID{
-		ContentID: "2",
-		LessonID:  books.NewLessonID("lesson 1", "book 1", "book", 1),
-	},
 	Question:    "曜",
 	Answer:      "weekday",
 	MoreAnswers: []string{"yoo"},

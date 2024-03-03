@@ -65,21 +65,21 @@ func TestConvertContentCards(t *testing.T) {
 
 func TestClassroomGetBoxes(t *testing.T) {
 	room := learn.NewClassroom("")
-	kanjiBoxIds := []learn.BoxID{
+	kanjiBoxIDs := []learn.BoxID{
 		{Name: "1"},
 		{Name: "2"},
 		{Name: "3"},
 	}
-	wordBoxIds := []learn.BoxID{
+	wordBoxIDs := []learn.BoxID{
 		{Name: "4"},
 		{Name: "2"},
 	}
 	kanjiBoxes := []learn.Box{}
-	for _, id := range kanjiBoxIds {
+	for _, id := range kanjiBoxIDs {
 		kanjiBoxes = append(kanjiBoxes, learn.NewKanjiBox(id))
 	}
 	wordBoxes := []learn.Box{}
-	for _, id := range wordBoxIds {
+	for _, id := range wordBoxIDs {
 		wordBoxes = append(wordBoxes, learn.NewWordBox(id))
 	}
 
@@ -112,22 +112,22 @@ func TestClassroomGetBoxes(t *testing.T) {
 			want   learn.Box
 		}{{
 			name:   "kanji ok",
-			input:  kanjiBoxIds[0],
+			input:  kanjiBoxIDs[0],
 			method: room.KanjiBox,
 			want:   kanjiBoxes[0],
 		}, {
 			name:   "kanji not found",
-			input:  wordBoxIds[0],
+			input:  wordBoxIDs[0],
 			method: room.KanjiBox,
 			want:   learn.NewKanjiBox(learn.BoxID{}),
 		}, {
 			name:   "word ok",
-			input:  wordBoxIds[0],
+			input:  wordBoxIDs[0],
 			method: room.WordBox,
 			want:   wordBoxes[0],
 		}, {
 			name:   "word not found",
-			input:  kanjiBoxIds[0],
+			input:  kanjiBoxIDs[0],
 			method: room.WordBox,
 			want:   learn.NewWordBox(learn.BoxID{}),
 		}}

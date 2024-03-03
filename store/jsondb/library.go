@@ -48,6 +48,9 @@ func readLibrary(name, dirname string) (books.Library, error) {
 
 	errorList := []error{}
 	files, err := dir.ReadDir(readAllFiles)
+	if err != nil {
+		return library, fmt.Errorf("read directory files: %w", err)
+	}
 	for _, file := range files {
 		if !strings.HasSuffix(file.Name(), jsonExtension) {
 			continue
@@ -63,5 +66,6 @@ func readLibrary(name, dirname string) (books.Library, error) {
 	if len(errorList) > 0 {
 		return library, fmt.Errorf("read book: %w", errors.Join(errorList...))
 	}
+
 	return library, nil
 }

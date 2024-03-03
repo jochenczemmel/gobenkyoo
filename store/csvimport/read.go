@@ -2,16 +2,17 @@ package csvimport
 
 import (
 	"encoding/csv"
+	"fmt"
 	"os"
 )
 
-// getLines returns the consolidated lines from a csv file.
+// getLines returns the lines from a csv file.
 // If header is true, the first line is omitted.
 func getLines(filename string, separator rune, header bool) ([][]string, error) {
 
 	file, err := os.Open(filename)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("open csv file: %w", err)
 	}
 	defer file.Close()
 
@@ -21,10 +22,11 @@ func getLines(filename string, separator rune, header bool) ([][]string, error) 
 
 	table, err := reader.ReadAll()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("read csv file: %w", err)
 	}
 	if header {
 		return table[1:], nil
 	}
+
 	return table, nil
 }

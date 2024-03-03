@@ -25,6 +25,7 @@ func NewKanjiBox(id BoxID, cards ...kanjis.Card) Box {
 		box.containers[mode] = newContainer(
 			box.makeKanjiCards(mode, cards...)...)
 	}
+
 	return box
 }
 
@@ -41,6 +42,7 @@ func NewWordBox(id BoxID, cards ...words.Card) Box {
 		box.containers[mode] = newContainer(
 			box.makeWordCards(mode, cards...)...)
 	}
+
 	return box
 }
 
