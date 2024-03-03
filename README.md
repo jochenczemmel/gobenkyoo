@@ -28,8 +28,12 @@ Contains the code for the learning process.
 ### search
 Contains the code for searching in the content.
 
-## storage
+## store
 Contains the code for importing and storing content and learning state.
+
+### jsondb
+Contains the code for storing the application data as json files
+in the filesystem.
 
 ## ui
 Contains the code for the user interfaces.
