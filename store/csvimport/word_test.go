@@ -33,13 +33,13 @@ func TestWordImport(t *testing.T) {
 	testCases := []struct {
 		name      string
 		fileName  string
-		importer  csvimport.Words
+		importer  csvimport.Word
 		want      []words.Card
 		wantError bool
 	}{{
 		name:     "ok",
 		fileName: "words1.csv",
-		importer: csvimport.Words{
+		importer: csvimport.Word{
 			Format:     format,
 			Separator:  ',',
 			HeaderLine: true,
@@ -48,7 +48,7 @@ func TestWordImport(t *testing.T) {
 	}, {
 		name:     "ok no header",
 		fileName: "words1noheader.csv",
-		importer: csvimport.Words{
+		importer: csvimport.Word{
 			Format:    format,
 			Separator: ',',
 		},
@@ -56,7 +56,7 @@ func TestWordImport(t *testing.T) {
 	}, {
 		name:     "selective fields",
 		fileName: "words1.csv",
-		importer: csvimport.Words{
+		importer: csvimport.Word{
 			Format:     minimalFormat,
 			Separator:  ',',
 			HeaderLine: true,
@@ -65,7 +65,7 @@ func TestWordImport(t *testing.T) {
 	}, {
 		name:     "file not found",
 		fileName: "does not exist",
-		importer: csvimport.Words{
+		importer: csvimport.Word{
 			Format:     minimalFormat,
 			Separator:  ',',
 			HeaderLine: true,
@@ -74,7 +74,7 @@ func TestWordImport(t *testing.T) {
 	}, {
 		name:     "invalid quotes due to wrong separator",
 		fileName: "words1.csv",
-		importer: csvimport.Words{
+		importer: csvimport.Word{
 			Format:     format,
 			Separator:  ';',
 			HeaderLine: true,

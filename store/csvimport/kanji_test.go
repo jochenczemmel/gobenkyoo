@@ -29,13 +29,13 @@ func TestKanjiImport(t *testing.T) {
 	testCases := []struct {
 		name      string
 		fileName  string
-		importer  csvimport.Kanjis
+		importer  csvimport.Kanji
 		want      []kanjis.Card
 		wantError bool
 	}{{
 		name:     "ok",
 		fileName: "kanjis1.csv",
-		importer: csvimport.Kanjis{
+		importer: csvimport.Kanji{
 			Format:     format,
 			Separator:  ';',
 			HeaderLine: true,
@@ -44,7 +44,7 @@ func TestKanjiImport(t *testing.T) {
 	}, {
 		name:     "ok no header",
 		fileName: "kanjis1noheader.csv",
-		importer: csvimport.Kanjis{
+		importer: csvimport.Kanji{
 			Format:    format,
 			Separator: ';',
 		},
@@ -52,7 +52,7 @@ func TestKanjiImport(t *testing.T) {
 	}, {
 		name:     "file not found",
 		fileName: "does not exist",
-		importer: csvimport.Kanjis{
+		importer: csvimport.Kanji{
 			Format:     format,
 			Separator:  ';',
 			HeaderLine: true,
@@ -61,7 +61,7 @@ func TestKanjiImport(t *testing.T) {
 	}, {
 		name:     "invalid quotes due to wrong separator",
 		fileName: "kanjis1.csv",
-		importer: csvimport.Kanjis{
+		importer: csvimport.Kanji{
 			Format:     format,
 			Separator:  ',',
 			HeaderLine: true,
@@ -70,7 +70,7 @@ func TestKanjiImport(t *testing.T) {
 	}, {
 		name:     "selective fields",
 		fileName: "kanjis1.csv",
-		importer: csvimport.Kanjis{
+		importer: csvimport.Kanji{
 			Format:     minimalFormat,
 			Separator:  ';',
 			HeaderLine: true,
