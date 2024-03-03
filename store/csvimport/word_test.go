@@ -14,11 +14,21 @@ const testDataDir = "testdata"
 func TestWordImport(t *testing.T) {
 
 	format, _ := csvimport.NewWordFormat(
-		"KANA", "NIHONGO", "ROMAJI", "MEANING", "HINT",
-		"EXPLANATION", "DICTFORM", "TEFORM", "NAIFORM",
+		csvimport.WordFieldKana,
+		csvimport.WordFieldNihongo,
+		csvimport.WordFieldRomaji,
+		csvimport.WordFieldMeaning,
+		csvimport.WordFieldHint,
+		csvimport.WordFieldExplanation,
+		csvimport.WordFieldDictform,
+		csvimport.WordFieldTeform,
+		csvimport.WordFieldNaiform,
 	)
 	minimalFormat, _ := csvimport.NewWordFormat(
-		"", "", "ROMAJI", "MEANING")
+		"", "",
+		csvimport.WordFieldRomaji,
+		csvimport.WordFieldMeaning,
+	)
 
 	testCases := []struct {
 		name      string
