@@ -96,51 +96,51 @@ func TestWordImport(t *testing.T) {
 	}
 }
 
-var word1Cards = []words.Card{
-	{
-		Nihongo:     "先生",
-		Kana:        "せんせい",
-		Romaji:      "sensei",
-		Meaning:     "Lehrer",
-		Hint:        "andere Personen",
-		Explanation: "für sich selbst anderer Ausdruck",
-	},
-	{
-		Nihongo: "医者",
-		Kana:    "いしゃ",
-		Romaji:  "isha",
-		Meaning: "Arzt, Ärztin"},
-	{
-		Nihongo: "お名前\u3000は\u3000「何\u3000です\u3000か」。",
-		Kana:    "お\u3000なまえ\u3000は\u3000「なん\u3000です\u3000か」。",
-		Romaji:  "onamae wa (nan desu ka).",
-		Meaning: "Wie heißen Sie bitte?",
-	},
-	{
-		Nihongo:  "起きます",
-		Kana:     "おきます",
-		Romaji:   "okimasu",
-		Meaning:  "aufstehen",
-		DictForm: "おきる",
-		TeForm:   "おきて",
-		NaiForm:  "おきない",
-	},
-}
+var word1Cards = []words.Card{{
+	ID:          "1",
+	Nihongo:     "先生",
+	Kana:        "せんせい",
+	Romaji:      "sensei",
+	Meaning:     "Lehrer",
+	Hint:        "andere Personen",
+	Explanation: "für sich selbst anderer Ausdruck",
+}, {
+	ID:      "2",
+	Nihongo: "医者",
+	Kana:    "いしゃ",
+	Romaji:  "isha",
+	Meaning: "Arzt, Ärztin",
+}, {
+	ID:      "3",
+	Nihongo: "お名前\u3000は\u3000「何\u3000です\u3000か」。",
+	Kana:    "お\u3000なまえ\u3000は\u3000「なん\u3000です\u3000か」。",
+	Romaji:  "onamae wa (nan desu ka).",
+	Meaning: "Wie heißen Sie bitte?",
+}, {
+	ID:       "4",
+	Nihongo:  "起きます",
+	Kana:     "おきます",
+	Romaji:   "okimasu",
+	Meaning:  "aufstehen",
+	DictForm: "おきる",
+	TeForm:   "おきて",
+	NaiForm:  "おきない",
+}}
 
-var word1CardsMinimal = []words.Card{
-	{
-		Romaji:  "sensei",
-		Meaning: "Lehrer",
-	},
-	{
-		Romaji:  "isha",
-		Meaning: "Arzt, Ärztin"},
-	{
-		Romaji:  "onamae wa (nan desu ka).",
-		Meaning: "Wie heißen Sie bitte?",
-	},
-	{
-		Romaji:  "okimasu",
-		Meaning: "aufstehen",
-	},
-}
+var word1CardsMinimal = []words.Card{{
+	ID:      "1",
+	Romaji:  "sensei",
+	Meaning: "Lehrer",
+}, {
+	ID:      "2",
+	Romaji:  "isha",
+	Meaning: "Arzt, Ärztin",
+}, {
+	ID:      "3",
+	Romaji:  "onamae wa (nan desu ka).",
+	Meaning: "Wie heißen Sie bitte?",
+}, {
+	ID:      "4",
+	Romaji:  "okimasu",
+	Meaning: "aufstehen",
+}}
