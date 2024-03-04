@@ -171,7 +171,10 @@ func json2KanjiCards(jsoncards []kanjiCardJSON) []kanjis.Card {
 	result := make([]kanjis.Card, 0, len(jsoncards))
 	for _, jsoncard := range jsoncards {
 		kanji, _ := utf8.DecodeRuneInString(jsoncard.Kanji)
-		card := kanjis.Card{Kanji: kanji}
+		card := kanjis.Card{
+			ID:    jsoncard.ID,
+			Kanji: kanji,
+		}
 		for _, jsonDetail := range jsoncard.KanjiDetails {
 			detail := kanjis.Detail{
 				Reading:     jsonDetail.Reading,

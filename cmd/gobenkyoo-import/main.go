@@ -38,12 +38,11 @@ func execute() error {
 
 	book := lib.Book(books.NewID(optBookTitle, optSeriesTitle, optVolume))
 
-	lesson, err := fillLesson(book)
+	err = fillLesson(&book)
 	if err != nil {
 		return err
 	}
 
-	book.SetLessons(lesson)
 	lib.SetBooks(book)
 	err = database.StoreLibrary(lib)
 	if err != nil {
@@ -55,29 +54,33 @@ func execute() error {
 
 // fillLesson fills the lesson with the appropriate cards
 // from the csv file.
-func fillLesson(book books.Book) (books.Lesson, error) {
+func fillLesson(book *books.Book) error {
 
 	lesson, ok := book.Lesson(optLessonTitle)
 	if !ok {
 		lesson.Name = optLessonTitle
 	}
 
-	if optType == learn.KanjiType {
+	switch optType {
+
+	case learn.KanjiType:
 		cards, err := readKanji(lesson)
 		if err != nil {
-			return lesson, err
+			return err
 		}
 		lesson.AddKanjis(cards...)
-		return lesson, nil
+
+	default:
+		cards, err := readWord(lesson)
+		if err != nil {
+			return err
+		}
+		lesson.AddWords(cards...)
 	}
 
-	cards, err := readWord(lesson)
-	if err != nil {
-		return lesson, err
-	}
-	lesson.AddWords(cards...)
+	book.SetLessons(lesson)
 
-	return lesson, nil
+	return nil
 }
 
 // readKanji reads the file with the specified values
