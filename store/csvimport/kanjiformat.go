@@ -57,6 +57,8 @@ func NewKanjiFormat(keys ...string) (KanjiFormat, error) {
 func (f KanjiFormat) lineToKanjiCard(split string, line []string) kanjis.Card {
 	var card kanjis.Card
 	var detail kanjis.Detail
+	var readings []string
+	var readingsKana []string
 
 	for i, field := range line {
 		switch f.field(i) {
@@ -64,23 +66,48 @@ func (f KanjiFormat) lineToKanjiCard(split string, line []string) kanjis.Card {
 			kanjiRune, _ := utf8.DecodeRuneInString(field)
 			card.Kanji = kanjiRune
 		case KanjiFieldReading:
+			if split != "" {
+				for _, f := range strings.Split(field, split) {
+					readings = append(readings, strings.TrimSpace(f))
+				}
+				continue
+			}
 			detail.Reading = field
 		case KanjiFieldReadingKana:
+			if split != "" {
+				for _, f := range strings.Split(field, split) {
+					readingsKana = append(readingsKana, strings.TrimSpace(f))
+				}
+				continue
+			}
 			detail.ReadingKana = field
 		case KanjiFieldMeanings:
 			if split == "" {
 				detail.Meanings = append(detail.Meanings, field)
 				continue
 			}
-			detail.Meanings = append(detail.Meanings,
-				strings.Split(field, split)...)
+			for _, f := range strings.Split(field, split) {
+				detail.Meanings = append(detail.Meanings, strings.TrimSpace(f))
+			}
 		case KanjiFieldHint:
 			card.Hint = field
 		case KanjiFieldExplanation:
 			card.Explanation = field
 		}
 	}
-	card.Details = append(card.Details, detail)
+	if len(readings) < 1 {
+		card.Details = append(card.Details, detail)
+	} else {
+		for i, r := range readings {
+			detail.Reading = r
+			if i < len(readingsKana) {
+				detail.ReadingKana = readingsKana[i]
+			} else {
+				detail.ReadingKana = ""
+			}
+			card.Details = append(card.Details, detail)
+		}
+	}
 
 	return card
 }

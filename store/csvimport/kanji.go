@@ -25,15 +25,33 @@ func (l Kanji) Import(filename string) ([]kanjis.Card, error) {
 
 // linesToKanjis converts a list of lines to a list of kanji cards.
 func (l Kanji) linesToKanjis(table [][]string) []kanjis.Card {
+
 	result := make([]kanjis.Card, 0, len(table))
 	sep := ""
 	if l.FieldSeparator != 0 && l.FieldSeparator != ' ' {
 		sep = string(l.FieldSeparator)
 	}
-	for i, line := range table {
+
+	seen := make(map[rune]*kanjis.Card, len(table))
+	order := make([]rune, 0, len(table))
+
+	i := 0
+	for _, line := range table {
 		card := l.Format.lineToKanjiCard(sep, line)
-		card.ID = strconv.Itoa(i + 1)
-		result = append(result, card)
+
+		seenCard, ok := seen[card.Kanji]
+		if ok {
+			seenCard.Details = append(seenCard.Details, card.Details...)
+			continue
+		}
+		i++
+		card.ID = strconv.Itoa(i)
+		seen[card.Kanji] = &card
+		order = append(order, card.Kanji)
+	}
+
+	for _, k := range order {
+		result = append(result, *seen[k])
 	}
 
 	return result
