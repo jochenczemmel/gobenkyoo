@@ -149,7 +149,6 @@ linters:
     - usestdlibvars
     - varnamelen
     - wastedassign
-    - wrapcheck
 
   disable:
     - depguard # no forbidden packages (yet)
@@ -169,4 +168,5 @@ linters:
     - funlen
     - forbidigo
     - stylecheck
+    - wrapcheck
 

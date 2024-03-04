@@ -12,6 +12,8 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/cfg"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
+	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
+	"github.com/jochenczemmel/gobenkyoo/content/words"
 	"github.com/jochenczemmel/gobenkyoo/store/csvimport"
 	"github.com/jochenczemmel/gobenkyoo/store/jsondb"
 )
@@ -25,19 +27,16 @@ func main() {
 	}
 }
 
+// execute does the main work.
 func execute() error {
 
-	db := jsondb.New(filepath.Join(optConfigDir, jsondb.BaseDir))
-	lib, err := loadLib(db)
+	database := jsondb.New(filepath.Join(optConfigDir, jsondb.BaseDir))
+	lib, err := loadLib(database)
 	if err != nil {
 		return err
 	}
 
-	book := lib.Book(books.ID{
-		Title:       optBookTitle,
-		SeriesTitle: optSeriesTitle,
-		Volume:      optVolume,
-	})
+	book := lib.Book(books.NewID(optBookTitle, optSeriesTitle, optVolume))
 
 	lesson, err := fillLesson(book)
 	if err != nil {
@@ -46,7 +45,7 @@ func execute() error {
 
 	book.SetLessons(lesson)
 	lib.SetBooks(book)
-	err = db.StoreLibrary(lib)
+	err = database.StoreLibrary(lib)
 	if err != nil {
 		return err
 	}
@@ -54,6 +53,8 @@ func execute() error {
 	return nil
 }
 
+// fillLesson fills the lesson with the appropriate cards
+// from the csv file.
 func fillLesson(book books.Book) (books.Lesson, error) {
 
 	lesson, ok := book.Lesson(optLessonTitle)
@@ -62,43 +63,68 @@ func fillLesson(book books.Book) (books.Lesson, error) {
 	}
 
 	if optType == learn.KanjiType {
-		format, err := csvimport.NewKanjiFormat(
-			strings.Split(optFields, fieldSplitChar)...)
-		if err != nil {
-			return lesson, err
-		}
-		importer := csvimport.Kanji{
-			Format:         format,
-			Separator:      optSeparatorRune,
-			FieldSeparator: optFieldSeparatorRune,
-			HeaderLine:     optHeaderLine,
-		}
-		cards, err := importer.Import(optFileName)
+		cards, err := readKanji(lesson)
 		if err != nil {
 			return lesson, err
 		}
 		lesson.AddKanjis(cards...)
-	} else {
-		format, err := csvimport.NewWordFormat(
-			strings.Split(optFields, fieldSplitChar)...)
-		if err != nil {
-			return lesson, err
-		}
-		importer := csvimport.Word{
-			Format:     format,
-			Separator:  optSeparatorRune,
-			HeaderLine: optHeaderLine,
-		}
-		cards, err := importer.Import(optFileName)
-		if err != nil {
-			return lesson, err
-		}
-		lesson.AddWords(cards...)
+		return lesson, nil
 	}
+
+	cards, err := readWord(lesson)
+	if err != nil {
+		return lesson, err
+	}
+	lesson.AddWords(cards...)
 
 	return lesson, nil
 }
 
+// readKanji reads the file with the specified values
+// and returns a list of kanij cards.
+func readKanji(lesson books.Lesson) ([]kanjis.Card, error) {
+
+	format, err := csvimport.NewKanjiFormat(
+		strings.Split(optFields, fieldSplitChar)...)
+	if err != nil {
+		return nil, err
+	}
+	importer := csvimport.Kanji{
+		Format:         format,
+		Separator:      optSeparatorRune,
+		FieldSeparator: optFieldSeparatorRune,
+		HeaderLine:     optHeaderLine,
+	}
+	cards, err := importer.Import(optFileName)
+	if err != nil {
+		return nil, err
+	}
+
+	return cards, nil
+}
+
+// readWord reads the file with the specified values
+// and returns a list of word cards.
+func readWord(lesson books.Lesson) ([]words.Card, error) {
+	format, err := csvimport.NewWordFormat(
+		strings.Split(optFields, fieldSplitChar)...)
+	if err != nil {
+		return nil, err
+	}
+	importer := csvimport.Word{
+		Format:     format,
+		Separator:  optSeparatorRune,
+		HeaderLine: optHeaderLine,
+	}
+	cards, err := importer.Import(optFileName)
+	if err != nil {
+		return nil, err
+	}
+	return cards, nil
+}
+
+// loadLib loads the library and checks the error status.
+// It is not considered an error if the library does not exist.
 func loadLib(db jsondb.DB) (books.Library, error) {
 
 	lib, err := db.LoadLibrary(cfg.DefaultLibrary)
@@ -111,9 +137,14 @@ func loadLib(db jsondb.DB) (books.Library, error) {
 		fmt.Fprintln(os.Stderr, "no library found, create new")
 		return lib, nil
 	}
+
 	return lib, err
 }
 
+// getOptions gets the command line options and stores them
+// in global variables. Some plausibility checks are made.
+// If an error occurrs, a usage note is displayed and the
+// program exits with value 1.
 func getOptions() {
 
 	flag.Usage = func() {
@@ -162,7 +193,7 @@ Meaning,Nihongo,,,Dictform,Teform,Naiform
 	if optType != learn.WordType && optType != learn.KanjiType {
 		fmt.Fprintf(flag.CommandLine.Output(), "invalid type: %q", optType)
 		flag.Usage()
-		os.Exit(1)
+		os.Exit(USAGE_RC)
 	}
 
 	var err error
@@ -170,7 +201,7 @@ Meaning,Nihongo,,,Dictform,Teform,Naiform
 		optConfigDir, err = cfg.UserDir()
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "can not determine config dir: %v", err)
-			os.Exit(1)
+			os.Exit(USAGE_RC)
 		}
 	}
 
@@ -178,11 +209,12 @@ Meaning,Nihongo,,,Dictform,Teform,Naiform
 	optFieldSeparatorRune, _ = utf8.DecodeRuneInString(optFieldSeparator)
 }
 
+// exitIfEmpty exits the program if the string value is empty.
 func exitIfEmpty(label, value string) {
 	if value == "" {
 		fmt.Fprintf(flag.CommandLine.Output(), "%s missing\n", label)
 		flag.Usage()
-		os.Exit(1)
+		os.Exit(USAGE_RC)
 	}
 }
 
@@ -202,6 +234,11 @@ var (
 	optVolume             int
 )
 
-const ERROR_RC = 2
+const (
+	// ERROR_RC is the return code in case of an error.
+	ERROR_RC = 2
+	// USAGE_RC is the return code in case of an invalid call.
+	USAGE_RC = 1
+)
 
 const fieldSplitChar = ","
