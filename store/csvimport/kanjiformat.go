@@ -55,6 +55,26 @@ func NewKanjiFormat(keys ...string) (KanjiFormat, error) {
 // lineToKanjiCard creates a kanji card based on the fields in
 // the line and the field definition.
 func (f KanjiFormat) lineToKanjiCard(split string, line []string) kanjis.Card {
+	card, detail, readings, readingsKana := f.fillFields(line, split)
+	if len(readings) < 1 {
+		card.Details = append(card.Details, detail)
+	} else {
+		for i, r := range readings {
+			detail.Reading = r
+			if i < len(readingsKana) {
+				detail.ReadingKana = readingsKana[i]
+			} else {
+				detail.ReadingKana = ""
+			}
+			card.Details = append(card.Details, detail)
+		}
+	}
+
+	return card
+}
+
+func (f KanjiFormat) fillFields(line []string, split string) (kanjis.Card, kanjis.Detail, []string, []string) {
+
 	var card kanjis.Card
 	var detail kanjis.Detail
 	var readings []string
@@ -95,21 +115,8 @@ func (f KanjiFormat) lineToKanjiCard(split string, line []string) kanjis.Card {
 			card.Explanation = field
 		}
 	}
-	if len(readings) < 1 {
-		card.Details = append(card.Details, detail)
-	} else {
-		for i, r := range readings {
-			detail.Reading = r
-			if i < len(readingsKana) {
-				detail.ReadingKana = readingsKana[i]
-			} else {
-				detail.ReadingKana = ""
-			}
-			card.Details = append(card.Details, detail)
-		}
-	}
 
-	return card
+	return card, detail, readings, readingsKana
 }
 
 // field returns the value of the definition or a missing
