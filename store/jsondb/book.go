@@ -149,6 +149,7 @@ func kanjiCards2Json(cards []kanjis.Card) []kanjiCardJSON {
 	result := make([]kanjiCardJSON, 0, len(cards))
 	for _, card := range cards {
 		jsonCard := kanjiCardJSON{
+			ID:    card.ID,
 			Kanji: card.String(),
 		}
 		for _, details := range card.Details {

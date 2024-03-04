@@ -17,6 +17,17 @@ const (
 	KanjiFieldExplanation = "EXPLANATION"
 )
 
+func KanjiFields() []string {
+	return []string{
+		KanjiFieldKanji,
+		KanjiFieldReading,
+		KanjiFieldReadingKana,
+		KanjiFieldMeanings,
+		KanjiFieldHint,
+		KanjiFieldExplanation,
+	}
+}
+
 // KanjiFormat defines the field order in the imported csv file.
 type KanjiFormat struct {
 	fields []string

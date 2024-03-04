@@ -96,7 +96,7 @@ func makeBooksLibrary() books.Library {
 	book2.SetLessons(lesson3)
 
 	library := books.NewLibrary(testLibraryName)
-	library.AddBooks(book1, book2)
+	library.SetBooks(book1, book2)
 
 	return library
 }

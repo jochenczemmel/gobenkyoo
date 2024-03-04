@@ -31,7 +31,7 @@ func TestLibraryFindCard(t *testing.T) {
 	lesson.AddKanjis(kanjiCards...)
 	book.SetLessons(lesson)
 	library := books.NewLibrary("")
-	library.AddBooks(book)
+	library.SetBooks(book)
 
 	testCases := []struct {
 		name          string
@@ -136,7 +136,7 @@ func TestLibrarySort(t *testing.T) {
 			t.Logf("DEBUG: shuffled: first book: %v", shuffledBooks[0])
 
 			library := books.NewLibrary("")
-			library.AddBooks(shuffledBooks...)
+			library.SetBooks(shuffledBooks...)
 			got := library.SortedBooks()
 			t.Logf("DEBUG: sorted: first book: %v", got[0])
 

@@ -10,6 +10,8 @@ func New(dir string) DB {
 	return DB{baseDir: dir}
 }
 
+const BaseDir = "jsondb"
+
 const (
 	// directory name for library files.
 	libraryPath = "library"

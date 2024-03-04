@@ -19,6 +19,20 @@ const (
 	WordFieldNaiform     = "NAIFORM"
 )
 
+func WordFields() []string {
+	return []string{
+		WordFieldNihongo,
+		WordFieldKana,
+		WordFieldRomaji,
+		WordFieldMeaning,
+		WordFieldHint,
+		WordFieldExplanation,
+		WordFieldDictform,
+		WordFieldTeform,
+		WordFieldNaiform,
+	}
+}
+
 // WordFormat defines the field order in the imported csv file.
 type WordFormat struct {
 	fields []string

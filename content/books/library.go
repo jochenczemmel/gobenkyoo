@@ -24,17 +24,35 @@ func NewLibrary(name string) Library {
 	}
 }
 
-// AddBooks adds books to the library.
+// SetBooks adds or replaces books to the library.
 // The order is preserved.
-// Duplicate additions are ignored.
-func (l *Library) AddBooks(books ...Book) {
+func (l *Library) SetBooks(books ...Book) {
+
+LOOP:
 	for _, book := range books {
 		_, ok := l.booksByID[book.ID]
 		if !ok {
 			l.booksByID[book.ID] = book
 			l.Books = append(l.Books, book)
+			continue LOOP
+		}
+		for i, b := range l.Books {
+			if b.ID == book.ID {
+				l.Books[i] = book
+				continue LOOP
+			}
 		}
 	}
+}
+
+// Book returns the book with the given id.
+// If it is not found, a new book with the id is returned.
+func (l Library) Book(id ID) Book {
+	book, ok := l.booksByID[id]
+	if !ok {
+		return New(id)
+	}
+	return book
 }
 
 // SortedBooks returns a list of books sorted according to

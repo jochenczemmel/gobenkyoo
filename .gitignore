@@ -12,4 +12,5 @@ coverage.txt
 *.exe
 
 cmd/gobenkyoo/gobenkyoo
+cmd/gobenkyoo-import/gobenkyoo-import
 

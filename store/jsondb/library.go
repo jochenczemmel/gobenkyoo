@@ -60,7 +60,7 @@ func readLibrary(name, dirname string) (books.Library, error) {
 			errorList = append(errorList, err)
 			continue
 		}
-		library.AddBooks(book)
+		library.SetBooks(book)
 	}
 
 	if len(errorList) > 0 {
