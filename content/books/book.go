@@ -31,6 +31,18 @@ func (b Book) LessonNames() []string {
 	return b.lessonNames
 }
 
+// Lessons returns the odered list of lessons.
+func (b Book) Lessons() []Lesson {
+	result := make([]Lesson, 0, len(b.lessonNames))
+	for _, name := range b.lessonNames {
+		lesson, ok := b.Lesson(name)
+		if ok {
+			result = append(result, lesson)
+		}
+	}
+	return result
+}
+
 // SetLessons adds or replaces the specified lessons.
 // The order of newly added lessons is preserved, the order
 // of replaced lessons is not preserved.

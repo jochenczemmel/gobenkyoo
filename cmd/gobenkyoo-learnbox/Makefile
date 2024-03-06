@@ -28,8 +28,8 @@ BINARY_IMPORT_NAME=../$(IMPORT_NAME)/$(IMPORT_NAME)
 
 prepare:
 	./$(BINARY_IMPORT_NAME) \
-		-book "japanisch" \
-		-lesson "Lektion 1" \
+		-book "kanjilexikon" \
+		-lesson "all" \
 		-type "kanji" \
 		-file "$(TESTKANJIFILE)" \
 		-header \
@@ -53,7 +53,14 @@ run:
 		-book "japanisch" \
 		-lesson "Lektion 1" \
 
+runfrom:
+	./$(BINARY_BASE_NAME) \
+		-configdir "$(TESTDATA)" \
+		-book "minna 1" \
+		-lesson "Kanjis Lektion 1" \
+		-frombook "kanjilexikon" \
+		-fromfile "$(TESTDATA)/kanjis.txt" \
 
 
-.PHONY: all build linux windows prepare run
+.PHONY: all build linux windows prepare run runfrom
 

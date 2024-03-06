@@ -10,6 +10,7 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/cfg"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
+	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/store/jsondb"
 )
 
@@ -27,22 +28,12 @@ func execute() error {
 
 	database := jsondb.New(filepath.Join(optConfigDir, jsondb.BaseDir))
 
-	lib, err := loadLib(database)
-	if err != nil {
-		return err
-	}
-
-	room, err := loadClassroom(database)
+	lib, room, err := load(database)
 	if err != nil {
 		return err
 	}
 
 	bookID := books.NewID(optBookTitle, optSeriesTitle, optVolume)
-	lesson, ok := lib.Book(bookID).Lesson(optLessonTitle)
-	if !ok {
-		return fmt.Errorf("lesson %q not found in book %q",
-			optLessonTitle, bookID)
-	}
 
 	boxID := learn.BoxID{
 		Name: optLessonTitle,
@@ -50,6 +41,22 @@ func execute() error {
 			Name: optLessonTitle,
 			ID:   bookID,
 		},
+	}
+
+	if optFromFileName != "" {
+		cards, err := getKanjiCards(lib)
+		if err != nil {
+			return err
+		}
+		room.SetKanjiBoxes(learn.NewKanjiBox(boxID, cards...))
+
+		return database.StoreClassroom(room)
+	}
+
+	lesson, ok := lib.Book(bookID).Lesson(optLessonTitle)
+	if !ok {
+		return fmt.Errorf("lesson %q not found in book %q",
+			optLessonTitle, bookID)
 	}
 
 	switch optType {
@@ -63,6 +70,45 @@ func execute() error {
 	}
 
 	return database.StoreClassroom(room)
+}
+
+func getKanjiCards(lib books.Library) ([]kanjis.Card, error) {
+	var result []kanjis.Card
+	data, err := os.ReadFile(optFromFileName)
+	if err != nil {
+		return result, err
+	}
+
+	book := lib.Book(books.NewID(optFromBook, optFromSeries, optFromVolume))
+	cardsByKanji := map[rune]kanjis.Card{}
+	for _, lesson := range book.Lessons() {
+		for _, card := range lesson.KanjiCards() {
+			cardsByKanji[card.Kanji] = card
+		}
+	}
+
+	for _, wantKanji := range string(data) {
+		if found, ok := cardsByKanji[wantKanji]; ok {
+			result = append(result, found)
+		}
+	}
+
+	fmt.Printf("DEBUG: cards: %#v\n", result)
+
+	return result, nil
+}
+
+// load loads the library and the classroom.
+func load(db jsondb.DB) (books.Library, learn.Classroom, error) {
+	lib, err1 := loadLib(db)
+	room, err2 := loadClassroom(db)
+	if err1 != nil {
+		return lib, room, err1
+	}
+	if err2 != nil {
+		return lib, room, err2
+	}
+	return lib, room, nil
 }
 
 // loadLib loads the library and checks the error status.
@@ -110,6 +156,9 @@ func getOptions() {
 	flag.Usage = func() {
 		fmt.Fprintf(flag.CommandLine.Output(),
 			`%s - create kanji and word learn boxes from lessons.
+kanji and word boxes can be created directly from lessons.
+kanji boxes can be created from a list of kanji in a file and
+the kanji lesson reference
 
 `, os.Args[0])
 		fmt.Fprintln(flag.CommandLine.Output(), "options:")
@@ -118,15 +167,19 @@ func getOptions() {
 
 	flag.StringVar(&optConfigDir, "configdir", "", "configuration directory")
 
-	flag.StringVar(&optType, "type", "",
-		"data type: kanji or word (if missing, do both")
+	flag.StringVar(&optType, "type", "", "data type: kanji or word\n"+
+		"if missing, do both")
 
 	flag.StringVar(&optLessonTitle, "lesson", "", "name of the lesson")
 	flag.StringVar(&optBookTitle, "book", "", "name of the book")
 	flag.StringVar(&optSeriesTitle, "series", "", "name of the book series")
 	flag.IntVar(&optVolume, "volume", 0, "volume of the book in the series")
 
-	// flag.StringVar(&optFileName, "file", "", "name of the csv file")
+	flag.StringVar(&optFromFileName, "fromfile", "", "file containing kanjis\n"+
+		"type is set to 'kanji'")
+	flag.StringVar(&optFromBook, "frombook", "", "book containing kanjis")
+	flag.StringVar(&optFromSeries, "fromseries", "", "book series of 'frombook'")
+	flag.IntVar(&optFromVolume, "fromvolume", 0, "book series volume of 'frombook'")
 
 	flag.Parse()
 
@@ -139,6 +192,11 @@ func getOptions() {
 		fmt.Fprintf(flag.CommandLine.Output(), "invalid type: %q", optType)
 		flag.Usage()
 		os.Exit(USAGE_RC)
+	}
+
+	if optFromFileName != "" {
+		exitIfEmpty("frombook", optFromBook)
+		optType = learn.KanjiType
 	}
 
 	var err error
@@ -161,13 +219,16 @@ func exitIfEmpty(label, value string) {
 }
 
 var (
-	optConfigDir   string
-	optType        string
-	optLessonTitle string
-	optBookTitle   string
-	optSeriesTitle string
-	optVolume      int
-	// optFileName           string
+	optConfigDir    string
+	optType         string
+	optLessonTitle  string
+	optBookTitle    string
+	optSeriesTitle  string
+	optVolume       int
+	optFromFileName string
+	optFromBook     string
+	optFromSeries   string
+	optFromVolume   int
 )
 
 const (
