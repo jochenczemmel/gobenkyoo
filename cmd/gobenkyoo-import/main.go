@@ -44,12 +44,8 @@ func execute() error {
 	}
 
 	lib.SetBooks(book)
-	err = database.StoreLibrary(lib)
-	if err != nil {
-		return err
-	}
 
-	return nil
+	return database.StoreLibrary(lib)
 }
 
 // fillLesson fills the lesson with the appropriate cards

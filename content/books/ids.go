@@ -1,5 +1,7 @@
 package books
 
+import "strconv"
+
 // LessonID provides identification of a lesson in the library.
 type LessonID struct {
 	Name string // the name of the lesson
@@ -30,4 +32,16 @@ func NewID(title, seriestitle string, volume int) ID {
 		SeriesTitle: seriestitle,
 		Volume:      volume,
 	}
+}
+
+func (i ID) String() string {
+	result := i.Title
+	if i.SeriesTitle != "" {
+		result += " (" + i.SeriesTitle
+		if i.Volume > 0 {
+			result += " - " + strconv.Itoa(i.Volume)
+		}
+		result += ")"
+	}
+	return result
 }

@@ -8,9 +8,14 @@ testcoverage.txt
 coverage.html
 coverage.txt
 
+# tempoary test files
+cmd/gobenkyoo-import/testdata/jsondb
+cmd/gobenkyoo-learnbox/testdata/jsondb
+
 # executables
 *.exe
 
 cmd/gobenkyoo/gobenkyoo
 cmd/gobenkyoo-import/gobenkyoo-import
+cmd/gobenkyoo-learnbox/gobenkyoo-learnbox
 
