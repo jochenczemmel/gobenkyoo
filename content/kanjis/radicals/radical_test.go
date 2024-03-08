@@ -128,3 +128,28 @@ func TestAllKanjis(t *testing.T) {
 		})
 	}
 }
+
+func TestIsPartOf(t *testing.T) {
+	testCases := []struct {
+		name    string
+		radical rune
+		kanji   rune
+		want    bool
+	}{
+		{"ok", '口', '右', true},
+		{"not contained", '⺅', '右', false},
+		{"not a radical", 'X', '右', false},
+		{"not a kanji", '⺅', 'X', false},
+	}
+
+	for _, c := range testCases {
+		t.Run(c.name, func(t *testing.T) {
+
+			rad := radicals.Radical(c.radical)
+			got := rad.IsPartOf(c.kanji)
+			if got != c.want {
+				t.Errorf("ERROR: got %v, want %v", got, c.want)
+			}
+		})
+	}
+}
