@@ -27,6 +27,9 @@ type ID struct {
 }
 
 func NewID(title, seriestitle string, volume int) ID {
+	if title == "" {
+		title = seriestitle
+	}
 	return ID{
 		Title:       title,
 		SeriesTitle: seriestitle,

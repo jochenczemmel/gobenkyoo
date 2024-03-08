@@ -23,9 +23,32 @@ lint:
 	golangci-lint run
 
 
+
+PACKAGE_LIST=
+
+# PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/content
+PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/content/words
+PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/content/kanjis
+PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/content/kanjis/radicals
+PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/content/books
+
+# PACKAGE_LIST:=github.com/jochenczemmel/gobenkyoo/cfg
+
+# PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/app
+PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/app/learn
+# PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/app/search
+
+
+# PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/store
+PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/store/jsondb
+PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/store/csvimport
+
+# PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/ui
+# PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/ui/cli
+
 # run test coverage
 cover:
-	go test -cover -coverprofile $(TMP_FILE) ./...
+	go test -cover -coverprofile $(TMP_FILE) $(PACKAGE_LIST) 
 	go tool cover -html=$(TMP_FILE) -o $(COVERAGE_FILE)
 	echo "firefox $(COVERAGE_FILE) &"
 	echo "chromium-browser $(COVERAGE_FILE) &"
