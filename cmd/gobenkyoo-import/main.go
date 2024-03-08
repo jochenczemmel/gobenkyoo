@@ -60,14 +60,14 @@ func fillLesson(book *books.Book) error {
 	switch optType {
 
 	case learn.KanjiType:
-		cards, err := readKanji(lesson)
+		cards, err := readKanji()
 		if err != nil {
 			return err
 		}
 		lesson.AddKanjis(cards...)
 
 	default:
-		cards, err := readWord(lesson)
+		cards, err := readWord()
 		if err != nil {
 			return err
 		}
@@ -81,19 +81,21 @@ func fillLesson(book *books.Book) error {
 
 // readKanji reads the file with the specified values
 // and returns a list of kanij cards.
-func readKanji(lesson books.Lesson) ([]kanjis.Card, error) {
+func readKanji() ([]kanjis.Card, error) {
 
 	format, err := csvimport.NewKanjiFormat(
 		strings.Split(optFields, fieldSplitChar)...)
 	if err != nil {
 		return nil, err
 	}
+
 	importer := csvimport.Kanji{
 		Format:         format,
 		Separator:      optSeparatorRune,
 		FieldSeparator: optFieldSeparatorRune,
 		HeaderLine:     optHeaderLine,
 	}
+
 	cards, err := importer.Import(optFileName)
 	if err != nil {
 		return nil, err
@@ -104,21 +106,25 @@ func readKanji(lesson books.Lesson) ([]kanjis.Card, error) {
 
 // readWord reads the file with the specified values
 // and returns a list of word cards.
-func readWord(lesson books.Lesson) ([]words.Card, error) {
+func readWord() ([]words.Card, error) {
+
 	format, err := csvimport.NewWordFormat(
 		strings.Split(optFields, fieldSplitChar)...)
 	if err != nil {
 		return nil, err
 	}
+
 	importer := csvimport.Word{
 		Format:     format,
 		Separator:  optSeparatorRune,
 		HeaderLine: optHeaderLine,
 	}
+
 	cards, err := importer.Import(optFileName)
 	if err != nil {
 		return nil, err
 	}
+
 	return cards, nil
 }
 
