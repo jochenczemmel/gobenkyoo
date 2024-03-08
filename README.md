@@ -41,15 +41,3 @@ Contains the code for the user interfaces.
 ## cmd
 Contains directories for executables.
 
-## systemtest
-Contains some expect scripts for complete system test.
-
-wikipedia: https://en.wikipedia.org/wiki/Expect
-
-maybe use go-libraries?
-
-* https://pkg.go.dev/github.com/google/goexpect (https://github.com/google/goexpect)
-* https://pkg.go.dev/github.com/Netflix/go-expect (https://github.com/Netflix/go-expect)
-* https://pkg.go.dev/github.com/ryandgoulding/goexpect
-
-
