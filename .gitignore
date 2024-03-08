@@ -11,6 +11,7 @@ coverage.txt
 # tempoary test files
 cmd/gobenkyoo-import/testdata/jsondb
 cmd/gobenkyoo-learnbox/testdata/jsondb
+store/jsondb/testdata/store
 
 # executables
 *.exe

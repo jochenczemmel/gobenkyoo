@@ -38,6 +38,11 @@ func TestClassroomLoad(t *testing.T) {
 		roomName: testClassroomName,
 		wantErr:  true,
 	}, {
+		name:     "no permission",
+		dir:      "/etc/sudoers.d",
+		roomName: testClassroomName,
+		wantErr:  true,
+	}, {
 		name:     "invalid json",
 		dir:      baseDir,
 		roomName: "invalid",
