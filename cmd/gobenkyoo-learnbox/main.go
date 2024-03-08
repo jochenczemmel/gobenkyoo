@@ -59,13 +59,10 @@ func execute() error {
 			optLessonTitle, bookID)
 	}
 
-	switch optType {
-	case learn.KanjiType:
+	if optType == "" || optType == learn.KanjiType {
 		room.SetKanjiBoxes(learn.NewKanjiBox(boxID, lesson.KanjiCards()...))
-	case learn.WordType:
-		room.SetWordBoxes(learn.NewWordBox(boxID, lesson.WordCards()...))
-	default:
-		room.SetKanjiBoxes(learn.NewKanjiBox(boxID, lesson.KanjiCards()...))
+	}
+	if optType == "" || optType == learn.WordType {
 		room.SetWordBoxes(learn.NewWordBox(boxID, lesson.WordCards()...))
 	}
 
@@ -100,37 +97,23 @@ func getKanjiCards(lib books.Library) ([]kanjis.Card, error) {
 
 // load loads the library and the classroom.
 func load(db jsondb.DB) (books.Library, learn.Classroom, error) {
-	lib, err1 := loadLib(db)
-	room, err2 := loadClassroom(db)
-	if err1 != nil {
-		return lib, room, err1
+	var room learn.Classroom
+
+	lib, err := db.LoadLibrary(cfg.DefaultLibrary)
+	if err != nil {
+		return lib, room, err
 	}
-	if err2 != nil {
-		return lib, room, err2
+
+	room, err = loadClassroom(db)
+	if err != nil {
+		return lib, room, err
 	}
+
 	return lib, room, nil
 }
 
-// loadLib loads the library and checks the error status.
-// It is not considered an error if the library does not exist.
-func loadLib(db jsondb.DB) (books.Library, error) {
-
-	lib, err := db.LoadLibrary(cfg.DefaultLibrary)
-	if err == nil {
-		return lib, nil
-	}
-
-	var pathErr *os.PathError
-	if errors.As(err, &pathErr) && os.IsNotExist(pathErr) {
-		fmt.Fprintln(os.Stderr, "no library found, create new")
-		return lib, nil
-	}
-
-	return lib, err
-}
-
 // loadClassroom loads the classroom and checks the error status.
-// It is not considered an error if the classroom does not exist.
+// It is not considered an error if the classroom does not yet exist.
 func loadClassroom(db jsondb.DB) (learn.Classroom, error) {
 
 	room, err := db.LoadClassroom(cfg.DefaultClassroom)
