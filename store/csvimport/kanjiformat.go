@@ -105,13 +105,10 @@ func (f KanjiFormat) fillFields(line []string, split string) (kanjis.Card, kanji
 			}
 			detail.Reading = field
 		case KanjiFieldReadingKana:
-			if split != "" {
-				for _, f := range strings.Split(field, split) {
-					readingsKana = append(readingsKana, strings.TrimSpace(f))
-				}
-				continue
+			for _, f := range strings.Split(field, split) {
+				readingsKana = append(readingsKana, strings.TrimSpace(f))
 			}
-			detail.ReadingKana = field
+			continue
 		case KanjiFieldMeanings:
 			if split == "" {
 				detail.Meanings = append(detail.Meanings, field)
