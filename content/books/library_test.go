@@ -86,13 +86,13 @@ func TestLibraryFindCard(t *testing.T) {
 			t.Run("word", func(t *testing.T) {
 				got := library.WordCard(c.lessonID, c.id)
 				if diff := cmp.Diff(got, c.wantWordCard); diff != "" {
-					t.Errorf("FindWordCard(%v): -got, +want\n%s", c.id, diff)
+					t.Errorf("FindWordCard(%v): got-, want+\n%s", c.id, diff)
 				}
 			})
 			t.Run("kanji", func(t *testing.T) {
 				got := library.KanjiCard(c.lessonID, c.id)
 				if diff := cmp.Diff(got, c.wantKanjiCard); diff != "" {
-					t.Errorf("FindKanjiCard(%v): -got, +want\n%s", c.id, diff)
+					t.Errorf("FindKanjiCard(%v): got-, want+\n%s", c.id, diff)
 				}
 			})
 		})
@@ -102,28 +102,6 @@ func TestLibraryFindCard(t *testing.T) {
 func TestLibrarySort(t *testing.T) {
 
 	// prepare test: sorted list of books
-	sortedBooks := []books.Book{
-		// book title starts numeric
-		books.New(books.ID{Title: "200 quick and easy phrases  for japanese conversation"}),
-		books.New(books.ID{Title: "88 basic patterns for japanese conversation"}),
-		// book title starts with character
-		books.New(books.ID{Title: "first foreign japanese"}),
-		books.New(books.ID{Title: "how to speak osaka dialect"}),
-		// volume only in book title
-		books.New(books.NewID("Grundstudium Japanisch 1", "Grundstudium Japanisch", 0)),
-		books.New(books.NewID("Grundstudium Japanisch 2", "Grundstudium Japanisch", 0)),
-		// volume in book title and volume
-		// order is determined by volume, not title!
-		books.New(books.NewID("minna no nihongo sho 1", "minna no nihongo", 1)),
-		books.New(books.NewID("minna no nihongo sho 2", "minna no nihongo", 2)),
-		books.New(books.NewID("minna no nihongo chuu 1", "minna no nihongo", 3)),
-		books.New(books.NewID("minna no nihongo chuu 2", "minna no nihongo", 4)),
-		// volume not in book title
-		books.New(books.NewID("nihongo de doozo", "nihongo de doozo", 1)),
-		books.New(books.NewID("nihongo de doozo", "nihongo de doozo", 2)),
-		// title and series identical, no volume
-		books.New(books.NewID("nihongo e yookoso", "nihongo e yookoso", 0)),
-	}
 
 	// test multiple times, shuffle may accidentially return the same order
 	for i := 0; i < 3; i++ {
@@ -141,8 +119,65 @@ func TestLibrarySort(t *testing.T) {
 			t.Logf("DEBUG: sorted: first book: %v", got[0])
 
 			if diff := cmp.Diff(got, sortedBooks, cmpopts.IgnoreUnexported(books.Book{})); diff != "" {
-				t.Errorf("ERROR: Sort: -got +want:\n%s", diff)
+				t.Errorf("ERROR: Sort: got- want+:\n%s", diff)
 			}
 		})
 	}
+}
+
+func TestLibraryBooks(t *testing.T) {
+
+	library := books.NewLibrary("")
+	library.SetBooks(sortedBooks...)
+	library.SetBooks(sortedBooks...)
+
+	t.Run("number of books", func(t *testing.T) {
+		got := len(library.Books)
+		want := len(sortedBooks)
+		if got != want {
+			t.Errorf("ERROR: got %v, want %v", got, want)
+		}
+	})
+
+	t.Run("get existing book", func(t *testing.T) {
+		wantID := sortedBooks[2].ID
+		got := library.Book(wantID)
+		if diff := cmp.Diff(got, sortedBooks[2],
+			cmpopts.IgnoreUnexported(books.Book{})); diff != "" {
+			t.Errorf("ERROR: got- want+:\n%s", diff)
+		}
+	})
+
+	t.Run("get new book", func(t *testing.T) {
+		wantID := books.ID{Title: "new book"}
+		wantBook := books.New(wantID)
+		got := library.Book(wantID)
+		if diff := cmp.Diff(got, wantBook,
+			cmpopts.IgnoreUnexported(books.Book{})); diff != "" {
+			t.Errorf("ERROR: got- want+:\n%s", diff)
+		}
+	})
+}
+
+var sortedBooks = []books.Book{
+	// book title starts numeric
+	books.New(books.ID{Title: "200 quick and easy phrases  for japanese conversation"}),
+	books.New(books.ID{Title: "88 basic patterns for japanese conversation"}),
+	// book title starts with character
+	books.New(books.ID{Title: "first foreign japanese"}),
+	books.New(books.ID{Title: "how to speak osaka dialect"}),
+	// volume only in book title
+	books.New(books.NewID("Grundstudium Japanisch 1", "Grundstudium Japanisch", 0)),
+	books.New(books.NewID("Grundstudium Japanisch 2", "Grundstudium Japanisch", 0)),
+	// volume in book title and volume
+	// order is determined by volume, not title!
+	books.New(books.NewID("minna no nihongo sho 1", "minna no nihongo", 1)),
+	books.New(books.NewID("minna no nihongo sho 2", "minna no nihongo", 2)),
+	books.New(books.NewID("minna no nihongo chuu 1", "minna no nihongo", 3)),
+	books.New(books.NewID("minna no nihongo chuu 2", "minna no nihongo", 4)),
+	// volume not in book title
+	books.New(books.NewID("nihongo de doozo", "nihongo de doozo", 1)),
+	books.New(books.NewID("nihongo de doozo", "nihongo de doozo", 2)),
+	// title and series identical, no volume
+	books.New(books.NewID("nihongo e yookoso", "nihongo e yookoso", 0)),
 }

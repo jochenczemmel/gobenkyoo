@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
@@ -37,6 +38,15 @@ func TestBookSetLesson(t *testing.T) {
 	t.Run("LessonNames", func(t *testing.T) {
 		got := book.LessonNames()
 		if diff := cmp.Diff(got, wantNames); diff != "" {
+			t.Errorf("ERROR: got- want+\n%s", diff)
+		}
+	})
+
+	t.Run("Lessons", func(t *testing.T) {
+		got := book.Lessons()
+		want := []books.Lesson{lesson1, lesson2}
+		if diff := cmp.Diff(got, want,
+			cmpopts.IgnoreUnexported(books.Lesson{})); diff != "" {
 			t.Errorf("ERROR: got- want+\n%s", diff)
 		}
 	})
