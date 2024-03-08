@@ -1,6 +1,6 @@
 
-TMP_FILE=testcoverage.txt
-COVERAGE_FILE=testcoverage.html
+TMP_FILE=coverage.txt
+COVERAGE_FILE=coverage.html
 
 
 # run unit test

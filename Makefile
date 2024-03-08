@@ -1,6 +1,6 @@
 
-TMP_FILE=testcoverage.txt
-COVERAGE_FILE=testcoverage.html
+TMP_FILE=coverage.txt
+COVERAGE_FILE=coverage.html
 
 # the first target is executed when make is called without target
 # develop: systemtest
@@ -22,23 +22,13 @@ vet:
 lint:
 	golangci-lint run
 
-# package list for test coverage
-PACKAGE_LIST:=github.com/jochenczemmel/gobenkyoo/content
-PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/content/words
-PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/content/books
-PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/content/kanjis
-PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/content/kanjis/radicals
-PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/app
-PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/app/learn
-PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/store
-PACKAGE_LIST:=$(PACKAGE_LIST),github.com/jochenczemmel/gobenkyoo/store/jsondb
 
 # run test coverage
 cover:
-	go test -cover -coverprofile $(TMP_FILE) -coverpkg $(PACKAGE_LIST) ./...
-	# go test -cover -coverprofile $(TMP_FILE) ./...
+	go test -cover -coverprofile $(TMP_FILE) ./...
 	go tool cover -html=$(TMP_FILE) -o $(COVERAGE_FILE)
 	echo "firefox $(COVERAGE_FILE) &"
+	echo "chromium-browser $(COVERAGE_FILE) &"
 
 # run unit test
 test:
