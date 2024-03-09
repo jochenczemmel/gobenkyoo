@@ -1,6 +1,7 @@
 package learn
 
 import (
+	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
@@ -23,10 +24,17 @@ func NewKanjiBox(id BoxID, cards ...kanjis.Card) Box {
 	}
 	for _, mode := range box.modes {
 		box.containers[mode] = newContainer(
-			box.makeKanjiCards(mode, cards...)...)
+			makeKanjiCards(id.LessonID, mode, cards...)...)
 	}
 
 	return box
+}
+
+func (b *Box) AddKanjiCards(lessonid books.LessonID, cards ...kanjis.Card) {
+	for _, mode := range b.modes {
+		b.containers[mode] = newContainer(
+			makeKanjiCards(lessonid, mode, cards...)...)
+	}
 }
 
 // NewWordBox returns an initialized box with word cards.

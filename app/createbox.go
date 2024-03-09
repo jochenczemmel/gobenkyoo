@@ -105,22 +105,33 @@ func (c *BoxCreator) WordBox(id learn.BoxID) error {
 // in the from box id that matches the provided list.
 func (c *BoxCreator) KanjiBoxFromList(kanjilist string, from books.ID, id learn.BoxID) error {
 
-	cardsByKanji := map[rune]kanjis.Card{}
+	uniqueKanjis := make(map[rune]bool, len(kanjilist))
+	for _, k := range kanjilist {
+		uniqueKanjis[k] = true
+	}
 
-	for _, lesson := range c.lib.Book(from).Lessons() {
+	box := learn.NewKanjiBox(id)
+	book := c.lib.Book(from)
+
+LOOP:
+	for _, lesson := range book.Lessons() {
+		var cards []kanjis.Card
 		for _, card := range lesson.KanjiCards() {
-			cardsByKanji[card.Kanji] = card
+			if uniqueKanjis[card.Kanji] {
+				delete(uniqueKanjis, card.Kanji)
+				cards = append(cards, card)
+				if len(uniqueKanjis) < 1 {
+					break LOOP
+				}
+			}
 		}
+		box.AddKanjiCards(books.LessonID{
+			Name: lesson.Name,
+			ID:   book.ID,
+		}, cards...)
 	}
 
-	cards := make([]kanjis.Card, 0, len(kanjilist))
-	for _, wantKanji := range kanjilist {
-		if found, ok := cardsByKanji[wantKanji]; ok {
-			cards = append(cards, found)
-		}
-	}
-
-	c.room.SetKanjiBoxes(learn.NewKanjiBox(id, cards...))
+	c.room.SetKanjiBoxes(box)
 
 	return nil
 }

@@ -3,6 +3,7 @@ package learn
 import (
 	"strings"
 
+	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 )
 
@@ -28,10 +29,10 @@ func KanjiModes() []string {
 
 // makeKanjiCards transforms a list of words.Card to learn.Card
 // using the given learn mode.
-func (b Box) makeKanjiCards(mode string, cards ...kanjis.Card) []Card {
+func makeKanjiCards(id books.LessonID, mode string, cards ...kanjis.Card) []Card {
 	result := make([]Card, 0, len(cards))
 	for _, card := range cards {
-		result = append(result, b.makeKanjiCard(mode, card))
+		result = append(result, makeKanjiCard(id, mode, card))
 	}
 
 	return result
@@ -40,9 +41,9 @@ func (b Box) makeKanjiCards(mode string, cards ...kanjis.Card) []Card {
 // makeKanjiCard returns the learn card with the content of the
 // card according to the given learn mode. If the mode is not
 // known, the default mode is used.
-func (b Box) makeKanjiCard(mode string, card kanjis.Card) Card {
+func makeKanjiCard(id books.LessonID, mode string, card kanjis.Card) Card {
 	result := Card{
-		ID:          CardID{ContentID: card.ID, LessonID: b.LessonID},
+		ID:          CardID{ContentID: card.ID, LessonID: id},
 		Hint:        card.Hint,
 		Explanation: card.Explanation,
 		// default mode is: Kanji2Native

@@ -18,7 +18,7 @@
 					"id": {
 						"contentId": "2",
 						"lessonId": {
-							"name": "lesson 1",
+							"name": "all",
 							"bookId": {
 								"title": "kanjilexikon"
 							}
@@ -34,7 +34,7 @@
 					"id": {
 						"contentId": "3",
 						"lessonId": {
-							"name": "lesson 1",
+							"name": "all",
 							"bookId": {
 								"title": "kanjilexikon"
 							}
@@ -54,7 +54,7 @@
 					"id": {
 						"contentId": "2",
 						"lessonId": {
-							"name": "lesson 1",
+							"name": "all",
 							"bookId": {
 								"title": "kanjilexikon"
 							}
@@ -70,7 +70,7 @@
 					"id": {
 						"contentId": "3",
 						"lessonId": {
-							"name": "lesson 1",
+							"name": "all",
 							"bookId": {
 								"title": "kanjilexikon"
 							}
@@ -90,7 +90,7 @@
 					"id": {
 						"contentId": "2",
 						"lessonId": {
-							"name": "lesson 1",
+							"name": "all",
 							"bookId": {
 								"title": "kanjilexikon"
 							}
@@ -106,7 +106,7 @@
 					"id": {
 						"contentId": "3",
 						"lessonId": {
-							"name": "lesson 1",
+							"name": "all",
 							"bookId": {
 								"title": "kanjilexikon"
 							}
