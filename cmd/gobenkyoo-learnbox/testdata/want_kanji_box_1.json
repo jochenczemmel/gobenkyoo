@@ -1,0 +1,218 @@
+{
+	"boxId": {
+		"name": "Lektion 1",
+		"lessonId": {
+			"name": "Lektion 1",
+			"bookId": {
+				"title": "japanisch"
+			}
+		}
+	},
+	"type": "kanji",
+	"cards": {
+		"kana_to_kanji": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "hito, NIN, JIN",
+					"answer": "人",
+					"moreAnswers": [
+						"Mensch"
+					]
+				},
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "hito.tsu, ICHI",
+					"answer": "一",
+					"moreAnswers": [
+						"eins"
+					]
+				},
+				{
+					"id": {
+						"contentId": "3",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "futa, futa.tsu, NI",
+					"answer": "二",
+					"moreAnswers": [
+						"zwei"
+					]
+				},
+				{
+					"id": {
+						"contentId": "4",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "kane, KIN, KON",
+					"answer": "金",
+					"moreAnswers": [
+						"Metall, Geld, Gold"
+					]
+				}
+			]
+		},
+		"kanji_to_native": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "人",
+					"answer": "Mensch",
+					"moreAnswers": [
+						"hito, NIN, JIN"
+					]
+				},
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "一",
+					"answer": "eins",
+					"moreAnswers": [
+						"hito.tsu, ICHI"
+					]
+				},
+				{
+					"id": {
+						"contentId": "3",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "二",
+					"answer": "zwei",
+					"moreAnswers": [
+						"futa, futa.tsu, NI"
+					]
+				},
+				{
+					"id": {
+						"contentId": "4",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "金",
+					"answer": "Metall, Geld, Gold",
+					"moreAnswers": [
+						"kane, KIN, KON"
+					]
+				}
+			]
+		},
+		"native_to_kanji": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "Mensch",
+					"answer": "人",
+					"moreAnswers": [
+						"hito, NIN, JIN"
+					]
+				},
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "eins",
+					"answer": "一",
+					"moreAnswers": [
+						"hito.tsu, ICHI"
+					]
+				},
+				{
+					"id": {
+						"contentId": "3",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "zwei",
+					"answer": "二",
+					"moreAnswers": [
+						"futa, futa.tsu, NI"
+					]
+				},
+				{
+					"id": {
+						"contentId": "4",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "Metall, Geld, Gold",
+					"answer": "金",
+					"moreAnswers": [
+						"kane, KIN, KON"
+					]
+				}
+			]
+		}
+	}
+}

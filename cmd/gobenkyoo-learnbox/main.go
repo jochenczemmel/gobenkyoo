@@ -1,12 +1,13 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 
+	"github.com/jochenczemmel/gobenkyoo/app"
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/cfg"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
@@ -18,7 +19,7 @@ func main() {
 	getOptions()
 	err := execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", err)
+		log.Printf("ERROR: %v\n", err)
 		os.Exit(ERROR_RC)
 	}
 }
@@ -26,47 +27,50 @@ func main() {
 // execute does the main work.
 func execute() error {
 
-	database := jsondb.New(filepath.Join(optConfigDir, jsondb.BaseDir))
+	creator := app.NewBoxCreator(
+		jsondb.New(filepath.Join(optConfigDir, jsondb.BaseDir)),
+	)
 
-	lib, room, err := load(database)
+	ok, err := creator.Load(cfg.DefaultLibrary, cfg.DefaultClassroom)
 	if err != nil {
 		return err
 	}
-
-	bookID := books.NewID(optBookTitle, optSeriesTitle, optVolume)
+	if !ok {
+		log.Printf("classroom %q not found, create new", cfg.DefaultClassroom)
+	}
 
 	boxID := learn.BoxID{
 		Name: optLessonTitle,
 		LessonID: books.LessonID{
 			Name: optLessonTitle,
-			ID:   bookID,
+			ID:   books.NewID(optBookTitle, optSeriesTitle, optVolume),
 		},
 	}
 
-	if optFromFileName != "" {
-		cards, err := getKanjiCards(lib)
-		if err != nil {
-			return err
-		}
-		room.SetKanjiBoxes(learn.NewKanjiBox(boxID, cards...))
+	// 	if optFromFileName != "" {
+	// 		cards, err := getKanjiCards(lib)
+	// 		if err != nil {
+	// 			return err
+	// 		}
+	// 		room.SetKanjiBoxes(learn.NewKanjiBox(boxID, cards...))
+	//
+	// 		return database.StoreClassroom(room)
+	// 	}
 
-		return database.StoreClassroom(room)
-	}
-
-	lesson, ok := lib.Book(bookID).Lesson(optLessonTitle)
-	if !ok {
-		return fmt.Errorf("lesson %q not found in book %q",
-			optLessonTitle, bookID)
-	}
+	// 	lesson, ok := lib.Book(bookID).Lesson(optLessonTitle)
+	// 	if !ok {
+	// 		return fmt.Errorf("lesson %q not found in book %q",
+	// 			optLessonTitle, bookID)
+	// 	}
 
 	if optType == "" || optType == learn.KanjiType {
-		room.SetKanjiBoxes(learn.NewKanjiBox(boxID, lesson.KanjiCards()...))
+		creator.KanjiBox(boxID)
 	}
 	if optType == "" || optType == learn.WordType {
-		room.SetWordBoxes(learn.NewWordBox(boxID, lesson.WordCards()...))
+		creator.WordBox(boxID)
 	}
 
-	return database.StoreClassroom(room)
+	return creator.Store()
 }
 
 func getKanjiCards(lib books.Library) ([]kanjis.Card, error) {
@@ -93,41 +97,6 @@ func getKanjiCards(lib books.Library) ([]kanjis.Card, error) {
 	fmt.Printf("DEBUG: cards: %#v\n", result)
 
 	return result, nil
-}
-
-// load loads the library and the classroom.
-func load(db jsondb.DB) (books.Library, learn.Classroom, error) {
-	var room learn.Classroom
-
-	lib, err := db.LoadLibrary(cfg.DefaultLibrary)
-	if err != nil {
-		return lib, room, err
-	}
-
-	room, err = loadClassroom(db)
-	if err != nil {
-		return lib, room, err
-	}
-
-	return lib, room, nil
-}
-
-// loadClassroom loads the classroom and checks the error status.
-// It is not considered an error if the classroom does not yet exist.
-func loadClassroom(db jsondb.DB) (learn.Classroom, error) {
-
-	room, err := db.LoadClassroom(cfg.DefaultClassroom)
-	if err == nil {
-		return room, nil
-	}
-
-	var pathErr *os.PathError
-	if errors.As(err, &pathErr) && os.IsNotExist(pathErr) {
-		fmt.Fprintln(os.Stderr, "no classroom found, create new")
-		return learn.NewClassroom(cfg.DefaultClassroom), nil
-	}
-
-	return room, err
 }
 
 // getOptions gets the command line options and stores them
@@ -201,6 +170,7 @@ func exitIfEmpty(label, value string) {
 	}
 }
 
+// global variables that represent command line options.
 var (
 	optConfigDir    string
 	optType         string
@@ -220,3 +190,46 @@ const (
 	// USAGE_RC is the return code in case of an invalid call.
 	USAGE_RC = 1
 )
+
+/*
+// loadClassroom loads the classroom and checks the error status.
+// It is not considered an error if the classroom does not yet exist.
+func loadClassroom(db jsondb.DB) (learn.Classroom, error) {
+
+	room, err := db.LoadClassroom(cfg.DefaultClassroom)
+	if err == nil {
+		return room, nil
+	}
+
+	var pathErr *os.PathError
+	if errors.As(err, &pathErr) && os.IsNotExist(pathErr) {
+		fmt.Fprintln(os.Stderr, "no classroom found, create new")
+		return learn.NewClassroom(cfg.DefaultClassroom), nil
+	}
+
+	return room, err
+}
+
+// load loads the library and the classroom.
+func load(db jsondb.DB) (books.Library, learn.Classroom, error) {
+	var room learn.Classroom
+
+	lib, err := db.LoadLibrary(cfg.DefaultLibrary)
+	if err != nil {
+		return lib, room, err
+	}
+
+	room, err = loadClassroom(db)
+	if err != nil {
+		return lib, room, err
+	}
+
+	return lib, room, nil
+}
+	// bookID := books.NewID(optBookTitle, optSeriesTitle, optVolume)
+
+	// return database.StoreClassroom(room)
+	//
+		// room.SetKanjiBoxes(learn.NewKanjiBox(boxID, lesson.KanjiCards()...))
+		// room.SetWordBoxes(learn.NewWordBox(boxID, lesson.WordCards()...))
+*/

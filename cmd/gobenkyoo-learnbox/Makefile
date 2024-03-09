@@ -19,33 +19,25 @@ windows:
 
 
 TESTDATA=testdata
-
-IMPORT_NAME=gobenkyoo-import
-TESTKANJIFILE=../$(IMPORT_NAME)/$(TESTDATA)/kanjis1.csv
-TESTWORDFILE=../$(IMPORT_NAME)/$(TESTDATA)/words1.csv
-
-BINARY_IMPORT_NAME=../$(IMPORT_NAME)/$(IMPORT_NAME)
+LIBDIR=$(TESTDATA)/jsondb/library/default/
+KANJIBOXDIR=$(TESTDATA)/jsondb/classroom/kanjis/default
+WORDBOXDIR=$(TESTDATA)/jsondb/classroom/words/default
 
 prepare:
-	./$(BINARY_IMPORT_NAME) \
-		-book "kanjilexikon" \
-		-lesson "all" \
-		-type "kanji" \
-		-file "$(TESTKANJIFILE)" \
-		-header \
-		-sep ";" \
-		-fieldsep "/" \
-		-fields "KANJI,,,READING,MEANINGS,HINT,EXPLANATION" \
-		-configdir "$(TESTDATA)"
-	./$(BINARY_IMPORT_NAME) \
-		-book "japanisch" \
-		-lesson "Lektion 1" \
-		-type "word" \
-		-file "$(TESTWORDFILE)" \
-		-header \
-		-sep "," \
-		-fields "KANA,NIHONGO,ROMAJI,MEANING,HINT,EXPLANATION,DICTFORM,TEFORM,NAIFORM" \
-		-configdir "$(TESTDATA)" \
+	mkdir -p $(LIBDIR)
+	cp $(TESTDATA)/kanji_and_word.json $(LIBDIR)/japanisch\%0A\%0A0.json
+	# cp $(TESTDATA)/word.json $(LIBDIR)/japanisch\%0A\%0A0.json
+	# cp $(TESTDATA)/kanji.json $(LIBDIR)/kanjilexikon\%0A\%0A0.json
+
+test: clean prepare run
+	cmp $(TESTDATA)/want_kanji_box_1.json \
+		$(KANJIBOXDIR)/Lektion\%201\%0ALektion\%201\%0Ajapanisch\%0A\%0A0.json
+	cmp $(TESTDATA)/want_word_box_1.json \
+		$(WORDBOXDIR)/Lektion\%201\%0ALektion\%201\%0Ajapanisch\%0A\%0A0.json
+
+
+clean:
+	rm -rf $(TESTDATA)/jsondb
 
 run:
 	./$(BINARY_BASE_NAME) \
@@ -59,8 +51,8 @@ runfrom:
 		-book "minna 1" \
 		-lesson "Kanjis Lektion 1" \
 		-frombook "kanjilexikon" \
-		-fromfile "$(TESTDATA)/kanjis.txt" \
+		-fromfile "$(TESTDATA)/kanjilist.txt" \
 
 
-.PHONY: all build linux windows prepare run runfrom
+.PHONY: all build linux windows prepare clean test run runfrom
 

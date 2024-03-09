@@ -1,62 +1,65 @@
 // Package app provides common application logic.
 package app
 
-/*
-type Controller struct {
-	lib           books.Library
-	room          learn.Classroom
-	Loader        DataLoader
-	Storer        DataStorer
-	KanjiImporter KanjiImporter
-	WordImporter  WordImporter
+import (
+	"github.com/jochenczemmel/gobenkyoo/app/learn"
+	"github.com/jochenczemmel/gobenkyoo/content/books"
+	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
+	"github.com/jochenczemmel/gobenkyoo/content/words"
+)
+
+// KanjiImporter defines the interface to import kanji cards.
+type KanjiImporter interface {
+	ImportKanji(string) ([]kanjis.Card, error)
 }
 
-func NewLoadStoreController(loadstorer DataLoadStorer) Controller {
-	return Controller{
-		Loader: loadstorer,
-		Storer: loadstorer,
-	}
+// WordImporter defines the interface to import word cards.
+type WordImporter interface {
+	ImportWord(string) ([]words.Card, error)
 }
 
-// LoadLibrary loads the library with the given name.
-// It returns the library and true if it is found.
-// It returns a new library and false if the library is not found.
-// In case of another error, the error is returned.
-func (c *Controller) LoadLibrary(name string) (found bool, err error) {
-	c.lib, err = c.Loader.LoadLibrary(name)
-	if err == nil {
-		return true, nil
-	}
-
-	var pathErr *os.PathError
-	if errors.As(err, &pathErr) && os.IsNotExist(pathErr) {
-		return false, nil
-	}
-
-	return false, err
+// LibraryLoadStorer defines the interface to load and store
+// kanji and word content.
+type LibraryLoadStorer interface {
+	LibraryLoader
+	LibraryStorer
 }
 
-func (c Controller) StoreLibrary() error {
-	return c.Storer.StoreLibrary(c.lib)
+// ClassroomLoadStorer defines the interface to update
+// learn boxes from kanji and word content.
+type ClassroomLoadStorer interface {
+	LibraryLoader
+	ClassroomLoader
+	ClassroomStorer
 }
 
-func (c Controller) Book(title, seriestitle string, volume int) books.Book {
-	return c.lib.Book(books.ID{
-		Title:       title,
-		SeriesTitle: seriestitle,
-		Volume:      volume,
-	})
+// LoadStorer defines the interface to load and store
+// word and kanji content and learn boxes.
+type LoadStorer interface {
+	LibraryLoader
+	LibraryStorer
+	ClassroomLoader
+	ClassroomStorer
 }
 
-func (c Controller) SetBooks(book books.Book) {
-	c.lib.SetBooks(book)
+// LibraryLoader defines the interface to load
+// kanji and word content.
+type LibraryLoader interface {
+	LoadLibrary(string) (books.Library, error)
 }
 
-func (c Controller) ImportKanji(filename string) error {
-	return c.KanjiImporter.ImportKanji(filename)
+// LibraryStorer defines the interface to store
+// kanji and word content.
+type LibraryStorer interface {
+	StoreLibrary(books.Library) error
 }
 
-func (c Controller) ImportWord(filename string) error {
-	return c.WordImporter.ImportWord(filename)
+// ClassroomLoader defines the interface to load learn boxes.
+type ClassroomLoader interface {
+	LoadClassroom(string) (learn.Classroom, error)
 }
-*/
+
+// ClassroomStorer defines the interface to store learn boxes.
+type ClassroomStorer interface {
+	StoreClassroom(learn.Classroom) error
+}

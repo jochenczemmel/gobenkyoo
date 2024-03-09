@@ -38,7 +38,7 @@ func execute() error {
 		return err
 	}
 	if !ok {
-		log.Println("no library found, create new")
+		log.Printf("library %q found, create new", cfg.DefaultLibrary)
 	}
 
 	lessonID := books.LessonID{

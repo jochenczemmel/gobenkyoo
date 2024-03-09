@@ -1,0 +1,111 @@
+{
+	"id": {
+		"title": "kanjilexikon"
+	},
+	"lessonNames": [
+		"all"
+	],
+	"lessonsByName": {
+		"all": {
+			"name": "all",
+			"kanjiCards": [
+				{
+					"id": "1",
+					"kanji": "人",
+					"kanjiDetails": [
+						{
+							"reading": "hito",
+							"meanings": [
+								"Mensch"
+							]
+						},
+						{
+							"reading": "NIN",
+							"meanings": [
+								"Mensch"
+							]
+						},
+						{
+							"reading": "JIN",
+							"meanings": [
+								"Mensch"
+							]
+						}
+					]
+				},
+				{
+					"id": "2",
+					"kanji": "一",
+					"kanjiDetails": [
+						{
+							"reading": "hito.tsu",
+							"meanings": [
+								"eins"
+							]
+						},
+						{
+							"reading": "ICHI",
+							"meanings": [
+								"eins"
+							]
+						}
+					]
+				},
+				{
+					"id": "3",
+					"kanji": "二",
+					"kanjiDetails": [
+						{
+							"reading": "futa",
+							"meanings": [
+								"zwei"
+							]
+						},
+						{
+							"reading": "futa.tsu",
+							"meanings": [
+								"zwei"
+							]
+						},
+						{
+							"reading": "NI",
+							"meanings": [
+								"zwei"
+							]
+						}
+					]
+				},
+				{
+					"id": "4",
+					"kanji": "金",
+					"kanjiDetails": [
+						{
+							"reading": "kane",
+							"meanings": [
+								"Metall",
+								"Geld",
+								"Gold"
+							]
+						},
+						{
+							"reading": "KIN",
+							"meanings": [
+								"Metall",
+								"Geld",
+								"Gold"
+							]
+						},
+						{
+							"reading": "KON",
+							"meanings": [
+								"Metall",
+								"Geld",
+								"Gold"
+							]
+						}
+					]
+				}
+			]
+		}
+	}
+}

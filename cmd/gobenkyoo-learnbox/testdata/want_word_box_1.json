@@ -1,0 +1,322 @@
+{
+	"boxId": {
+		"name": "Lektion 1",
+		"lessonId": {
+			"name": "Lektion 1",
+			"bookId": {
+				"title": "japanisch"
+			}
+		}
+	},
+	"type": "word",
+	"cards": {
+		"japanese_to_native": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "先生",
+					"hint": "andere Personen",
+					"answer": "Lehrer",
+					"moreAnswers": [
+						"せんせい",
+						"sensei"
+					],
+					"explanation": "für sich selbst anderer Ausdruck"
+				},
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "医者",
+					"answer": "Arzt, Ärztin",
+					"moreAnswers": [
+						"いしゃ",
+						"isha"
+					]
+				},
+				{
+					"id": {
+						"contentId": "3",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "お名前　は　「何　です　か」。",
+					"answer": "Wie heißen Sie bitte?",
+					"moreAnswers": [
+						"お　なまえ　は　「なん　です　か」。",
+						"onamae wa (nan desu ka)."
+					]
+				},
+				{
+					"id": {
+						"contentId": "4",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "起きます",
+					"answer": "aufstehen",
+					"moreAnswers": [
+						"おきます",
+						"okimasu",
+						"おきる",
+						"おきて",
+						"おきない"
+					]
+				}
+			]
+		},
+		"kana_to_native": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "せんせい",
+					"hint": "andere Personen",
+					"answer": "Lehrer",
+					"moreAnswers": [
+						"sensei",
+						"先生"
+					],
+					"explanation": "für sich selbst anderer Ausdruck"
+				},
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "いしゃ",
+					"answer": "Arzt, Ärztin",
+					"moreAnswers": [
+						"isha",
+						"医者"
+					]
+				},
+				{
+					"id": {
+						"contentId": "3",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "お　なまえ　は　「なん　です　か」。",
+					"answer": "Wie heißen Sie bitte?",
+					"moreAnswers": [
+						"onamae wa (nan desu ka).",
+						"お名前　は　「何　です　か」。"
+					]
+				},
+				{
+					"id": {
+						"contentId": "4",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "おきます",
+					"answer": "aufstehen",
+					"moreAnswers": [
+						"okimasu",
+						"起きます",
+						"おきる",
+						"おきて",
+						"おきない"
+					]
+				}
+			]
+		},
+		"native_to_japanese": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "Lehrer",
+					"hint": "andere Personen",
+					"answer": "先生",
+					"moreAnswers": [
+						"せんせい",
+						"sensei"
+					],
+					"explanation": "für sich selbst anderer Ausdruck"
+				},
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "Arzt, Ärztin",
+					"answer": "医者",
+					"moreAnswers": [
+						"いしゃ",
+						"isha"
+					]
+				},
+				{
+					"id": {
+						"contentId": "3",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "Wie heißen Sie bitte?",
+					"answer": "お名前　は　「何　です　か」。",
+					"moreAnswers": [
+						"お　なまえ　は　「なん　です　か」。",
+						"onamae wa (nan desu ka)."
+					]
+				},
+				{
+					"id": {
+						"contentId": "4",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "aufstehen",
+					"answer": "起きます",
+					"moreAnswers": [
+						"おきます",
+						"okimasu",
+						"おきる",
+						"おきて",
+						"おきない"
+					]
+				}
+			]
+		},
+		"native_to_kana": {
+			"0": [
+				{
+					"id": {
+						"contentId": "1",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "Lehrer",
+					"hint": "andere Personen",
+					"answer": "せんせい",
+					"moreAnswers": [
+						"sensei",
+						"先生"
+					],
+					"explanation": "für sich selbst anderer Ausdruck"
+				},
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "Arzt, Ärztin",
+					"answer": "いしゃ",
+					"moreAnswers": [
+						"isha",
+						"医者"
+					]
+				},
+				{
+					"id": {
+						"contentId": "3",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "Wie heißen Sie bitte?",
+					"answer": "お　なまえ　は　「なん　です　か」。",
+					"moreAnswers": [
+						"onamae wa (nan desu ka).",
+						"お名前　は　「何　です　か」。"
+					]
+				},
+				{
+					"id": {
+						"contentId": "4",
+						"lessonId": {
+							"name": "Lektion 1",
+							"bookId": {
+								"title": "japanisch"
+							}
+						}
+					},
+					"question": "aufstehen",
+					"answer": "おきます",
+					"moreAnswers": [
+						"okimasu",
+						"起きます",
+						"おきる",
+						"おきて",
+						"おきない"
+					]
+				}
+			]
+		}
+	}
+}
