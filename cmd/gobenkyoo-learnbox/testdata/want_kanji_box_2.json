@@ -1,10 +1,12 @@
 {
 	"boxId": {
-		"name": "Kanjis Lektion 1",
+		"name": "lesson 1",
 		"lessonId": {
-			"name": "Kanjis Lektion 1",
+			"name": "lesson 1",
 			"bookId": {
-				"title": "minna 1"
+				"title": "minna sho 1",
+				"seriesTitle": "minna no nihongo",
+				"volume": 1
 			}
 		}
 	},
@@ -16,9 +18,9 @@
 					"id": {
 						"contentId": "2",
 						"lessonId": {
-							"name": "Kanjis Lektion 1",
+							"name": "lesson 1",
 							"bookId": {
-								"title": "minna 1"
+								"title": "kanjilexikon"
 							}
 						}
 					},
@@ -32,9 +34,9 @@
 					"id": {
 						"contentId": "3",
 						"lessonId": {
-							"name": "Kanjis Lektion 1",
+							"name": "lesson 1",
 							"bookId": {
-								"title": "minna 1"
+								"title": "kanjilexikon"
 							}
 						}
 					},
@@ -52,9 +54,9 @@
 					"id": {
 						"contentId": "2",
 						"lessonId": {
-							"name": "Kanjis Lektion 1",
+							"name": "lesson 1",
 							"bookId": {
-								"title": "minna 1"
+								"title": "kanjilexikon"
 							}
 						}
 					},
@@ -68,9 +70,9 @@
 					"id": {
 						"contentId": "3",
 						"lessonId": {
-							"name": "Kanjis Lektion 1",
+							"name": "lesson 1",
 							"bookId": {
-								"title": "minna 1"
+								"title": "kanjilexikon"
 							}
 						}
 					},
@@ -88,9 +90,9 @@
 					"id": {
 						"contentId": "2",
 						"lessonId": {
-							"name": "Kanjis Lektion 1",
+							"name": "lesson 1",
 							"bookId": {
-								"title": "minna 1"
+								"title": "kanjilexikon"
 							}
 						}
 					},
@@ -104,9 +106,9 @@
 					"id": {
 						"contentId": "3",
 						"lessonId": {
-							"name": "Kanjis Lektion 1",
+							"name": "lesson 1",
 							"bookId": {
-								"title": "minna 1"
+								"title": "kanjilexikon"
 							}
 						}
 					},

@@ -48,7 +48,7 @@ test1: clean prepare1 run
 # test2: create box from kanji list and kanji book
 test2: clean prepare2 runfrom
 	cmp $(TESTDATA)/want_kanji_box_2.json \
-		$(KANJIBOXDIR)/Kanjis\%20Lektion\%201\%0AKanjis\%20Lektion\%201\%0Aminna\%201\%0A\%0A0.json 
+		$(KANJIBOXDIR)/lesson\%201\%0Alesson\%201\%0Aminna\%20sho\%201\%0Aminna\%20no\%20nihongo\%0A1.json
 
 # remove temporary files
 clean:
@@ -65,8 +65,10 @@ run:
 runfrom:
 	./$(BINARY_BASE_NAME) \
 		-configdir "$(TESTDATA)" \
-		-book "minna 1" \
-		-lesson "Kanjis Lektion 1" \
+		-book "minna sho 1" \
+		-series "minna no nihongo" \
+		-volume 1 \
+		-lesson "lesson 1" \
 		-frombook "kanjilexikon" \
 		-fromfile "$(TESTDATA)/kanjilist.txt" \
 
