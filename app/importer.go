@@ -75,7 +75,7 @@ func (li *LibraryImporter) KanjiLesson(filename string, lessonid books.LessonID)
 }
 
 // doImport does the kanji and word import.
-func (li *LibraryImporter) doImport(typ, filename string, lessonid books.LessonID) error {
+func (li *LibraryImporter) doImport(typ, filename string, lessonid books.LessonID) (err error) {
 
 	book := li.lib.Book(lessonid.ID)
 	lesson, ok := book.Lesson(lessonid.Name)
@@ -83,15 +83,12 @@ func (li *LibraryImporter) doImport(typ, filename string, lessonid books.LessonI
 		lesson.Name = lessonid.Name
 	}
 
-	var err error
-
 	switch typ {
 	case learn.KanjiType:
 		err = li.importKanji(filename, &lesson)
 	default:
 		err = li.importWord(filename, &lesson)
 	}
-
 	if err != nil {
 		return err
 	}
