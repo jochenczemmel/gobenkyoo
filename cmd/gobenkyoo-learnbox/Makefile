@@ -23,28 +23,45 @@ LIBDIR=$(TESTDATA)/jsondb/library/default/
 KANJIBOXDIR=$(TESTDATA)/jsondb/classroom/kanjis/default
 WORDBOXDIR=$(TESTDATA)/jsondb/classroom/words/default
 
-prepare:
+# execute integration tests
+inttest: test1 test2
+
+# prepare test 1
+prepare1:
 	mkdir -p $(LIBDIR)
 	cp $(TESTDATA)/kanji_and_word.json $(LIBDIR)/japanisch\%0A\%0A0.json
-	# cp $(TESTDATA)/word.json $(LIBDIR)/japanisch\%0A\%0A0.json
-	# cp $(TESTDATA)/kanji.json $(LIBDIR)/kanjilexikon\%0A\%0A0.json
 
-test: clean prepare run
+# prepare test 2
+prepare2:
+	mkdir -p $(LIBDIR)
+	cp $(TESTDATA)/kanji.json $(LIBDIR)/kanjilexikon\%0A\%0A0.json
+	# cp $(TESTDATA)/word.json $(LIBDIR)/japanisch\%0A\%0A0.json
+
+
+# test1: create box from lesson
+test1: clean prepare1 run
 	cmp $(TESTDATA)/want_kanji_box_1.json \
 		$(KANJIBOXDIR)/Lektion\%201\%0ALektion\%201\%0Ajapanisch\%0A\%0A0.json
 	cmp $(TESTDATA)/want_word_box_1.json \
 		$(WORDBOXDIR)/Lektion\%201\%0ALektion\%201\%0Ajapanisch\%0A\%0A0.json
 
+# test2: create box from kanji list and kanji book
+test2: clean prepare2 runfrom
+	cmp $(TESTDATA)/want_kanji_box_2.json \
+		$(KANJIBOXDIR)/Kanjis\%20Lektion\%201\%0AKanjis\%20Lektion\%201\%0Aminna\%201\%0A\%0A0.json 
 
+# remove temporary files
 clean:
 	rm -rf $(TESTDATA)/jsondb
 
+# execute box creation
 run:
 	./$(BINARY_BASE_NAME) \
 		-configdir "$(TESTDATA)" \
 		-book "japanisch" \
 		-lesson "Lektion 1" \
 
+# execute box creation
 runfrom:
 	./$(BINARY_BASE_NAME) \
 		-configdir "$(TESTDATA)" \
@@ -54,5 +71,6 @@ runfrom:
 		-fromfile "$(TESTDATA)/kanjilist.txt" \
 
 
-.PHONY: all build linux windows prepare clean test run runfrom
+.PHONY: all build linux windows inttest test1 test2 \
+	prepare1 prepare2 clean run runfrom
 

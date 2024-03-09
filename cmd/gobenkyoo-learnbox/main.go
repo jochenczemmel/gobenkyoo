@@ -11,7 +11,6 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/cfg"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
-	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/store/jsondb"
 )
 
@@ -47,56 +46,31 @@ func execute() error {
 		},
 	}
 
-	// 	if optFromFileName != "" {
-	// 		cards, err := getKanjiCards(lib)
-	// 		if err != nil {
-	// 			return err
-	// 		}
-	// 		room.SetKanjiBoxes(learn.NewKanjiBox(boxID, cards...))
-	//
-	// 		return database.StoreClassroom(room)
-	// 	}
+	if optFromFileName != "" {
+		kanjiList, err := os.ReadFile(optFromFileName)
+		if err != nil {
+			return err
+		}
+		err = creator.KanjiBoxFromList(string(kanjiList),
+			books.NewID(optFromBook, optFromSeries, optFromVolume), boxID)
 
-	// 	lesson, ok := lib.Book(bookID).Lesson(optLessonTitle)
-	// 	if !ok {
-	// 		return fmt.Errorf("lesson %q not found in book %q",
-	// 			optLessonTitle, bookID)
-	// 	}
+		return creator.Store()
+	}
 
 	if optType == "" || optType == learn.KanjiType {
-		creator.KanjiBox(boxID)
+		err = creator.KanjiBox(boxID)
+		if err != nil {
+			return err
+		}
 	}
 	if optType == "" || optType == learn.WordType {
-		creator.WordBox(boxID)
+		err = creator.WordBox(boxID)
+		if err != nil {
+			return err
+		}
 	}
 
 	return creator.Store()
-}
-
-func getKanjiCards(lib books.Library) ([]kanjis.Card, error) {
-	var result []kanjis.Card
-	data, err := os.ReadFile(optFromFileName)
-	if err != nil {
-		return result, err
-	}
-
-	book := lib.Book(books.NewID(optFromBook, optFromSeries, optFromVolume))
-	cardsByKanji := map[rune]kanjis.Card{}
-	for _, lesson := range book.Lessons() {
-		for _, card := range lesson.KanjiCards() {
-			cardsByKanji[card.Kanji] = card
-		}
-	}
-
-	for _, wantKanji := range string(data) {
-		if found, ok := cardsByKanji[wantKanji]; ok {
-			result = append(result, found)
-		}
-	}
-
-	fmt.Printf("DEBUG: cards: %#v\n", result)
-
-	return result, nil
 }
 
 // getOptions gets the command line options and stores them
@@ -232,4 +206,29 @@ func load(db jsondb.DB) (books.Library, learn.Classroom, error) {
 	//
 		// room.SetKanjiBoxes(learn.NewKanjiBox(boxID, lesson.KanjiCards()...))
 		// room.SetWordBoxes(learn.NewWordBox(boxID, lesson.WordCards()...))
+func getKanjiCards(lib books.Library) ([]kanjis.Card, error) {
+	var result []kanjis.Card
+	data, err := os.ReadFile(optFromFileName)
+	if err != nil {
+		return result, err
+	}
+
+	book := lib.Book(books.NewID(optFromBook, optFromSeries, optFromVolume))
+	cardsByKanji := map[rune]kanjis.Card{}
+	for _, lesson := range book.Lessons() {
+		for _, card := range lesson.KanjiCards() {
+			cardsByKanji[card.Kanji] = card
+		}
+	}
+
+	for _, wantKanji := range string(data) {
+		if found, ok := cardsByKanji[wantKanji]; ok {
+			result = append(result, found)
+		}
+	}
+
+	fmt.Printf("DEBUG: cards: %#v\n", result)
+
+	return result, nil
+}
 */

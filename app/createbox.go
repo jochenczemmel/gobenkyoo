@@ -7,6 +7,7 @@ import (
 
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
+	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 )
 
 // BoxCreator provides creating or updating learn boxes.
@@ -66,8 +67,10 @@ func (c *BoxCreator) KanjiBox(id learn.BoxID) error {
 
 	lesson, ok := c.lib.Book(id.LessonID.ID).Lesson(id.LessonID.Name)
 	if !ok {
-		return fmt.Errorf("lesson %q not found in book %q",
-			id.LessonID.Name, id.LessonID.ID)
+		return ConfigurationError(
+			fmt.Sprintf("lesson %q not found in book %q",
+				id.LessonID.Name, id.LessonID.ID),
+		)
 	}
 
 	c.room.SetKanjiBoxes(learn.NewKanjiBox(id, lesson.KanjiCards()...))
@@ -81,11 +84,37 @@ func (c *BoxCreator) WordBox(id learn.BoxID) error {
 
 	lesson, ok := c.lib.Book(id.LessonID.ID).Lesson(id.LessonID.Name)
 	if !ok {
-		return fmt.Errorf("lesson %q not found in book %q",
-			id.LessonID.Name, id.LessonID.ID)
+		return ConfigurationError(
+			fmt.Sprintf("lesson %q not found in book %q",
+				id.LessonID.Name, id.LessonID.ID),
+		)
 	}
 
 	c.room.SetWordBoxes(learn.NewWordBox(id, lesson.WordCards()...))
+
+	return nil
+}
+
+// KanjiBoxFromList creates a new kanji box from the lesson id provided
+// in the from box id that matches the provided list.
+func (c *BoxCreator) KanjiBoxFromList(kanjilist string, from books.ID, id learn.BoxID) error {
+
+	cardsByKanji := map[rune]kanjis.Card{}
+
+	for _, lesson := range c.lib.Book(from).Lessons() {
+		for _, card := range lesson.KanjiCards() {
+			cardsByKanji[card.Kanji] = card
+		}
+	}
+
+	cards := make([]kanjis.Card, 0, len(kanjilist))
+	for _, wantKanji := range kanjilist {
+		if found, ok := cardsByKanji[wantKanji]; ok {
+			cards = append(cards, found)
+		}
+	}
+
+	c.room.SetKanjiBoxes(learn.NewKanjiBox(id, cards...))
 
 	return nil
 }
