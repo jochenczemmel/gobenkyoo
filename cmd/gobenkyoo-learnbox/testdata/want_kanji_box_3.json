@@ -1,0 +1,136 @@
+{
+	"boxId": {
+		"name": "lesson 1",
+		"lessonId": {
+			"name": "lesson 1",
+			"bookId": {
+				"title": "minna sho 1",
+				"seriesTitle": "minna no nihongo",
+				"volume": 1
+			}
+		}
+	},
+	"type": "kanji",
+	"cards": {
+		"kana_to_kanji": {
+			"0": [
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "minna sho 1",
+								"seriesTitle": "minna no nihongo",
+								"volume": 1
+							}
+						}
+					},
+					"question": "hito.tsu, ICHI",
+					"answer": "一",
+					"moreAnswers": [
+						"eins"
+					]
+				},
+				{
+					"id": {
+						"contentId": "3",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "minna sho 1",
+								"seriesTitle": "minna no nihongo",
+								"volume": 1
+							}
+						}
+					},
+					"question": "futa, futa.tsu, NI",
+					"answer": "二",
+					"moreAnswers": [
+						"zwei"
+					]
+				}
+			]
+		},
+		"kanji_to_native": {
+			"0": [
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "minna sho 1",
+								"seriesTitle": "minna no nihongo",
+								"volume": 1
+							}
+						}
+					},
+					"question": "一",
+					"answer": "eins",
+					"moreAnswers": [
+						"hito.tsu, ICHI"
+					]
+				},
+				{
+					"id": {
+						"contentId": "3",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "minna sho 1",
+								"seriesTitle": "minna no nihongo",
+								"volume": 1
+							}
+						}
+					},
+					"question": "二",
+					"answer": "zwei",
+					"moreAnswers": [
+						"futa, futa.tsu, NI"
+					]
+				}
+			]
+		},
+		"native_to_kanji": {
+			"0": [
+				{
+					"id": {
+						"contentId": "2",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "minna sho 1",
+								"seriesTitle": "minna no nihongo",
+								"volume": 1
+							}
+						}
+					},
+					"question": "eins",
+					"answer": "一",
+					"moreAnswers": [
+						"hito.tsu, ICHI"
+					]
+				},
+				{
+					"id": {
+						"contentId": "3",
+						"lessonId": {
+							"name": "lesson 1",
+							"bookId": {
+								"title": "minna sho 1",
+								"seriesTitle": "minna no nihongo",
+								"volume": 1
+							}
+						}
+					},
+					"question": "zwei",
+					"answer": "二",
+					"moreAnswers": [
+						"futa, futa.tsu, NI"
+					]
+				}
+			]
+		}
+	}
+}

@@ -65,12 +65,9 @@ func (c *BoxCreator) Store() error {
 // in the box id.
 func (c *BoxCreator) KanjiBox(id learn.BoxID) error {
 
-	lesson, ok := c.lib.Book(id.LessonID.ID).Lesson(id.LessonID.Name)
-	if !ok {
-		return ConfigurationError(
-			fmt.Sprintf("lesson %q not found in book %q",
-				id.LessonID.Name, id.LessonID.ID),
-		)
+	lesson, err := c.getLesson(id)
+	if err != nil {
+		return err
 	}
 
 	c.room.SetKanjiBoxes(learn.NewKanjiBox(id, lesson.KanjiCards()...))
@@ -78,16 +75,25 @@ func (c *BoxCreator) KanjiBox(id learn.BoxID) error {
 	return nil
 }
 
+func (c *BoxCreator) getLesson(id learn.BoxID) (books.Lesson, error) {
+
+	lesson, ok := c.lib.Book(id.LessonID.ID).Lesson(id.LessonID.Name)
+	if !ok {
+		return books.Lesson{}, ConfigurationError(
+			fmt.Sprintf("lesson %q not found in book %q",
+				id.LessonID.Name, id.LessonID.ID),
+		)
+	}
+	return lesson, nil
+}
+
 // WordBox creates a new word box from the lesson id provided
 // in the box id.
 func (c *BoxCreator) WordBox(id learn.BoxID) error {
 
-	lesson, ok := c.lib.Book(id.LessonID.ID).Lesson(id.LessonID.Name)
-	if !ok {
-		return ConfigurationError(
-			fmt.Sprintf("lesson %q not found in book %q",
-				id.LessonID.Name, id.LessonID.ID),
-		)
+	lesson, err := c.getLesson(id)
+	if err != nil {
+		return err
 	}
 
 	c.room.SetWordBoxes(learn.NewWordBox(id, lesson.WordCards()...))

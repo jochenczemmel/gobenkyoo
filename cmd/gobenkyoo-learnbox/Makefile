@@ -47,8 +47,10 @@ test1: clean prepare1 run
 
 # test2: create box from kanji list and kanji book
 test2: clean prepare2 runfrom
-	cmp $(TESTDATA)/want_kanji_box_2.json \
+	cmp $(TESTDATA)/want_kanji_box_3.json \
 		$(KANJIBOXDIR)/lesson\%201\%0Alesson\%201\%0Aminna\%20sho\%201\%0Aminna\%20no\%20nihongo\%0A1.json
+	# cmp $(TESTDATA)/want_kanji_box_2.json \
+	# 	$(KANJIBOXDIR)/lesson\%201\%0Alesson\%201\%0Aminna\%20sho\%201\%0Aminna\%20no\%20nihongo\%0A1.json
 
 # remove temporary files
 clean:

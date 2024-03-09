@@ -41,7 +41,7 @@ PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/content/books
 
 # PACKAGE_LIST:=github.com/jochenczemmel/gobenkyoo/cfg
 
-# PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/app
+PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/app
 PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/app/learn
 # PACKAGE_LIST+=github.com/jochenczemmel/gobenkyoo/app/search
 
