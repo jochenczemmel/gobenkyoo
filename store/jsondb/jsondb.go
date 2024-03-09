@@ -1,3 +1,4 @@
+// Package jsondb provides storing data as json files.
 package jsondb
 
 // DB provides loading and storing book libraries and

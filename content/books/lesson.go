@@ -37,29 +37,29 @@ func (l *Lesson) AddWords(cards ...words.Card) {
 	l.wordCards = append(l.wordCards, cards...)
 }
 
-// KanjiCard returns the kanji card with the given id.
-// If it is not found, an empty card is returned.
-func (l Lesson) KanjiCard(id string) kanjis.Card {
-	for _, card := range l.kanjiCards {
-		if card.ID == id {
-			return card
-		}
-	}
-
-	return kanjis.Card{}
-}
-
-// WordCard returns the word card with the given id.
-// If it is not found, an empty card is returned.
-func (l Lesson) WordCard(id string) words.Card {
-	for _, card := range l.wordCards {
-		if card.ID == id {
-			return card
-		}
-	}
-
-	return words.Card{}
-}
+// // KanjiCard returns the kanji card with the given id.
+// // If it is not found, an empty card is returned.
+// func (l Lesson) KanjiCard(id string) kanjis.Card {
+// 	for _, card := range l.kanjiCards {
+// 		if card.ID == id {
+// 			return card
+// 		}
+// 	}
+//
+// 	return kanjis.Card{}
+// }
+//
+// // WordCard returns the word card with the given id.
+// // If it is not found, an empty card is returned.
+// func (l Lesson) WordCard(id string) words.Card {
+// 	for _, card := range l.wordCards {
+// 		if card.ID == id {
+// 			return card
+// 		}
+// 	}
+//
+// 	return words.Card{}
+// }
 
 // KanjiCards returns all the kanji cards in the lesson.
 func (l Lesson) KanjiCards() []kanjis.Card {

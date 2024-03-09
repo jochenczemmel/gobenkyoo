@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -9,6 +8,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
+	"github.com/jochenczemmel/gobenkyoo/app"
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/cfg"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
@@ -30,22 +30,29 @@ func main() {
 // execute does the main work.
 func execute() error {
 
-	database := jsondb.New(filepath.Join(optConfigDir, jsondb.BaseDir))
-	lib, err := loadLib(database)
+	controller := app.NewLoadStoreController(
+		jsondb.New(filepath.Join(optConfigDir, jsondb.BaseDir)),
+	)
+
+	ok, err := controller.LoadLibrary(cfg.DefaultLibrary)
 	if err != nil {
 		return err
 	}
 
-	book := lib.Book(books.NewID(optBookTitle, optSeriesTitle, optVolume))
+	if !ok {
+		fmt.Fprintln(os.Stderr, "no library found, create new")
+	}
+
+	book := controller.Book(optBookTitle, optSeriesTitle, optVolume)
 
 	err = fillLesson(&book)
 	if err != nil {
 		return err
 	}
 
-	lib.SetBooks(book)
+	controller.SetBooks(book)
 
-	return database.StoreLibrary(lib)
+	return controller.StoreLibrary()
 }
 
 // fillLesson fills the lesson with the appropriate cards
@@ -60,10 +67,16 @@ func fillLesson(book *books.Book) error {
 	switch optType {
 
 	case learn.KanjiType:
-		cards, err := readKanji()
+		cards, err := csvimport.NewKanji(
+			optSeparatorRune,
+			optFieldSeparatorRune,
+			optHeaderLine,
+			strings.Split(optFields, fieldSplitChar),
+		).ImportKanji(optFileName)
 		if err != nil {
 			return err
 		}
+
 		lesson.AddKanjis(cards...)
 
 	default:
@@ -82,68 +95,25 @@ func fillLesson(book *books.Book) error {
 // readKanji reads the file with the specified values
 // and returns a list of kanij cards.
 func readKanji() ([]kanjis.Card, error) {
+	importer := csvimport.NewKanji(
+		optSeparatorRune,
+		optFieldSeparatorRune,
+		optHeaderLine,
+		strings.Split(optFields, fieldSplitChar),
+	)
 
-	format, err := csvimport.NewKanjiFormat(
-		strings.Split(optFields, fieldSplitChar)...)
-	if err != nil {
-		return nil, err
-	}
-
-	importer := csvimport.Kanji{
-		Format:         format,
-		Separator:      optSeparatorRune,
-		FieldSeparator: optFieldSeparatorRune,
-		HeaderLine:     optHeaderLine,
-	}
-
-	cards, err := importer.Import(optFileName)
-	if err != nil {
-		return nil, err
-	}
-
-	return cards, nil
+	return importer.ImportKanji(optFileName)
 }
 
 // readWord reads the file with the specified values
 // and returns a list of word cards.
 func readWord() ([]words.Card, error) {
-
-	format, err := csvimport.NewWordFormat(
-		strings.Split(optFields, fieldSplitChar)...)
-	if err != nil {
-		return nil, err
-	}
-
-	importer := csvimport.Word{
-		Format:     format,
-		Separator:  optSeparatorRune,
-		HeaderLine: optHeaderLine,
-	}
-
-	cards, err := importer.Import(optFileName)
-	if err != nil {
-		return nil, err
-	}
-
-	return cards, nil
-}
-
-// loadLib loads the library and checks the error status.
-// It is not considered an error if the library does not exist.
-func loadLib(db jsondb.DB) (books.Library, error) {
-
-	lib, err := db.LoadLibrary(cfg.DefaultLibrary)
-	if err == nil {
-		return lib, nil
-	}
-
-	var pathErr *os.PathError
-	if errors.As(err, &pathErr) && os.IsNotExist(pathErr) {
-		fmt.Fprintln(os.Stderr, "no library found, create new")
-		return lib, nil
-	}
-
-	return lib, err
+	importer := csvimport.NewWord(
+		optSeparatorRune,
+		optHeaderLine,
+		strings.Split(optFields, fieldSplitChar),
+	)
+	return importer.ImportWord(optFileName)
 }
 
 // getOptions gets the command line options and stores them
@@ -247,3 +217,21 @@ const (
 )
 
 const fieldSplitChar = ","
+
+// // loadLib loads the library and checks the error status.
+// // It is not considered an error if the library does not exist.
+// func loadLib(db jsondb.DB) (books.Library, error) {
+//
+// 	lib, err := db.LoadLibrary(cfg.DefaultLibrary)
+// 	if err == nil {
+// 		return lib, nil
+// 	}
+//
+// 	var pathErr *os.PathError
+// 	if errors.As(err, &pathErr) && os.IsNotExist(pathErr) {
+// 		fmt.Fprintln(os.Stderr, "no library found, create new")
+// 		return lib, nil
+// 	}
+//
+// 	return lib, err
+// }

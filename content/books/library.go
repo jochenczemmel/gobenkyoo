@@ -3,9 +3,6 @@ package books
 import (
 	"slices"
 	"sort"
-
-	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
-	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
 // Library provides access to a list of books.
@@ -64,14 +61,14 @@ func (l Library) SortedBooks() []Book {
 	return result
 }
 
-// getWordCard returns a the word card from the specified book and lesson
-// with the specified id. If it is not found, an empty card is returned.
-func (l Library) WordCard(lessonid LessonID, cardid string) words.Card {
-	return l.booksByID[lessonid.ID].getWordCard(lessonid.Name, cardid)
-}
-
-// getKanjiCard returns a the kanji card from the specified book and lesson
-// with the specified id. If it is not found, an empty card is returned.
-func (l Library) KanjiCard(lessonid LessonID, cardid string) kanjis.Card {
-	return l.booksByID[lessonid.ID].getKanjiCard(lessonid.Name, cardid)
-}
+// // getWordCard returns a the word card from the specified book and lesson
+// // with the specified id. If it is not found, an empty card is returned.
+// func (l Library) WordCard(lessonid LessonID, cardid string) words.Card {
+// 	return l.booksByID[lessonid.ID].getWordCard(lessonid.Name, cardid)
+// }
+//
+// // getKanjiCard returns a the kanji card from the specified book and lesson
+// // with the specified id. If it is not found, an empty card is returned.
+// func (l Library) KanjiCard(lessonid LessonID, cardid string) kanjis.Card {
+// 	return l.booksByID[lessonid.ID].getKanjiCard(lessonid.Name, cardid)
+// }

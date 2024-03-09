@@ -33,17 +33,17 @@ func WordFields() []string {
 	}
 }
 
-// WordFormat defines the field order in the imported csv file.
-type WordFormat struct {
+// wordFormat defines the field order in the imported csv file.
+type wordFormat struct {
 	fields []string
 }
 
 // NewWordFormat returns a new word format definition.
 // Keys must be one of the WordField constants (case insensitive)
 // or a missing value if the field should be skipped.
-func NewWordFormat(keys ...string) (WordFormat, error) {
+func newWordFormat(keys ...string) (wordFormat, error) {
 
-	result := WordFormat{
+	result := wordFormat{
 		fields: make([]string, 0, len(keys)),
 	}
 	if len(keys) < 1 {
@@ -67,7 +67,7 @@ func NewWordFormat(keys ...string) (WordFormat, error) {
 
 // lineToWordCard creates a word card based on the fields in
 // the line and the field definition.
-func (f WordFormat) lineToWordCard(line []string) words.Card {
+func (f wordFormat) lineToWordCard(line []string) words.Card {
 	var card words.Card
 	for i, field := range line {
 		switch f.field(i) {
@@ -98,7 +98,7 @@ func (f WordFormat) lineToWordCard(line []string) words.Card {
 
 // field returns the value of the definition or a missing
 // value if i is out of bounds.
-func (f WordFormat) field(i int) string {
+func (f wordFormat) field(i int) string {
 	if i < 0 || i >= len(f.fields) {
 		return ""
 	}

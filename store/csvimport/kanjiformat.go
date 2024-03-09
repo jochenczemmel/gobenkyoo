@@ -28,21 +28,21 @@ func KanjiFields() []string {
 	}
 }
 
-// KanjiFormat defines the field order in the imported csv file.
-type KanjiFormat struct {
+// kanjiFormat defines the field order in the imported csv file.
+type kanjiFormat struct {
 	fields []string
 }
 
-// NewKanjiFormat returns a new kanji format definition.
+// newKanjiFormat returns a new kanji format definition.
 // If splitchar is not blank, the readings fields are split by the
 // given char.
 // The list of keys corresponds to the list of fields in the
 // csv file.
 // Each key must be one of the KanjiField constants (case insensitive)
 // or a missing value if the field should be skipped.
-func NewKanjiFormat(keys ...string) (KanjiFormat, error) {
+func newKanjiFormat(keys ...string) (kanjiFormat, error) {
 
-	result := KanjiFormat{
+	result := kanjiFormat{
 		fields: make([]string, 0, len(keys)),
 	}
 	if len(keys) < 1 {
@@ -65,7 +65,7 @@ func NewKanjiFormat(keys ...string) (KanjiFormat, error) {
 
 // lineToKanjiCard creates a kanji card based on the fields in
 // the line and the field definition.
-func (f KanjiFormat) lineToKanjiCard(split string, line []string) kanjis.Card {
+func (f kanjiFormat) lineToKanjiCard(split string, line []string) kanjis.Card {
 	card, detail, readings, readingsKana := f.fillFields(line, split)
 	if len(readings) < 1 {
 		card.Details = append(card.Details, detail)
@@ -84,7 +84,7 @@ func (f KanjiFormat) lineToKanjiCard(split string, line []string) kanjis.Card {
 	return card
 }
 
-func (f KanjiFormat) fillFields(line []string, split string) (kanjis.Card, kanjis.Detail, []string, []string) {
+func (f kanjiFormat) fillFields(line []string, split string) (kanjis.Card, kanjis.Detail, []string, []string) {
 
 	var card kanjis.Card
 	var detail kanjis.Detail
@@ -129,7 +129,7 @@ func (f KanjiFormat) fillFields(line []string, split string) (kanjis.Card, kanji
 
 // field returns the value of the definition or a missing
 // value if i is out of bounds.
-func (f KanjiFormat) field(i int) string {
+func (f kanjiFormat) field(i int) string {
 	if i < 0 || i >= len(f.fields) {
 		return ""
 	}

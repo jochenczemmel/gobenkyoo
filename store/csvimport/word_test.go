@@ -13,7 +13,7 @@ const testDataDir = "testdata"
 
 func TestWordImport(t *testing.T) {
 
-	format, _ := csvimport.NewWordFormat(
+	format := []string{
 		csvimport.WordFieldKana,
 		csvimport.WordFieldNihongo,
 		csvimport.WordFieldRomaji,
@@ -23,12 +23,13 @@ func TestWordImport(t *testing.T) {
 		csvimport.WordFieldDictform,
 		csvimport.WordFieldTeform,
 		csvimport.WordFieldNaiform,
-	)
-	minimalFormat, _ := csvimport.NewWordFormat(
+	}
+
+	minimalFormat := []string{
 		"", "",
 		csvimport.WordFieldRomaji,
 		csvimport.WordFieldMeaning,
-	)
+	}
 
 	testCases := []struct {
 		name      string
@@ -39,53 +40,44 @@ func TestWordImport(t *testing.T) {
 	}{{
 		name:     "ok",
 		fileName: "words1.csv",
-		importer: csvimport.Word{
-			Format:     format,
-			Separator:  ',',
-			HeaderLine: true,
-		},
-		want: word1Cards,
+		importer: csvimport.NewWord(',', true, format),
+		want:     word1Cards,
 	}, {
 		name:     "ok no header",
 		fileName: "words1noheader.csv",
-		importer: csvimport.Word{
-			Format:    format,
-			Separator: ',',
-		},
-		want: word1Cards,
+		importer: csvimport.NewWord(',', false, format),
+		want:     word1Cards,
 	}, {
 		name:     "selective fields",
 		fileName: "words1.csv",
-		importer: csvimport.Word{
-			Format:     minimalFormat,
-			Separator:  ',',
-			HeaderLine: true,
-		},
-		want: word1CardsMinimal,
+		importer: csvimport.NewWord(',', true, minimalFormat),
+		want:     word1CardsMinimal,
 	}, {
-		name:     "file not found",
-		fileName: "does not exist",
-		importer: csvimport.Word{
-			Format:     minimalFormat,
-			Separator:  ',',
-			HeaderLine: true,
-		},
+		name:      "file not found",
+		fileName:  "does not exist",
+		importer:  csvimport.NewWord(',', true, format),
 		wantError: true,
 	}, {
-		name:     "invalid quotes due to wrong separator",
-		fileName: "words1.csv",
-		importer: csvimport.Word{
-			Format:     format,
-			Separator:  ';',
-			HeaderLine: true,
-		},
+		name:      "invalid quotes due to wrong separator",
+		fileName:  "words1.csv",
+		importer:  csvimport.NewWord(';', true, format),
+		wantError: true,
+	}, {
+		name:      "invalid field",
+		fileName:  "words1.csv",
+		importer:  csvimport.NewWord(',', true, []string{"invalid"}),
+		wantError: true,
+	}, {
+		name:      "empty field",
+		fileName:  "words1.csv",
+		importer:  csvimport.NewWord(',', true, []string{}),
 		wantError: true,
 	}}
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 
-			got, err := c.importer.Import(
+			got, err := c.importer.ImportWord(
 				filepath.Join(testDataDir, c.fileName))
 
 			if c.wantError {

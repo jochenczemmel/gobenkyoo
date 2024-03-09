@@ -2,11 +2,6 @@
 // It also provides access to the content kanji and word cards.
 package books
 
-import (
-	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
-	"github.com/jochenczemmel/gobenkyoo/content/words"
-)
-
 // Book represents a book with lessons that can contain
 // words and kanjis. It is optionally
 // a volume of a series/collection of books.
@@ -63,14 +58,14 @@ func (b Book) Lesson(lessonname string) (Lesson, bool) {
 	return found, ok
 }
 
-// GetKanjiCard returns the kanji card with the id from the lesson.
-// If the lesson or id is not found, an empty card is returned.
-func (b Book) getKanjiCard(lessonname, id string) kanjis.Card {
-	return b.lessonsByName[lessonname].KanjiCard(id)
-}
-
-// GetWordCard returns the word card with the id from the lesson.
-// If the lesson or id is not found, an empty card is returned.
-func (b Book) getWordCard(lessonname, id string) words.Card {
-	return b.lessonsByName[lessonname].WordCard(id)
-}
+// // GetKanjiCard returns the kanji card with the id from the lesson.
+// // If the lesson or id is not found, an empty card is returned.
+// func (b Book) getKanjiCard(lessonname, id string) kanjis.Card {
+// 	return b.lessonsByName[lessonname].KanjiCard(id)
+// }
+//
+// // GetWordCard returns the word card with the id from the lesson.
+// // If the lesson or id is not found, an empty card is returned.
+// func (b Book) getWordCard(lessonname, id string) words.Card {
+// 	return b.lessonsByName[lessonname].WordCard(id)
+// }

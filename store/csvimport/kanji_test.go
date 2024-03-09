@@ -12,23 +12,23 @@ import (
 func TestKanjiImport(t *testing.T) {
 
 	// used for kanjis1.csv
-	format1, _ := csvimport.NewKanjiFormat(
+	format1 := []string{
 		csvimport.KanjiFieldKanji,
 		"", "",
 		csvimport.KanjiFieldReading,
 		csvimport.KanjiFieldMeanings,
 		csvimport.KanjiFieldHint,
 		csvimport.KanjiFieldExplanation,
-	)
+	}
 
 	// used for kanjis1.csv
-	minimalFormat1, _ := csvimport.NewKanjiFormat(
+	minimalFormat1 := []string{
 		csvimport.KanjiFieldKanji,
 		"", "", "",
 		csvimport.KanjiFieldMeanings,
-	)
+	}
 
-	format1kana, _ := csvimport.NewKanjiFormat(
+	format1kana := []string{
 		csvimport.KanjiFieldKanji,
 		"", "",
 		csvimport.KanjiFieldReading,
@@ -36,16 +36,16 @@ func TestKanjiImport(t *testing.T) {
 		csvimport.KanjiFieldMeanings,
 		csvimport.KanjiFieldHint,
 		csvimport.KanjiFieldExplanation,
-	)
+	}
 
 	// used for kanjis2.csv
-	format2, _ := csvimport.NewKanjiFormat(
+	format2 := []string{
 		csvimport.KanjiFieldKanji,
 		"",
 		csvimport.KanjiFieldReading,
 		csvimport.KanjiFieldReadingKana,
 		csvimport.KanjiFieldMeanings,
-	)
+	}
 
 	testCases := []struct {
 		name      string
@@ -56,82 +56,59 @@ func TestKanjiImport(t *testing.T) {
 	}{{
 		name:     "ok",
 		fileName: "kanjis1.csv",
-		importer: csvimport.Kanji{
-			Format:     format1,
-			Separator:  ';',
-			HeaderLine: true,
-		},
-		want: kanji1Cards,
+		importer: csvimport.NewKanji(';', ' ', true, format1),
+		want:     kanji1Cards,
 	}, {
 		name:     "ok no header",
 		fileName: "kanjis1noheader.csv",
-		importer: csvimport.Kanji{
-			Format:    format1,
-			Separator: ';',
-		},
-		want: kanji1Cards,
+		importer: csvimport.NewKanji(';', ' ', false, format1),
+		want:     kanji1Cards,
 	}, {
 		name:     "ok splitted",
 		fileName: "kanjis1.csv",
-		importer: csvimport.Kanji{
-			Format:         format1,
-			Separator:      ';',
-			FieldSeparator: '/',
-			HeaderLine:     true,
-		},
-		want: kanji1CardsSplitted,
+		importer: csvimport.NewKanji(';', '/', true, format1),
+		want:     kanji1CardsSplitted,
 	}, {
 		name:     "ok splitted kana",
 		fileName: "kanjis1kana.csv",
-		importer: csvimport.Kanji{
-			Format:         format1kana,
-			Separator:      ';',
-			FieldSeparator: '/',
-			HeaderLine:     true,
-		},
-		want: kanji1CardsKana,
+		importer: csvimport.NewKanji(';', '/', true, format1kana),
+		want:     kanji1CardsKana,
 	}, {
 		name:     "multiline and kana",
 		fileName: "kanjis2.csv",
-		importer: csvimport.Kanji{
-			Format:         format2,
-			Separator:      ';',
-			FieldSeparator: ';',
-		},
-		want: kanji2Cards,
+		importer: csvimport.NewKanji(';', ';', false, format2),
+		want:     kanji2Cards,
 	}, {
-		name:     "file not found",
-		fileName: "does not exist",
-		importer: csvimport.Kanji{
-			Format:     format1,
-			Separator:  ';',
-			HeaderLine: true,
-		},
+		name:      "file not found",
+		fileName:  "does not exist",
+		importer:  csvimport.NewKanji(';', ' ', true, format1),
 		wantError: true,
 	}, {
-		name:     "invalid quotes due to wrong separator",
-		fileName: "kanjis1.csv",
-		importer: csvimport.Kanji{
-			Format:     format1,
-			Separator:  ',',
-			HeaderLine: true,
-		},
+		name:      "invalid quotes due to wrong separator",
+		fileName:  "kanjis1.csv",
+		importer:  csvimport.NewKanji(',', ' ', true, format1),
 		wantError: true,
 	}, {
 		name:     "selective fields",
 		fileName: "kanjis1.csv",
-		importer: csvimport.Kanji{
-			Format:     minimalFormat1,
-			Separator:  ';',
-			HeaderLine: true,
-		},
-		want: kanji1CardsMinimal,
+		importer: csvimport.NewKanji(';', ' ', true, minimalFormat1),
+		want:     kanji1CardsMinimal,
+	}, {
+		name:      "invalid fields",
+		fileName:  "kanjis1.csv",
+		importer:  csvimport.NewKanji(';', ' ', true, []string{"invalid"}),
+		wantError: true,
+	}, {
+		name:      "empty fields",
+		fileName:  "kanjis1.csv",
+		importer:  csvimport.NewKanji(';', ' ', true, []string{}),
+		wantError: true,
 	}}
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 
-			got, err := c.importer.Import(
+			got, err := c.importer.ImportKanji(
 				filepath.Join(testDataDir, c.fileName))
 
 			if c.wantError {

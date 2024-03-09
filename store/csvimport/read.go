@@ -1,3 +1,4 @@
+// Package csvimport provides importing data form csv files.
 package csvimport
 
 import (
