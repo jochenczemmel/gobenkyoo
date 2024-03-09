@@ -1,12 +1,33 @@
 package app
 
 import (
-	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
+type LibraryLoadStorer interface {
+	LibraryLoader
+	LibraryStorer
+}
+
+type LibraryLoader interface {
+	LoadLibrary(string) (books.Library, error)
+}
+
+type LibraryStorer interface {
+	StoreLibrary(books.Library) error
+}
+
+type KanjiImporter interface {
+	ImportKanji(string) ([]kanjis.Card, error)
+}
+
+type WordImporter interface {
+	ImportWord(string) ([]words.Card, error)
+}
+
+/*
 type DataLoadStorer interface {
 	DataLoader
 	DataStorer
@@ -21,11 +42,4 @@ type DataStorer interface {
 	StoreClassroom(learn.Classroom) error
 	StoreLibrary(books.Library) error
 }
-
-type KanjiImporter interface {
-	ImportKanji(string) ([]kanjis.Card, error)
-}
-
-type WordImporter interface {
-	ImportWord(string) ([]words.Card, error)
-}
+*/

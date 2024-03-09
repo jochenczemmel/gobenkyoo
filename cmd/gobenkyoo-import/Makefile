@@ -21,9 +21,14 @@ windows:
 TESTDATA=testdata
 TESTKANJIFILE=$(TESTDATA)/kanjis1.csv
 TESTWORDFILE=$(TESTDATA)/words1.csv
+TESTWANTFILE=$(TESTDATA)/want.json
 
 # run a local test
-run: runword runkanji
+inttest: clean runword runkanji
+	cmp $(TESTWANTFILE) $(TESTDATA)/jsondb/library/default/japanisch\%0A\%0A0.json
+
+clean:
+	rm -rf $(TESTDATA)/jsondb
 
 runkanji:
 	./$(BINARY_BASE_NAME) \
@@ -49,5 +54,5 @@ runword:
 		-configdir "$(TESTDATA)" \
 
 
-.PHONY: all build linux windows run runword runkanji
+.PHONY: all build linux windows inttest runword runkanji
 

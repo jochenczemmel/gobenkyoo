@@ -1,0 +1,146 @@
+{
+	"id": {
+		"title": "japanisch"
+	},
+	"lessonNames": [
+		"Lektion 1"
+	],
+	"lessonsByName": {
+		"Lektion 1": {
+			"name": "Lektion 1",
+			"wordCards": [
+				{
+					"id": "1",
+					"nihongo": "先生",
+					"kana": "せんせい",
+					"romaji": "sensei",
+					"meaning": "Lehrer",
+					"hint": "andere Personen",
+					"explanation": "für sich selbst anderer Ausdruck"
+				},
+				{
+					"id": "2",
+					"nihongo": "医者",
+					"kana": "いしゃ",
+					"romaji": "isha",
+					"meaning": "Arzt, Ärztin"
+				},
+				{
+					"id": "3",
+					"nihongo": "お名前　は　「何　です　か」。",
+					"kana": "お　なまえ　は　「なん　です　か」。",
+					"romaji": "onamae wa (nan desu ka).",
+					"meaning": "Wie heißen Sie bitte?"
+				},
+				{
+					"id": "4",
+					"nihongo": "起きます",
+					"kana": "おきます",
+					"romaji": "okimasu",
+					"meaning": "aufstehen",
+					"dictForm": "おきる",
+					"teForm": "おきて",
+					"naiForm": "おきない"
+				}
+			],
+			"kanjiCards": [
+				{
+					"id": "1",
+					"kanji": "人",
+					"kanjiDetails": [
+						{
+							"reading": "hito",
+							"meanings": [
+								"Mensch"
+							]
+						},
+						{
+							"reading": "NIN",
+							"meanings": [
+								"Mensch"
+							]
+						},
+						{
+							"reading": "JIN",
+							"meanings": [
+								"Mensch"
+							]
+						}
+					]
+				},
+				{
+					"id": "2",
+					"kanji": "一",
+					"kanjiDetails": [
+						{
+							"reading": "hito.tsu",
+							"meanings": [
+								"eins"
+							]
+						},
+						{
+							"reading": "ICHI",
+							"meanings": [
+								"eins"
+							]
+						}
+					]
+				},
+				{
+					"id": "3",
+					"kanji": "二",
+					"kanjiDetails": [
+						{
+							"reading": "futa",
+							"meanings": [
+								"zwei"
+							]
+						},
+						{
+							"reading": "futa.tsu",
+							"meanings": [
+								"zwei"
+							]
+						},
+						{
+							"reading": "NI",
+							"meanings": [
+								"zwei"
+							]
+						}
+					]
+				},
+				{
+					"id": "4",
+					"kanji": "金",
+					"kanjiDetails": [
+						{
+							"reading": "kane",
+							"meanings": [
+								"Metall",
+								"Geld",
+								"Gold"
+							]
+						},
+						{
+							"reading": "KIN",
+							"meanings": [
+								"Metall",
+								"Geld",
+								"Gold"
+							]
+						},
+						{
+							"reading": "KON",
+							"meanings": [
+								"Metall",
+								"Geld",
+								"Gold"
+							]
+						}
+					]
+				}
+			]
+		}
+	}
+}

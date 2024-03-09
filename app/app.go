@@ -1,13 +1,7 @@
+// Package app provides common application logic.
 package app
 
-import (
-	"errors"
-	"os"
-
-	"github.com/jochenczemmel/gobenkyoo/app/learn"
-	"github.com/jochenczemmel/gobenkyoo/content/books"
-)
-
+/*
 type Controller struct {
 	lib           books.Library
 	room          learn.Classroom
@@ -65,3 +59,4 @@ func (c Controller) ImportKanji(filename string) error {
 func (c Controller) ImportWord(filename string) error {
 	return c.WordImporter.ImportWord(filename)
 }
+*/

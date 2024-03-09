@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -12,8 +13,6 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/cfg"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
-	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
-	"github.com/jochenczemmel/gobenkyoo/content/words"
 	"github.com/jochenczemmel/gobenkyoo/store/csvimport"
 	"github.com/jochenczemmel/gobenkyoo/store/jsondb"
 )
@@ -22,7 +21,7 @@ func main() {
 	getOptions()
 	err := execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", err)
+		log.Printf("ERROR: %v", err)
 		os.Exit(ERROR_RC)
 	}
 }
@@ -30,90 +29,51 @@ func main() {
 // execute does the main work.
 func execute() error {
 
-	controller := app.NewLoadStoreController(
+	importer := app.NewLibraryImporter(
 		jsondb.New(filepath.Join(optConfigDir, jsondb.BaseDir)),
 	)
 
-	ok, err := controller.LoadLibrary(cfg.DefaultLibrary)
+	ok, err := importer.LoadLibrary(cfg.DefaultLibrary)
 	if err != nil {
 		return err
 	}
-
 	if !ok {
-		fmt.Fprintln(os.Stderr, "no library found, create new")
+		log.Println("no library found, create new")
 	}
 
-	book := controller.Book(optBookTitle, optSeriesTitle, optVolume)
-
-	err = fillLesson(&book)
-	if err != nil {
-		return err
-	}
-
-	controller.SetBooks(book)
-
-	return controller.StoreLibrary()
-}
-
-// fillLesson fills the lesson with the appropriate cards
-// from the csv file.
-func fillLesson(book *books.Book) error {
-
-	lesson, ok := book.Lesson(optLessonTitle)
-	if !ok {
-		lesson.Name = optLessonTitle
+	lessonID := books.LessonID{
+		Name: optLessonTitle,
+		ID: books.ID{
+			Title:       optBookTitle,
+			SeriesTitle: optSeriesTitle,
+			Volume:      optVolume,
+		},
 	}
 
 	switch optType {
 
 	case learn.KanjiType:
-		cards, err := csvimport.NewKanji(
-			optSeparatorRune,
-			optFieldSeparatorRune,
-			optHeaderLine,
-			strings.Split(optFields, fieldSplitChar),
-		).ImportKanji(optFileName)
-		if err != nil {
-			return err
-		}
-
-		lesson.AddKanjis(cards...)
+		importer.SetKanjiImporter(
+			csvimport.NewKanji(optSeparatorRune, optFieldSeparatorRune,
+				optHeaderLine, strings.Split(optFields, fieldSplitChar),
+			),
+		)
+		err = importer.KanjiLesson(optFileName, lessonID)
 
 	default:
-		cards, err := readWord()
-		if err != nil {
-			return err
-		}
-		lesson.AddWords(cards...)
+		importer.SetWordImporter(
+			csvimport.NewWord(optSeparatorRune, optHeaderLine,
+				strings.Split(optFields, fieldSplitChar),
+			),
+		)
+		err = importer.WordLesson(optFileName, lessonID)
 	}
 
-	book.SetLessons(lesson)
+	if err != nil {
+		return err
+	}
 
-	return nil
-}
-
-// readKanji reads the file with the specified values
-// and returns a list of kanij cards.
-func readKanji() ([]kanjis.Card, error) {
-	importer := csvimport.NewKanji(
-		optSeparatorRune,
-		optFieldSeparatorRune,
-		optHeaderLine,
-		strings.Split(optFields, fieldSplitChar),
-	)
-
-	return importer.ImportKanji(optFileName)
-}
-
-// readWord reads the file with the specified values
-// and returns a list of word cards.
-func readWord() ([]words.Card, error) {
-	importer := csvimport.NewWord(
-		optSeparatorRune,
-		optHeaderLine,
-		strings.Split(optFields, fieldSplitChar),
-	)
-	return importer.ImportWord(optFileName)
+	return importer.StoreLibrary()
 }
 
 // getOptions gets the command line options and stores them
@@ -193,6 +153,7 @@ func exitIfEmpty(label, value string) {
 	}
 }
 
+// global variables that represent command line options.
 var (
 	optConfigDir          string
 	optType               string
@@ -217,21 +178,3 @@ const (
 )
 
 const fieldSplitChar = ","
-
-// // loadLib loads the library and checks the error status.
-// // It is not considered an error if the library does not exist.
-// func loadLib(db jsondb.DB) (books.Library, error) {
-//
-// 	lib, err := db.LoadLibrary(cfg.DefaultLibrary)
-// 	if err == nil {
-// 		return lib, nil
-// 	}
-//
-// 	var pathErr *os.PathError
-// 	if errors.As(err, &pathErr) && os.IsNotExist(pathErr) {
-// 		fmt.Fprintln(os.Stderr, "no library found, create new")
-// 		return lib, nil
-// 	}
-//
-// 	return lib, err
-// }
