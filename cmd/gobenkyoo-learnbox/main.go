@@ -51,7 +51,7 @@ func execute() error {
 		if err != nil {
 			return err
 		}
-		err = creator.KanjiBoxFromList(string(kanjiList),
+		creator.KanjiBoxFromList(string(kanjiList),
 			books.NewID(optFromBook, optFromSeries, optFromVolume), boxID)
 
 		return creator.Store()

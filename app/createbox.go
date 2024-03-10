@@ -103,7 +103,7 @@ func (c *BoxCreator) WordBox(id learn.BoxID) error {
 
 // KanjiBoxFromList creates a new kanji box from the lesson id provided
 // in the from box id that matches the provided list.
-func (c *BoxCreator) KanjiBoxFromList(kanjilist string, from books.ID, id learn.BoxID) error {
+func (c *BoxCreator) KanjiBoxFromList(kanjilist string, from books.ID, id learn.BoxID) {
 
 	uniqueKanjis := make(map[rune]bool, len(kanjilist))
 	for _, k := range kanjilist {
@@ -128,6 +128,4 @@ func (c *BoxCreator) KanjiBoxFromList(kanjilist string, from books.ID, id learn.
 	}
 
 	c.Classroom.SetKanjiBoxes(box)
-
-	return nil
 }
