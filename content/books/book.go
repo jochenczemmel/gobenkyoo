@@ -57,15 +57,3 @@ func (b Book) Lesson(lessonname string) (Lesson, bool) {
 	found, ok := b.lessonsByName[lessonname]
 	return found, ok
 }
-
-// // GetKanjiCard returns the kanji card with the id from the lesson.
-// // If the lesson or id is not found, an empty card is returned.
-// func (b Book) getKanjiCard(lessonname, id string) kanjis.Card {
-// 	return b.lessonsByName[lessonname].KanjiCard(id)
-// }
-//
-// // GetWordCard returns the word card with the id from the lesson.
-// // If the lesson or id is not found, an empty card is returned.
-// func (b Book) getWordCard(lessonname, id string) words.Card {
-// 	return b.lessonsByName[lessonname].WordCard(id)
-// }

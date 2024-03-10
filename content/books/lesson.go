@@ -1,6 +1,8 @@
 package books
 
 import (
+	"strconv"
+
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
@@ -26,6 +28,11 @@ func (l *Lesson) AddKanjis(cards ...kanjis.Card) {
 	if l.kanjiCards == nil {
 		l.kanjiCards = make([]kanjis.Card, 0, len(cards))
 	}
+	idValue := len(l.kanjiCards)
+	for i := range cards {
+		idValue++
+		cards[i].ID = strconv.Itoa(idValue)
+	}
 	l.kanjiCards = append(l.kanjiCards, cards...)
 }
 
@@ -34,32 +41,13 @@ func (l *Lesson) AddWords(cards ...words.Card) {
 	if l.wordCards == nil {
 		l.wordCards = make([]words.Card, 0, len(cards))
 	}
+	idValue := len(l.wordCards)
+	for i := range cards {
+		idValue++
+		cards[i].ID = strconv.Itoa(idValue)
+	}
 	l.wordCards = append(l.wordCards, cards...)
 }
-
-// // KanjiCard returns the kanji card with the given id.
-// // If it is not found, an empty card is returned.
-// func (l Lesson) KanjiCard(id string) kanjis.Card {
-// 	for _, card := range l.kanjiCards {
-// 		if card.ID == id {
-// 			return card
-// 		}
-// 	}
-//
-// 	return kanjis.Card{}
-// }
-//
-// // WordCard returns the word card with the given id.
-// // If it is not found, an empty card is returned.
-// func (l Lesson) WordCard(id string) words.Card {
-// 	for _, card := range l.wordCards {
-// 		if card.ID == id {
-// 			return card
-// 		}
-// 	}
-//
-// 	return words.Card{}
-// }
 
 // KanjiCards returns all the kanji cards in the lesson.
 func (l Lesson) KanjiCards() []kanjis.Card {

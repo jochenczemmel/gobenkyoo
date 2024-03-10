@@ -40,14 +40,3 @@ type LessonID struct {
 	Name string // the name of the lesson
 	ID          // the book id
 }
-
-// func NewLessonID(name, booktitle, seriestitle string, volume int) LessonID {
-// 	return LessonID{
-// 		Name: name,
-// 		ID: ID{
-// 			Title:       booktitle,
-// 			SeriesTitle: seriestitle,
-// 			Volume:      volume,
-// 		},
-// 	}
-// }
