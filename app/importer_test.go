@@ -8,11 +8,83 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/app"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
+	"github.com/jochenczemmel/gobenkyoo/content/words"
 	"github.com/jochenczemmel/gobenkyoo/store/csvimport"
 	"github.com/jochenczemmel/gobenkyoo/store/jsondb"
 )
 
 const testDataDir = "testdata"
+
+func TestImportWordLesson(t *testing.T) {
+
+	bookID := books.ID{Title: "minna"}
+	lessonID := books.LessonID{Name: "lesson1", ID: bookID}
+	importer := csvimport.NewWord(',', true,
+		[]string{"KANA", "NIHONGO", "ROMAJI", "MEANING", "HINT",
+			"EXPLANATION", "DICTFORM", "TEFORM", "NAIFORM"})
+
+	testCases := []struct {
+		name             string
+		fileName         string
+		importer         app.WordImporter
+		wantErr          bool
+		wantNBooks       int
+		wantLessonTitles []string
+		wantCards        []words.Card
+	}{{
+		name:             "ok",
+		fileName:         filepath.Join(testDataDir, "words1.csv"),
+		importer:         importer,
+		wantNBooks:       1,
+		wantLessonTitles: []string{lessonID.Name},
+		wantCards:        words1,
+	}, {
+		name:             "file not found",
+		fileName:         filepath.Join(testDataDir, "does not exist"),
+		importer:         importer,
+		wantErr:          true,
+		wantNBooks:       0,
+		wantLessonTitles: []string{},
+		wantCards:        []words.Card{},
+	}, {
+		name:             "missing importer",
+		fileName:         filepath.Join(testDataDir, "does not exist"),
+		wantErr:          true,
+		wantNBooks:       0,
+		wantLessonTitles: []string{},
+		wantCards:        []words.Card{},
+	}}
+
+	for _, c := range testCases {
+		t.Run(c.name, func(t *testing.T) {
+
+			importer := app.NewLibraryImporter(
+				jsondb.New(filepath.Join(testDataDir, jsondb.BaseDir)),
+			)
+			importer.LoadLibrary("vhs")
+
+			importer.SetWordImporter(c.importer)
+
+			err := importer.WordLesson(c.fileName, lessonID)
+			checkError(t, err, c.wantErr)
+
+			if len(importer.Library.Books) != c.wantNBooks {
+				t.Errorf("ERROR: got %v, want %v",
+					len(importer.Library.Books), c.wantNBooks)
+			}
+
+			book := importer.Library.Book(bookID)
+			if diff := cmp.Diff(book.LessonNames(), c.wantLessonTitles); diff != "" {
+				t.Errorf("ERROR: got- want+\n%s", diff)
+			}
+
+			lesson, _ := book.Lesson(lessonID.Name)
+			if diff := cmp.Diff(lesson.WordCards(), c.wantCards); diff != "" {
+				t.Errorf("ERROR: got- want+\n%s", diff)
+			}
+		})
+	}
+}
 
 func TestImportKanjiLesson(t *testing.T) {
 
@@ -29,34 +101,30 @@ func TestImportKanjiLesson(t *testing.T) {
 		wantErr          bool
 		wantNBooks       int
 		wantLessonTitles []string
-		wantKanjiCards   []kanjis.Card
-	}{
-		{
-			name:             "ok",
-			fileName:         filepath.Join(testDataDir, "kanjis1.csv"),
-			importer:         importer,
-			wantNBooks:       1,
-			wantLessonTitles: []string{lessonID.Name},
-			wantKanjiCards:   kanjis1,
-		},
-		{
-			name:             "file not found",
-			fileName:         filepath.Join(testDataDir, "does not exist"),
-			importer:         importer,
-			wantErr:          true,
-			wantNBooks:       0,
-			wantLessonTitles: []string{},
-			wantKanjiCards:   []kanjis.Card{},
-		},
-		{
-			name:             "missing importer",
-			fileName:         filepath.Join(testDataDir, "does not exist"),
-			wantErr:          true,
-			wantNBooks:       0,
-			wantLessonTitles: []string{},
-			wantKanjiCards:   []kanjis.Card{},
-		},
-	}
+		wantCards        []kanjis.Card
+	}{{
+		name:             "ok",
+		fileName:         filepath.Join(testDataDir, "kanjis1.csv"),
+		importer:         importer,
+		wantNBooks:       1,
+		wantLessonTitles: []string{lessonID.Name},
+		wantCards:        kanjis1,
+	}, {
+		name:             "file not found",
+		fileName:         filepath.Join(testDataDir, "does not exist"),
+		importer:         importer,
+		wantErr:          true,
+		wantNBooks:       0,
+		wantLessonTitles: []string{},
+		wantCards:        []kanjis.Card{},
+	}, {
+		name:             "missing importer",
+		fileName:         filepath.Join(testDataDir, "does not exist"),
+		wantErr:          true,
+		wantNBooks:       0,
+		wantLessonTitles: []string{},
+		wantCards:        []kanjis.Card{},
+	}}
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
@@ -82,7 +150,7 @@ func TestImportKanjiLesson(t *testing.T) {
 			}
 
 			lesson, _ := book.Lesson(lessonID.Name)
-			if diff := cmp.Diff(lesson.KanjiCards(), c.wantKanjiCards); diff != "" {
+			if diff := cmp.Diff(lesson.KanjiCards(), c.wantCards); diff != "" {
 				t.Errorf("ERROR: got- want+\n%s", diff)
 			}
 		})
@@ -155,5 +223,41 @@ var kanjis1 = []kanjis.Card{
 			{Reading: "yo.ttsu", Meanings: []string{"vier"}},
 			{Reading: "SHI", Meanings: []string{"vier"}},
 		},
+	},
+}
+
+var words1 = []words.Card{
+	{
+		ID:          "1",
+		Nihongo:     "先生",
+		Kana:        "せんせい",
+		Romaji:      "sensei",
+		Meaning:     "Lehrer",
+		Hint:        "andere Personen",
+		Explanation: "für sich selbst anderer Ausdruck",
+	},
+	{
+		ID:      "2",
+		Nihongo: "医者",
+		Kana:    "いしゃ",
+		Romaji:  "isha",
+		Meaning: "Arzt, Ärztin",
+	},
+	{
+		ID:      "3",
+		Nihongo: "お名前\u3000は\u3000「何\u3000です\u3000か」。",
+		Kana:    "お\u3000なまえ\u3000は\u3000「なん\u3000です\u3000か」。",
+		Romaji:  "onamae wa (nan desu ka).",
+		Meaning: "Wie heißen Sie bitte?",
+	},
+	{
+		ID:       "4",
+		Nihongo:  "起きます",
+		Kana:     "おきます",
+		Romaji:   "okimasu",
+		Meaning:  "aufstehen",
+		DictForm: "おきる",
+		TeForm:   "おきて",
+		NaiForm:  "おきない",
 	},
 }
