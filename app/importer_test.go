@@ -1,106 +1,159 @@
 package app_test
 
 import (
-	"fmt"
-	"os"
+	"path/filepath"
 	"testing"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/jochenczemmel/gobenkyoo/app"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
-	"github.com/jochenczemmel/gobenkyoo/content/words"
+	"github.com/jochenczemmel/gobenkyoo/store/csvimport"
+	"github.com/jochenczemmel/gobenkyoo/store/jsondb"
 )
 
-func TestImporter(t *testing.T) {
+const testDataDir = "testdata"
+
+func TestImportKanjiLesson(t *testing.T) {
+
+	bookID := books.ID{Title: "kanjidic"}
+	lessonID := books.LessonID{Name: "lesson1", ID: bookID}
+	importer := csvimport.NewKanji(';', '/', true,
+		[]string{"kanji", "", "", "reading", "meanings",
+			"hint", "explanation"})
+
 	testCases := []struct {
-		name            string
-		loadStorer      app.LibraryLoadStorer
-		kanjiImporter   app.KanjiImporter
-		wordImporter    app.WordImporter
-		wantOK          bool
-		wantStoreErrMsg string
-	}{{
-		name:       "ok",
-		loadStorer: dummy{},
-		wantOK:     true,
-	}, {
-		name:            "LibraryLoadStorer is nil",
-		wantStoreErrMsg: "no LibraryLoadStorer defined",
-	}, {
-		name:            "load returns error",
-		loadStorer:      dummy{loadError: "load failed"},
-		wantStoreErrMsg: "load failed",
-	}, {
-		name:       "load returns path error",
-		loadStorer: dummy{pathError: "file does not exist"},
-	}}
+		name             string
+		fileName         string
+		importer         app.KanjiImporter
+		wantErr          bool
+		wantNBooks       int
+		wantLessonTitles []string
+		wantKanjiCards   []kanjis.Card
+	}{
+		{
+			name:             "ok",
+			fileName:         filepath.Join(testDataDir, "kanjis1.csv"),
+			importer:         importer,
+			wantNBooks:       1,
+			wantLessonTitles: []string{lessonID.Name},
+			wantKanjiCards:   kanjis1,
+		},
+		{
+			name:             "file not found",
+			fileName:         filepath.Join(testDataDir, "does not exist"),
+			importer:         importer,
+			wantErr:          true,
+			wantNBooks:       0,
+			wantLessonTitles: []string{},
+			wantKanjiCards:   []kanjis.Card{},
+		},
+		{
+			name:             "missing importer",
+			fileName:         filepath.Join(testDataDir, "does not exist"),
+			wantErr:          true,
+			wantNBooks:       0,
+			wantLessonTitles: []string{},
+			wantKanjiCards:   []kanjis.Card{},
+		},
+	}
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 
-			importer := app.NewLibraryImporter(c.loadStorer)
-			ok, err := importer.LoadLibrary("")
-			if c.wantStoreErrMsg != "" {
-				if err == nil {
-					t.Fatalf("ERROR: wanted error not detected")
-				}
-				if err.Error() != c.wantStoreErrMsg {
-					t.Fatalf("ERROR: got %q, want %q",
-						err.Error(), c.wantStoreErrMsg)
-				}
-				t.Logf("INFO: error message: %v", err)
-				return
+			importer := app.NewLibraryImporter(
+				jsondb.New(filepath.Join(testDataDir, jsondb.BaseDir)),
+			)
+			importer.LoadLibrary("vhs")
+
+			importer.SetKanjiImporter(c.importer)
+
+			err := importer.KanjiLesson(c.fileName, lessonID)
+			checkError(t, err, c.wantErr)
+
+			if len(importer.Library.Books) != c.wantNBooks {
+				t.Errorf("ERROR: got %v, want %v",
+					len(importer.Library.Books), c.wantNBooks)
 			}
 
-			if err != nil {
-				t.Errorf("ERROR: got error: %v", err)
+			book := importer.Library.Book(bookID)
+			if diff := cmp.Diff(book.LessonNames(), c.wantLessonTitles); diff != "" {
+				t.Errorf("ERROR: got- want+\n%s", diff)
 			}
-			if ok != c.wantOK {
-				t.Errorf("ERROR: got %v, want %v", ok, c.wantOK)
+
+			lesson, _ := book.Lesson(lessonID.Name)
+			if diff := cmp.Diff(lesson.KanjiCards(), c.wantKanjiCards); diff != "" {
+				t.Errorf("ERROR: got- want+\n%s", diff)
 			}
 		})
 	}
 }
 
-type dummy struct {
-	loadError, pathError, storeError string
-	kanjiError, wordError            string
-}
+func checkError(t *testing.T, err error, want bool) {
+	t.Helper()
 
-func (d dummy) LoadLibrary(string) (books.Library, error) {
-	var result books.Library
-	if d.loadError != "" {
-		return result, fmt.Errorf("%s", d.loadError)
-	}
-	if d.pathError != "" {
-		return result, &os.PathError{
-			Op:   "open",
-			Path: ".",
-			Err:  os.ErrNotExist,
+	if want {
+		if err == nil {
+			t.Fatalf("ERROR: wanted error not detected")
 		}
+		t.Logf("INFO: error message: %v", err)
+		return
 	}
-	return result, nil
+
+	if err != nil {
+		t.Errorf("ERROR: got error: %v", err)
+	}
 }
 
-func (d dummy) StoreLibrary(books.Library) error {
-	if d.storeError != "" {
-		return fmt.Errorf("%s", d.storeError)
-	}
-	return nil
-}
-
-func (d dummy) ImportKanji(string) ([]kanjis.Card, error) {
-	var result []kanjis.Card
-	if d.kanjiError != "" {
-		return result, fmt.Errorf("%s", d.kanjiError)
-	}
-	return result, nil
-}
-
-func (d dummy) ImportWord(string) ([]words.Card, error) {
-	var result []words.Card
-	if d.wordError != "" {
-		return result, fmt.Errorf("%s", d.wordError)
-	}
-	return result, nil
+var kanjis1 = []kanjis.Card{
+	kanjis.Card{
+		ID: "1", Kanji: '人',
+		Explanation: "nicht: 入",
+		Details: []kanjis.Detail{
+			{Reading: "hito", Meanings: []string{"Mensch"}},
+			{Reading: "NIN", Meanings: []string{"Mensch"}},
+			{Reading: "JIN", Meanings: []string{"Mensch"}},
+		},
+	},
+	kanjis.Card{
+		ID: "2", Kanji: '一',
+		Details: []kanjis.Detail{
+			{Reading: "hito.tsu", Meanings: []string{"eins"}},
+			{Reading: "ICHI", Meanings: []string{"eins"}},
+		},
+	},
+	kanjis.Card{
+		ID: "3", Kanji: '二',
+		Hint: "auch ein kana",
+		Details: []kanjis.Detail{
+			{Reading: "futa", Meanings: []string{"zwei"}},
+			{Reading: "futa.tsu", Meanings: []string{"zwei"}},
+			{Reading: "NI", Meanings: []string{"zwei"}},
+		},
+	},
+	kanjis.Card{
+		ID: "4", Kanji: '三',
+		Details: []kanjis.Detail{
+			{Reading: "mi", Meanings: []string{"drei"}},
+			{Reading: "mi.ttsu", Meanings: []string{"drei"}},
+			{Reading: "SAN", Meanings: []string{"drei"}},
+		},
+	},
+	kanjis.Card{
+		ID: "5", Kanji: '日',
+		Details: []kanjis.Detail{
+			{Reading: "hi", Meanings: []string{"Tag", "Sonne"}},
+			{Reading: "ka", Meanings: []string{"Tag", "Sonne"}},
+			{Reading: "JITSU", Meanings: []string{"Tag", "Sonne"}},
+			{Reading: "NICHI", Meanings: []string{"Tag", "Sonne"}},
+		},
+	},
+	kanjis.Card{
+		ID: "6", Kanji: '四',
+		Details: []kanjis.Detail{
+			{Reading: "yon", Meanings: []string{"vier"}},
+			{Reading: "yo.ttsu", Meanings: []string{"vier"}},
+			{Reading: "SHI", Meanings: []string{"vier"}},
+		},
+	},
 }

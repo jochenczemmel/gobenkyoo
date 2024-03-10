@@ -14,7 +14,7 @@ type LibraryImporter struct {
 	loadStorer    LibraryLoadStorer
 	kanjiImporter KanjiImporter
 	wordImporter  WordImporter
-	lib           books.Library
+	Library       books.Library
 }
 
 // NewLibraryImporter returns an importer that uses the given loadstorer.
@@ -43,7 +43,7 @@ func (li *LibraryImporter) LoadLibrary(name string) (found bool, err error) {
 		return false, ConfigurationError("no LibraryLoadStorer defined")
 	}
 
-	li.lib, err = li.loadStorer.LoadLibrary(name)
+	li.Library, err = li.loadStorer.LoadLibrary(name)
 	if err == nil {
 		return true, nil
 	}
@@ -61,7 +61,7 @@ func (li LibraryImporter) StoreLibrary() error {
 	if li.loadStorer == nil {
 		return ConfigurationError("no LibraryLoadStorer defined")
 	}
-	return li.loadStorer.StoreLibrary(li.lib)
+	return li.loadStorer.StoreLibrary(li.Library)
 }
 
 // WordLesson imports the word data from the file into the given lesson.
@@ -77,7 +77,7 @@ func (li *LibraryImporter) KanjiLesson(filename string, lessonid books.LessonID)
 // doImport does the kanji and word import.
 func (li *LibraryImporter) doImport(typ, filename string, lessonid books.LessonID) (err error) {
 
-	book := li.lib.Book(lessonid.ID)
+	book := li.Library.Book(lessonid.ID)
 	lesson, ok := book.Lesson(lessonid.Name)
 	if !ok {
 		lesson.Name = lessonid.Name
@@ -94,7 +94,7 @@ func (li *LibraryImporter) doImport(typ, filename string, lessonid books.LessonI
 	}
 
 	book.SetLessons(lesson)
-	li.lib.SetBooks(book)
+	li.Library.SetBooks(book)
 
 	return nil
 }
