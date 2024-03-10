@@ -5,14 +5,12 @@ import (
 	"os"
 
 	"github.com/jochenczemmel/gobenkyoo/content/books"
-	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
-	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
 // dummy is a test dummy ('test double').
+// It implements some of the interfaces defined in the app package.
 type dummy struct {
 	loadError, pathError, storeError string
-	kanjiError, wordError            string
 }
 
 func (d dummy) LoadLibrary(string) (books.Library, error) {
@@ -35,20 +33,4 @@ func (d dummy) StoreLibrary(books.Library) error {
 		return fmt.Errorf("%s", d.storeError)
 	}
 	return nil
-}
-
-func (d dummy) ImportKanji(string) ([]kanjis.Card, error) {
-	var result []kanjis.Card
-	if d.kanjiError != "" {
-		return result, fmt.Errorf("%s", d.kanjiError)
-	}
-	return result, nil
-}
-
-func (d dummy) ImportWord(string) ([]words.Card, error) {
-	var result []words.Card
-	if d.wordError != "" {
-		return result, fmt.Errorf("%s", d.wordError)
-	}
-	return result, nil
 }

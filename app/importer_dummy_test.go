@@ -56,11 +56,6 @@ func TestImporterLoadLibrary(t *testing.T) {
 	}
 }
 
-/*
-	kanjiImporter   app.KanjiImporter
-	wordImporter    app.WordImporter
-*/
-
 func checkErrorMessage(t *testing.T, err error, want string) {
 	t.Helper()
 
@@ -79,8 +74,3 @@ func checkErrorMessage(t *testing.T, err error, want string) {
 		t.Errorf("ERROR: got error: %v", err)
 	}
 }
-
-/*
-	kanjiImporter   app.KanjiImporter
-	wordImporter    app.WordImporter
-*/
