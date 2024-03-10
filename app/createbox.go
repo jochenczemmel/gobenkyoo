@@ -13,8 +13,8 @@ import (
 // BoxCreator provides creating or updating learn boxes.
 type BoxCreator struct {
 	loadStorer ClassroomLoadStorer
-	lib        books.Library
-	room       learn.Classroom
+	Library    books.Library
+	Classroom  learn.Classroom
 }
 
 // NewBoxCreator returns a creator that uses the given loadstorer.
@@ -34,19 +34,19 @@ func (c *BoxCreator) Load(libname, roomname string) (found bool, err error) {
 		return false, ConfigurationError("no ClassroomLoadStorer defined")
 	}
 
-	c.lib, err = c.loadStorer.LoadLibrary(libname)
+	c.Library, err = c.loadStorer.LoadLibrary(libname)
 	if err != nil {
 		return false, err
 	}
 
-	c.room, err = c.loadStorer.LoadClassroom(roomname)
+	c.Classroom, err = c.loadStorer.LoadClassroom(roomname)
 	if err == nil {
 		return true, nil
 	}
 
 	var pathErr *os.PathError
 	if errors.As(err, &pathErr) && os.IsNotExist(pathErr) {
-		c.room = learn.NewClassroom(roomname)
+		c.Classroom = learn.NewClassroom(roomname)
 		return false, nil
 	}
 
@@ -58,7 +58,7 @@ func (c *BoxCreator) Store() error {
 	if c.loadStorer == nil {
 		return ConfigurationError("no ClassroomLoadStorer defined")
 	}
-	return c.loadStorer.StoreClassroom(c.room)
+	return c.loadStorer.StoreClassroom(c.Classroom)
 }
 
 // KanjiBox creates a new kanji box from the lesson id provided
@@ -70,14 +70,14 @@ func (c *BoxCreator) KanjiBox(id learn.BoxID) error {
 		return err
 	}
 
-	c.room.SetKanjiBoxes(learn.NewKanjiBox(id, lesson.KanjiCards()...))
+	c.Classroom.SetKanjiBoxes(learn.NewKanjiBox(id, lesson.KanjiCards()...))
 
 	return nil
 }
 
 func (c *BoxCreator) getLesson(id learn.BoxID) (books.Lesson, error) {
 
-	lesson, ok := c.lib.Book(id.LessonID.ID).Lesson(id.LessonID.Name)
+	lesson, ok := c.Library.Book(id.LessonID.ID).Lesson(id.LessonID.Name)
 	if !ok {
 		return books.Lesson{}, ConfigurationError(
 			fmt.Sprintf("lesson %q not found in book %q",
@@ -96,7 +96,7 @@ func (c *BoxCreator) WordBox(id learn.BoxID) error {
 		return err
 	}
 
-	c.room.SetWordBoxes(learn.NewWordBox(id, lesson.WordCards()...))
+	c.Classroom.SetWordBoxes(learn.NewWordBox(id, lesson.WordCards()...))
 
 	return nil
 }
@@ -111,18 +111,14 @@ func (c *BoxCreator) KanjiBoxFromList(kanjilist string, from books.ID, id learn.
 	}
 
 	box := learn.NewKanjiBox(id)
-	book := c.lib.Book(from)
+	book := c.Library.Book(from)
 
-LOOP:
+	// LOOP:
 	for _, lesson := range book.Lessons() {
 		var cards []kanjis.Card
 		for _, card := range lesson.KanjiCards() {
 			if uniqueKanjis[card.Kanji] {
-				delete(uniqueKanjis, card.Kanji)
 				cards = append(cards, card)
-				if len(uniqueKanjis) < 1 {
-					break LOOP
-				}
 			}
 		}
 		box.AddKanjiCards(books.LessonID{
@@ -131,7 +127,7 @@ LOOP:
 		}, cards...)
 	}
 
-	c.room.SetKanjiBoxes(box)
+	c.Classroom.SetKanjiBoxes(box)
 
 	return nil
 }

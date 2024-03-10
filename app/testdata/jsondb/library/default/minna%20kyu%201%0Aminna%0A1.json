@@ -1,0 +1,408 @@
+{
+	"id": {
+		"title": "minna kyu 1",
+		"seriesTitle": "minna",
+		"volume": 1
+	},
+	"lessonNames": [
+		"lesson 1",
+		"lesson 2"
+	],
+	"lessonsByName": {
+		"lesson 1": {
+			"name": "lesson 1",
+			"wordCards": [
+				{
+					"id": "1",
+					"nihongo": "先生",
+					"kana": "せんせい",
+					"romaji": "sensei",
+					"meaning": "Lehrer",
+					"hint": "andere Personen",
+					"explanation": "für sich selbst anderer Ausdruck"
+				},
+				{
+					"id": "2",
+					"nihongo": "医者",
+					"kana": "いしゃ",
+					"romaji": "isha",
+					"meaning": "Arzt, Ärztin"
+				},
+				{
+					"id": "3",
+					"nihongo": "お名前　は　「何　です　か」。",
+					"kana": "お　なまえ　は　「なん　です　か」。",
+					"romaji": "onamae wa (nan desu ka).",
+					"meaning": "Wie heißen Sie bitte?"
+				},
+				{
+					"id": "4",
+					"nihongo": "起きます",
+					"kana": "おきます",
+					"romaji": "okimasu",
+					"meaning": "aufstehen",
+					"dictForm": "おきる",
+					"teForm": "おきて",
+					"naiForm": "おきない"
+				}
+			],
+			"kanjiCards": [
+				{
+					"id": "1",
+					"kanji": "人",
+					"kanjiDetails": [
+						{
+							"reading": "hito",
+							"meanings": [
+								"Mensch"
+							]
+						},
+						{
+							"reading": "NIN",
+							"meanings": [
+								"Mensch"
+							]
+						},
+						{
+							"reading": "JIN",
+							"meanings": [
+								"Mensch"
+							]
+						}
+					]
+				},
+				{
+					"id": "2",
+					"kanji": "一",
+					"kanjiDetails": [
+						{
+							"reading": "hito.tsu",
+							"meanings": [
+								"eins"
+							]
+						},
+						{
+							"reading": "ICHI",
+							"meanings": [
+								"eins"
+							]
+						}
+					]
+				},
+				{
+					"id": "3",
+					"kanji": "二",
+					"kanjiDetails": [
+						{
+							"reading": "futa",
+							"meanings": [
+								"zwei"
+							]
+						},
+						{
+							"reading": "futa.tsu",
+							"meanings": [
+								"zwei"
+							]
+						},
+						{
+							"reading": "NI",
+							"meanings": [
+								"zwei"
+							]
+						}
+					]
+				},
+				{
+					"id": "4",
+					"kanji": "三",
+					"kanjiDetails": [
+						{
+							"reading": "mi",
+							"meanings": [
+								"drei"
+							]
+						},
+						{
+							"reading": "mi.ttsu",
+							"meanings": [
+								"drei"
+							]
+						},
+						{
+							"reading": "SAN",
+							"meanings": [
+								"drei"
+							]
+						}
+					]
+				},
+				{
+					"id": "5",
+					"kanji": "日",
+					"kanjiDetails": [
+						{
+							"reading": "hi",
+							"meanings": [
+								"Tag",
+								"Sonne"
+							]
+						},
+						{
+							"reading": "ka",
+							"meanings": [
+								"Tag",
+								"Sonne"
+							]
+						},
+						{
+							"reading": "JITSU",
+							"meanings": [
+								"Tag",
+								"Sonne"
+							]
+						},
+						{
+							"reading": "NICHI",
+							"meanings": [
+								"Tag",
+								"Sonne"
+							]
+						}
+					]
+				},
+				{
+					"id": "6",
+					"kanji": "四",
+					"kanjiDetails": [
+						{
+							"reading": "yon",
+							"meanings": [
+								"vier"
+							]
+						},
+						{
+							"reading": "yo.ttsu",
+							"meanings": [
+								"vier"
+							]
+						},
+						{
+							"reading": "SHI",
+							"meanings": [
+								"vier"
+							]
+						}
+					]
+				}
+			]
+		},
+		"lesson 2": {
+			"name": "lesson 2",
+			"kanjiCards": [
+				{
+					"id": "1",
+					"kanji": "五",
+					"kanjiDetails": [
+						{
+							"reading": "itsu.tsu",
+							"meanings": [
+								"fünf",
+								"5"
+							]
+						},
+						{
+							"reading": "GO",
+							"meanings": [
+								"fünf",
+								"5"
+							]
+						}
+					]
+				},
+				{
+					"id": "2",
+					"kanji": "六",
+					"kanjiDetails": [
+						{
+							"reading": "mu.ttsu",
+							"meanings": [
+								"sechs",
+								"6"
+							]
+						},
+						{
+							"reading": "ROKU",
+							"meanings": [
+								"sechs",
+								"6"
+							]
+						}
+					]
+				},
+				{
+					"id": "3",
+					"kanji": "七",
+					"kanjiDetails": [
+						{
+							"reading": "nana",
+							"meanings": [
+								"sieben",
+								"7"
+							]
+						},
+						{
+							"reading": "nana.tsu",
+							"meanings": [
+								"sieben",
+								"7"
+							]
+						},
+						{
+							"reading": "SHICHI",
+							"meanings": [
+								"sieben",
+								"7"
+							]
+						}
+					]
+				},
+				{
+					"id": "4",
+					"kanji": "八",
+					"kanjiDetails": [
+						{
+							"reading": "ya.tsu",
+							"meanings": [
+								"acht"
+							]
+						},
+						{
+							"reading": "yat.tsu",
+							"meanings": [
+								"acht"
+							]
+						},
+						{
+							"reading": "HACHI",
+							"meanings": [
+								"acht"
+							]
+						}
+					]
+				},
+				{
+					"id": "5",
+					"kanji": "九",
+					"kanjiDetails": [
+						{
+							"reading": "kokono.tsu",
+							"meanings": [
+								"neun",
+								"9"
+							]
+						},
+						{
+							"reading": "KU",
+							"meanings": [
+								"neun",
+								"9"
+							]
+						},
+						{
+							"reading": "KYUU",
+							"meanings": [
+								"neun",
+								"9"
+							]
+						}
+					]
+				},
+				{
+					"id": "6",
+					"kanji": "十",
+					"kanjiDetails": [
+						{
+							"reading": "too",
+							"meanings": [
+								"zehn"
+							]
+						},
+						{
+							"reading": "JUU",
+							"meanings": [
+								"zehn"
+							]
+						}
+					]
+				},
+				{
+					"id": "7",
+					"kanji": "円",
+					"kanjiDetails": [
+						{
+							"reading": "EN",
+							"meanings": [
+								"Kreis",
+								"Yen"
+							]
+						}
+					]
+				},
+				{
+					"id": "8",
+					"kanji": "百",
+					"kanjiDetails": [
+						{
+							"reading": "HYAKU",
+							"meanings": [
+								"hundert",
+								"100"
+							]
+						}
+					]
+				},
+				{
+					"id": "9",
+					"kanji": "千",
+					"kanjiDetails": [
+						{
+							"reading": "chi",
+							"meanings": [
+								"tausend",
+								"1000"
+							]
+						},
+						{
+							"reading": "SEN",
+							"meanings": [
+								"tausend",
+								"1000"
+							]
+						}
+					]
+				},
+				{
+					"id": "10",
+					"kanji": "万",
+					"kanjiDetails": [
+						{
+							"reading": "MAN",
+							"meanings": [
+								"zehntausend",
+								"10000"
+							]
+						},
+						{
+							"reading": "BAN",
+							"meanings": [
+								"zehntausend",
+								"10000"
+							]
+						}
+					]
+				}
+			]
+		}
+	}
+}

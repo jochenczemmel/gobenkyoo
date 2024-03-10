@@ -32,8 +32,15 @@ func NewKanjiBox(id BoxID, cards ...kanjis.Card) Box {
 
 func (b *Box) AddKanjiCards(lessonid books.LessonID, cards ...kanjis.Card) {
 	for _, mode := range b.modes {
-		b.containers[mode] = newContainer(
-			makeKanjiCards(lessonid, mode, cards...)...)
+		if _, ok := b.containers[mode]; !ok {
+			b.containers[mode] = newContainer(
+				makeKanjiCards(lessonid, mode, cards...)...)
+		} else {
+			c := b.containers[mode]
+			c.addCards(MinLevel,
+				makeKanjiCards(lessonid, mode, cards...)...)
+			b.containers[mode] = c
+		}
 	}
 }
 

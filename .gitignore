@@ -12,6 +12,7 @@ coverage.txt
 cmd/gobenkyoo-import/testdata/jsondb
 cmd/gobenkyoo-learnbox/testdata/jsondb
 store/jsondb/testdata/store
+app/testdata/jsondb/classroom
 
 # executables
 *.exe
