@@ -59,6 +59,7 @@ run:
 		-configdir "$(TESTDATA)" \
 		-book "japanisch" \
 		-lesson "Lektion 1" \
+		-nominify
 
 # execute box creation
 runfrom:
@@ -70,6 +71,7 @@ runfrom:
 		-lesson "lesson 1" \
 		-frombook "kanjilexikon" \
 		-fromfile "$(TESTDATA)/kanjilist.txt" \
+		-nominify
 
 
 .PHONY: all build linux windows inttest test1 test2 \

@@ -29,6 +29,9 @@ func execute() error {
 	creator := app.NewBoxCreator(
 		jsondb.New(filepath.Join(optConfigDir, jsondb.BaseDir)),
 	)
+	if !optNoMinify {
+		jsondb.Minify = true
+	}
 
 	ok, err := creator.Load(cfg.DefaultLibrary, cfg.DefaultClassroom)
 	if err != nil {
@@ -106,6 +109,7 @@ the kanji lesson reference
 	flag.StringVar(&optFromBook, "frombook", "", "book containing kanjis")
 	flag.StringVar(&optFromSeries, "fromseries", "", "book series of 'frombook'")
 	flag.IntVar(&optFromVolume, "fromvolume", 0, "book series volume of 'frombook'")
+	flag.BoolVar(&optNoMinify, "nominify", false, "do not minify json files")
 
 	flag.Parse()
 
@@ -156,6 +160,7 @@ var (
 	optFromBook     string
 	optFromSeries   string
 	optFromVolume   int
+	optNoMinify     bool
 )
 
 const (

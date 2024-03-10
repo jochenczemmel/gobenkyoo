@@ -47,7 +47,9 @@ func storeBook(dirname string, book books.Book) error {
 	defer file.Close()
 
 	enc := json.NewEncoder(file)
-	enc.SetIndent("", "\t")
+	if !Minify {
+		enc.SetIndent("", "\t")
+	}
 	err = enc.Encode(jsonBook)
 	if err != nil {
 		return fmt.Errorf("store book %v: encode json: %w", jsonBook.ID, err)

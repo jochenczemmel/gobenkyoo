@@ -32,6 +32,9 @@ func execute() error {
 	importer := app.NewLibraryImporter(
 		jsondb.New(filepath.Join(optConfigDir, jsondb.BaseDir)),
 	)
+	if !optNoMinify {
+		jsondb.Minify = true
+	}
 
 	ok, err := importer.LoadLibrary(cfg.DefaultLibrary)
 	if err != nil {
@@ -116,6 +119,7 @@ Meaning,Nihongo,,,Dictform,Teform,Naiform
 	flag.StringVar(&optBookTitle, "book", "", "name of the book")
 	flag.StringVar(&optSeriesTitle, "series", "", "name of the book series")
 	flag.IntVar(&optVolume, "volume", 0, "volume of the book in the series")
+	flag.BoolVar(&optNoMinify, "nominify", false, "do not minify json files")
 
 	flag.Parse()
 
@@ -168,6 +172,7 @@ var (
 	optBookTitle          string
 	optSeriesTitle        string
 	optVolume             int
+	optNoMinify           bool
 )
 
 const (

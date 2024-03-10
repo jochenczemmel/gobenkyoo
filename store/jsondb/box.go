@@ -96,7 +96,9 @@ func storeBox(dirname string, box learn.Box) error {
 	defer file.Close()
 
 	enc := json.NewEncoder(file)
-	enc.SetIndent("", "\t")
+	if !Minify {
+		enc.SetIndent("", "\t")
+	}
 	err = enc.Encode(jsonBox)
 	if err != nil {
 		return fmt.Errorf("store box %v: encode json: %w", jsonBox.BoxID, err)

@@ -11,6 +11,8 @@ func New(dir string) DB {
 	return DB{baseDir: dir}
 }
 
+var Minify bool
+
 const BaseDir = "jsondb"
 
 const (

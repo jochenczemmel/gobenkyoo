@@ -40,7 +40,8 @@ runkanji:
 		-sep ";" \
 		-fieldsep "/" \
 		-fields "KANJI,,,READING,MEANINGS,HINT,EXPLANATION" \
-		-configdir "$(TESTDATA)"
+		-configdir "$(TESTDATA)" \
+		-nominify	
 
 runword:
 	./$(BINARY_BASE_NAME) \
@@ -52,6 +53,7 @@ runword:
 		-sep "," \
 		-fields "KANA,NIHONGO,ROMAJI,MEANING,HINT,EXPLANATION,DICTFORM,TEFORM,NAIFORM" \
 		-configdir "$(TESTDATA)" \
+		-nominify	
 
 
 .PHONY: all build linux windows inttest runword runkanji
