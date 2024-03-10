@@ -86,7 +86,6 @@ linters:
     - cyclop
     - decorder
     - dogsled
-    - dupl
     - dupword
     - durationcheck
     - errchkjson
@@ -104,7 +103,6 @@ linters:
     - gocritic
     - gocyclo
     - godot
-    - goerr113
     - gofmt
     - goheader
     - goimports
@@ -169,4 +167,6 @@ linters:
     - forbidigo
     - stylecheck
     - wrapcheck
+    - goerr113
+    - dupl # maybe later, ignores small differences in code
 

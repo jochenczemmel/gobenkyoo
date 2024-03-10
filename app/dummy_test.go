@@ -31,6 +31,7 @@ func (d dummy) LoadClassroom(string) (learn.Classroom, error) {
 			Err:  os.ErrNotExist,
 		}
 	}
+
 	return result, nil
 }
 
@@ -38,6 +39,7 @@ func (d dummy) StoreClassroom(learn.Classroom) error {
 	if d.storeRoomError != "" {
 		return fmt.Errorf("%s", d.storeRoomError)
 	}
+
 	return nil
 }
 
@@ -53,6 +55,7 @@ func (d dummy) LoadLibrary(string) (books.Library, error) {
 			Err:  os.ErrNotExist,
 		}
 	}
+
 	return result, nil
 }
 

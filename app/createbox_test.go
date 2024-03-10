@@ -101,7 +101,7 @@ func TestCreateBoxFromLesson(t *testing.T) {
 			creator := app.NewBoxCreator(
 				jsondb.New(filepath.Join(testDataDir, jsondb.BaseDir)),
 			)
-			creator.Load(cfg.DefaultLibrary, cfg.DefaultClassroom)
+			_, _ = creator.Load(cfg.DefaultLibrary, cfg.DefaultClassroom)
 			err := c.testFunc(&creator, c.boxID)
 			checkError(t, err, c.wantErr)
 

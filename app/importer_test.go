@@ -61,7 +61,7 @@ func TestImportWordLesson(t *testing.T) {
 			importer := app.NewLibraryImporter(
 				jsondb.New(filepath.Join(testDataDir, jsondb.BaseDir)),
 			)
-			importer.LoadLibrary("vhs")
+			_, _ = importer.LoadLibrary("vhs")
 
 			importer.SetWordImporter(c.importer)
 
@@ -132,7 +132,7 @@ func TestImportKanjiLesson(t *testing.T) {
 			importer := app.NewLibraryImporter(
 				jsondb.New(filepath.Join(testDataDir, jsondb.BaseDir)),
 			)
-			importer.LoadLibrary("vhs")
+			_, _ = importer.LoadLibrary("vhs")
 
 			importer.SetKanjiImporter(c.importer)
 
@@ -173,91 +173,79 @@ func checkError(t *testing.T, err error, want bool) {
 	}
 }
 
-var kanjis1 = []kanjis.Card{
-	kanjis.Card{
-		ID: "1", Kanji: '人',
-		Explanation: "nicht: 入",
-		Details: []kanjis.Detail{
-			{Reading: "hito", Meanings: []string{"Mensch"}},
-			{Reading: "NIN", Meanings: []string{"Mensch"}},
-			{Reading: "JIN", Meanings: []string{"Mensch"}},
-		},
+var kanjis1 = []kanjis.Card{{
+	ID: "1", Kanji: '人',
+	Explanation: "nicht: 入",
+	Details: []kanjis.Detail{
+		{Reading: "hito", Meanings: []string{"Mensch"}},
+		{Reading: "NIN", Meanings: []string{"Mensch"}},
+		{Reading: "JIN", Meanings: []string{"Mensch"}},
 	},
-	kanjis.Card{
-		ID: "2", Kanji: '一',
-		Details: []kanjis.Detail{
-			{Reading: "hito.tsu", Meanings: []string{"eins"}},
-			{Reading: "ICHI", Meanings: []string{"eins"}},
-		},
+}, {
+	ID: "2", Kanji: '一',
+	Details: []kanjis.Detail{
+		{Reading: "hito.tsu", Meanings: []string{"eins"}},
+		{Reading: "ICHI", Meanings: []string{"eins"}},
 	},
-	kanjis.Card{
-		ID: "3", Kanji: '二',
-		Hint: "auch ein kana",
-		Details: []kanjis.Detail{
-			{Reading: "futa", Meanings: []string{"zwei"}},
-			{Reading: "futa.tsu", Meanings: []string{"zwei"}},
-			{Reading: "NI", Meanings: []string{"zwei"}},
-		},
+}, {
+	ID: "3", Kanji: '二',
+	Hint: "auch ein kana",
+	Details: []kanjis.Detail{
+		{Reading: "futa", Meanings: []string{"zwei"}},
+		{Reading: "futa.tsu", Meanings: []string{"zwei"}},
+		{Reading: "NI", Meanings: []string{"zwei"}},
 	},
-	kanjis.Card{
-		ID: "4", Kanji: '三',
-		Details: []kanjis.Detail{
-			{Reading: "mi", Meanings: []string{"drei"}},
-			{Reading: "mi.ttsu", Meanings: []string{"drei"}},
-			{Reading: "SAN", Meanings: []string{"drei"}},
-		},
+}, {
+	ID: "4", Kanji: '三',
+	Details: []kanjis.Detail{
+		{Reading: "mi", Meanings: []string{"drei"}},
+		{Reading: "mi.ttsu", Meanings: []string{"drei"}},
+		{Reading: "SAN", Meanings: []string{"drei"}},
 	},
-	kanjis.Card{
-		ID: "5", Kanji: '日',
-		Details: []kanjis.Detail{
-			{Reading: "hi", Meanings: []string{"Tag", "Sonne"}},
-			{Reading: "ka", Meanings: []string{"Tag", "Sonne"}},
-			{Reading: "JITSU", Meanings: []string{"Tag", "Sonne"}},
-			{Reading: "NICHI", Meanings: []string{"Tag", "Sonne"}},
-		},
+}, {
+	ID: "5", Kanji: '日',
+	Details: []kanjis.Detail{
+		{Reading: "hi", Meanings: []string{"Tag", "Sonne"}},
+		{Reading: "ka", Meanings: []string{"Tag", "Sonne"}},
+		{Reading: "JITSU", Meanings: []string{"Tag", "Sonne"}},
+		{Reading: "NICHI", Meanings: []string{"Tag", "Sonne"}},
 	},
-	kanjis.Card{
-		ID: "6", Kanji: '四',
-		Details: []kanjis.Detail{
-			{Reading: "yon", Meanings: []string{"vier"}},
-			{Reading: "yo.ttsu", Meanings: []string{"vier"}},
-			{Reading: "SHI", Meanings: []string{"vier"}},
-		},
+}, {
+	ID: "6", Kanji: '四',
+	Details: []kanjis.Detail{
+		{Reading: "yon", Meanings: []string{"vier"}},
+		{Reading: "yo.ttsu", Meanings: []string{"vier"}},
+		{Reading: "SHI", Meanings: []string{"vier"}},
 	},
-}
+}}
 
-var words1 = []words.Card{
-	{
-		ID:          "1",
-		Nihongo:     "先生",
-		Kana:        "せんせい",
-		Romaji:      "sensei",
-		Meaning:     "Lehrer",
-		Hint:        "andere Personen",
-		Explanation: "für sich selbst anderer Ausdruck",
-	},
-	{
-		ID:      "2",
-		Nihongo: "医者",
-		Kana:    "いしゃ",
-		Romaji:  "isha",
-		Meaning: "Arzt, Ärztin",
-	},
-	{
-		ID:      "3",
-		Nihongo: "お名前\u3000は\u3000「何\u3000です\u3000か」。",
-		Kana:    "お\u3000なまえ\u3000は\u3000「なん\u3000です\u3000か」。",
-		Romaji:  "onamae wa (nan desu ka).",
-		Meaning: "Wie heißen Sie bitte?",
-	},
-	{
-		ID:       "4",
-		Nihongo:  "起きます",
-		Kana:     "おきます",
-		Romaji:   "okimasu",
-		Meaning:  "aufstehen",
-		DictForm: "おきる",
-		TeForm:   "おきて",
-		NaiForm:  "おきない",
-	},
-}
+var words1 = []words.Card{{
+	ID:          "1",
+	Nihongo:     "先生",
+	Kana:        "せんせい",
+	Romaji:      "sensei",
+	Meaning:     "Lehrer",
+	Hint:        "andere Personen",
+	Explanation: "für sich selbst anderer Ausdruck",
+}, {
+	ID:      "2",
+	Nihongo: "医者",
+	Kana:    "いしゃ",
+	Romaji:  "isha",
+	Meaning: "Arzt, Ärztin",
+}, {
+	ID:      "3",
+	Nihongo: "お名前\u3000は\u3000「何\u3000です\u3000か」。",
+	Kana:    "お\u3000なまえ\u3000は\u3000「なん\u3000です\u3000か」。",
+	Romaji:  "onamae wa (nan desu ka).",
+	Meaning: "Wie heißen Sie bitte?",
+}, {
+	ID:       "4",
+	Nihongo:  "起きます",
+	Kana:     "おきます",
+	Romaji:   "okimasu",
+	Meaning:  "aufstehen",
+	DictForm: "おきる",
+	TeForm:   "おきて",
+	NaiForm:  "おきない",
+}}
