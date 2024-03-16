@@ -1,53 +1,51 @@
 package main
 
 import (
-	"flag"
-	"fmt"
 	"os"
+
+	"github.com/therecipe/qt/widgets"
 )
 
-// command line flags.
-var (
-	optDbPath string // data base path specification
-	optDbType string // type of data base
-	optUI     string // type of user interface
-)
-
-const ERROR_RC = 2
-
-// main program.
 func main() {
 
-	getOptions()
-	err := doBenkyoo()
-	if err != nil {
-		fmt.Printf("%v\n", err)
-		os.Exit(ERROR_RC)
-	}
-}
+	// needs to be called once before you can start using the QWidgets
+	app := widgets.NewQApplication(len(os.Args), os.Args)
 
-// doBenkyoo executes the program.
-func doBenkyoo() error {
-	// TODO:
-	fmt.Printf("ui: %s, path: %s, type: %s\n", optUI, optDbPath, optDbType)
-	return nil
-}
+	// create a window
+	// with a minimum size of 250*200
+	// and sets the title to "Hello Widgets Example"
+	window := widgets.NewQMainWindow(nil, 0)
+	window.SetMinimumSize2(250, 200)
+	window.SetWindowTitle("Hello Widgets Example")
 
-// getOptions parses the command line options.
-func getOptions() {
+	// create a regular widget
+	// give it a QVBoxLayout
+	// and make it the central widget of the window
+	widget := widgets.NewQWidget(nil, 0)
+	widget.SetLayout(widgets.NewQVBoxLayout())
+	window.SetCentralWidget(widget)
 
-	// set usage note
-	flag.Usage = func() {
-		fmt.Fprintf(flag.CommandLine.Output(), "%s - learn japanese\n", os.Args[0])
-		flag.PrintDefaults()
-	}
+	// create a line edit
+	// with a custom placeholder text
+	// and add it to the central widgets layout
+	input := widgets.NewQLineEdit(nil)
+	input.SetPlaceholderText("Write something ...")
+	widget.Layout().AddWidget(input)
 
-	// define flags
-	flag.StringVar(&optDbType, "dbtype", "", "config file")
-	// flag.StringVar(&optDbPath, "db", "", "database path")
+	// create a button
+	// connect the clicked signal
+	// and add it to the central widgets layout
+	button := widgets.NewQPushButton2("and click me!", nil)
+	button.ConnectClicked(func(bool) {
+		widgets.QMessageBox_Information(nil, "OK", input.Text(), widgets.QMessageBox__Ok, widgets.QMessageBox__Ok)
+	})
+	widget.Layout().AddWidget(button)
 
-	flag.StringVar(&optUI, "ui", "", "user interface mode")
+	// make the window visible
+	window.Show()
 
-	// parse options
-	flag.Parse()
+	// start the main Qt event loop
+	// and block until app.Exit() is called
+	// or the window is closed by the user
+	app.Exec()
 }

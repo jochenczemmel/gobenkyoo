@@ -14,8 +14,14 @@ cmd/gobenkyoo-learnbox/testdata/jsondb
 store/jsondb/testdata/store
 app/testdata/jsondb/classroom
 
-# executables
+# windows executables
 *.exe
+# mac/darwin executables
+*.arm64
+*.amd64
+
+# qt helper executable
+qtbox
 
 cmd/gobenkyoo/gobenkyoo
 cmd/gobenkyoo-import/gobenkyoo-import
