@@ -60,3 +60,14 @@ func (l Library) SortedBooks() []Book {
 
 	return result
 }
+
+// SortedBookIDs returns a list of book ids sorted according to
+// series title, volume and book title.
+func (l Library) SortedBookIDs() []ID {
+	result := make([]ID, 0, len(l.Books))
+	for _, book := range l.SortedBooks() {
+		result = append(result, book.ID)
+	}
+
+	return result
+}
