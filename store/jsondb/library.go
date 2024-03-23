@@ -14,7 +14,8 @@ import (
 // StoreLibrary stores all the books that are in the specified library.
 func (l DB) StoreLibrary(library books.Library) error {
 	dirName := filepath.Join(l.baseDir, libraryPath, url.PathEscape(library.Name))
-	for _, book := range library.Books {
+	for _, id := range library.SortedBookIDs() {
+		book := library.Book(id)
 		err := storeBook(dirName, book)
 		if err != nil {
 			return fmt.Errorf("store library: %w", err)

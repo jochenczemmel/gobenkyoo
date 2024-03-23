@@ -68,9 +68,10 @@ func TestImportWordLesson(t *testing.T) {
 			err := importer.WordLesson(c.fileName, lessonID)
 			checkError(t, err, c.wantErr)
 
-			if len(importer.Library.Books) != c.wantNBooks {
+			gotNbooks := len(importer.Library.SortedBookIDs())
+			if gotNbooks != c.wantNBooks {
 				t.Errorf("ERROR: got %v, want %v",
-					len(importer.Library.Books), c.wantNBooks)
+					gotNbooks, c.wantNBooks)
 			}
 
 			book := importer.Library.Book(bookID)
@@ -139,9 +140,10 @@ func TestImportKanjiLesson(t *testing.T) {
 			err := importer.KanjiLesson(c.fileName, lessonID)
 			checkError(t, err, c.wantErr)
 
-			if len(importer.Library.Books) != c.wantNBooks {
+			gotNbooks := len(importer.Library.SortedBookIDs())
+			if gotNbooks != c.wantNBooks {
 				t.Errorf("ERROR: got %v, want %v",
-					len(importer.Library.Books), c.wantNBooks)
+					gotNbooks, c.wantNBooks)
 			}
 
 			book := importer.Library.Book(bookID)
