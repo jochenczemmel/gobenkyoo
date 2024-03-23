@@ -1,14 +1,10 @@
 package books
 
-import (
-	"slices"
-	"sort"
-)
+import "sort"
 
 // Library provides access to a list of books.
 type Library struct {
 	Name      string
-	Books     []Book
 	booksByID map[ID]Book
 }
 
@@ -16,7 +12,6 @@ type Library struct {
 func NewLibrary(name string) Library {
 	return Library{
 		Name:      name,
-		Books:     []Book{},
 		booksByID: map[ID]Book{},
 	}
 }
@@ -24,21 +19,8 @@ func NewLibrary(name string) Library {
 // SetBooks adds or replaces books to the library.
 // The order is preserved.
 func (l *Library) SetBooks(books ...Book) {
-
-LOOP:
 	for _, book := range books {
-		_, ok := l.booksByID[book.ID]
-		if !ok {
-			l.booksByID[book.ID] = book
-			l.Books = append(l.Books, book)
-			continue LOOP
-		}
-		for i, b := range l.Books {
-			if b.ID == book.ID {
-				l.Books[i] = book
-				continue LOOP
-			}
-		}
+		l.booksByID[book.ID] = book
 	}
 }
 
@@ -52,22 +34,14 @@ func (l Library) Book(id ID) Book {
 	return book
 }
 
-// SortedBooks returns a list of books sorted according to
-// series title, volume and book title.
-func (l Library) SortedBooks() []Book {
-	result := slices.Clone(l.Books)
-	sort.Sort(bySeriesVolumeTitle(result))
-
-	return result
-}
-
 // SortedBookIDs returns a list of book ids sorted according to
 // series title, volume and book title.
 func (l Library) SortedBookIDs() []ID {
-	result := make([]ID, 0, len(l.Books))
-	for _, book := range l.SortedBooks() {
-		result = append(result, book.ID)
+	result := make([]ID, 0, len(l.booksByID))
+	for id := range l.booksByID {
+		result = append(result, id)
 	}
+	sort.Sort(bySeriesVolumeTitle(result))
 
 	return result
 }

@@ -1,8 +1,9 @@
 package books
 
-// bySeriesVolumeTitle provides sorting of a slice of books
+// bySeriesVolumeTitle provides sorting of a slice of book ids
 // according to series title, volume and book title.
-type bySeriesVolumeTitle []Book
+// type bySeriesVolumeTitle []Book
+type bySeriesVolumeTitle []ID
 
 // Len implements sort.Interface.
 func (b bySeriesVolumeTitle) Len() int { return len(b) }

@@ -28,20 +28,10 @@ func TestLibrarySort(t *testing.T) {
 			library := books.NewLibrary("")
 			library.SetBooks(shuffledBooks...)
 
-			t.Run("books", func(t *testing.T) {
-				got := library.SortedBooks()
-				t.Logf("DEBUG: sorted: first book: %v", got[0])
-
-				if diff := cmp.Diff(got, sortedBooks, cmpopts.IgnoreUnexported(books.Book{})); diff != "" {
-					t.Errorf("ERROR: got- want+:\n%s", diff)
-				}
-			})
-			t.Run("book ids", func(t *testing.T) {
-				got := library.SortedBookIDs()
-				if diff := cmp.Diff(got, sortedBookIDs); diff != "" {
-					t.Errorf("ERROR: got- want+:\n%s", diff)
-				}
-			})
+			got := library.SortedBookIDs()
+			if diff := cmp.Diff(got, sortedBookIDs); diff != "" {
+				t.Errorf("ERROR: got- want+:\n%s", diff)
+			}
 		})
 	}
 }
@@ -53,7 +43,7 @@ func TestLibraryBooks(t *testing.T) {
 	library.SetBooks(sortedBooks...)
 
 	t.Run("number of books", func(t *testing.T) {
-		got := len(library.Books)
+		got := len(library.SortedBookIDs())
 		want := len(sortedBooks)
 		if got != want {
 			t.Errorf("ERROR: got %v, want %v", got, want)
