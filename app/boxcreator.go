@@ -2,7 +2,6 @@ package app
 
 import (
 	"errors"
-	"fmt"
 	"os"
 
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
@@ -63,42 +62,20 @@ func (c *BoxCreator) Store() error {
 
 // KanjiBox creates a new kanji box from the lesson id provided
 // in the box id.
-func (c *BoxCreator) KanjiBox(id learn.BoxID) error {
-
-	lesson, err := c.getLesson(id)
-	if err != nil {
-		return err
-	}
-
+func (c *BoxCreator) KanjiBox(id learn.BoxID) {
+	lesson := c.getLesson(id)
 	c.Classroom.SetKanjiBoxes(learn.NewKanjiBox(id, lesson.KanjiCards()...))
-
-	return nil
 }
 
-func (c *BoxCreator) getLesson(id learn.BoxID) (books.Lesson, error) {
-
-	lesson, ok := c.Library.Book(id.LessonID.ID).Lesson(id.LessonID.Name)
-	if !ok {
-		return books.Lesson{}, ConfigurationError(
-			fmt.Sprintf("lesson %q not found in book %q",
-				id.LessonID.Name, id.LessonID.ID),
-		)
-	}
-	return lesson, nil
+func (c *BoxCreator) getLesson(id learn.BoxID) books.Lesson {
+	return c.Library.Book(id.LessonID.ID).Lesson(id.LessonID.Name)
 }
 
 // WordBox creates a new word box from the lesson id provided
 // in the box id.
-func (c *BoxCreator) WordBox(id learn.BoxID) error {
-
-	lesson, err := c.getLesson(id)
-	if err != nil {
-		return err
-	}
-
+func (c *BoxCreator) WordBox(id learn.BoxID) {
+	lesson := c.getLesson(id)
 	c.Classroom.SetWordBoxes(learn.NewWordBox(id, lesson.WordCards()...))
-
-	return nil
 }
 
 // KanjiBoxFromList creates a new kanji box from the lesson id provided

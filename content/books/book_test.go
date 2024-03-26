@@ -54,28 +54,24 @@ func TestBookSetLesson(t *testing.T) {
 	testCases := []struct {
 		name        string
 		input, want string
-		wantOK      bool
 	}{
 		{
-			name:   "lesson in book",
-			input:  allNames[1],
-			want:   allNames[1],
-			wantOK: true,
+			name:  "lesson in book",
+			input: allNames[1],
+			want:  allNames[1],
 		},
 		{
-			name:   "lesson in book",
-			input:  allNames[2],
-			want:   "",
-			wantOK: false,
+			name:  "lesson not in book",
+			input: allNames[2],
+			want:  allNames[2],
 		},
 	}
 	for _, c := range testCases {
 
 		t.Run(c.name, func(t *testing.T) {
-			got, ok := book.Lesson(c.input)
-			if got.Name != c.want || ok != c.wantOK {
-				t.Errorf("ERROR: got %q, %v, want %q, %v",
-					got.Name, ok, c.want, c.wantOK)
+			got := book.Lesson(c.input)
+			if got.Name != c.want {
+				t.Errorf("ERROR: got %q, want %q", got.Name, c.want)
 			}
 		})
 	}

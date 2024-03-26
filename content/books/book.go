@@ -30,10 +30,7 @@ func (b Book) LessonNames() []string {
 func (b Book) Lessons() []Lesson {
 	result := make([]Lesson, 0, len(b.lessonNames))
 	for _, name := range b.lessonNames {
-		lesson, ok := b.Lesson(name)
-		if ok {
-			result = append(result, lesson)
-		}
+		result = append(result, b.Lesson(name))
 	}
 	return result
 }
@@ -51,9 +48,12 @@ func (b *Book) SetLessons(lessons ...Lesson) {
 	}
 }
 
-// Lesson returns the lesson with the given title and true.
-// If it is not found, an empty Lesson and false is returned.
-func (b Book) Lesson(lessonname string) (Lesson, bool) {
+// Lesson returns the lesson with the given title.
+// If it is not found, a new Lesson is returned.
+func (b Book) Lesson(lessonname string) Lesson {
 	found, ok := b.lessonsByName[lessonname]
-	return found, ok
+	if !ok {
+		return NewLesson(lessonname)
+	}
+	return found
 }

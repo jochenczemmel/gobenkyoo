@@ -61,16 +61,10 @@ func execute() error {
 	}
 
 	if optType == "" || optType == learn.KanjiType {
-		err = creator.KanjiBox(boxID)
-		if err != nil {
-			return err
-		}
+		creator.KanjiBox(boxID)
 	}
 	if optType == "" || optType == learn.WordType {
-		err = creator.WordBox(boxID)
-		if err != nil {
-			return err
-		}
+		creator.WordBox(boxID)
 	}
 
 	return creator.Store()

@@ -58,10 +58,9 @@ func TestCreateBoxFromLesson(t *testing.T) {
 	testCases := []struct {
 		name      string
 		boxID     learn.BoxID
-		testFunc  func(*app.BoxCreator, learn.BoxID) error
+		testFunc  func(*app.BoxCreator, learn.BoxID)
 		getFunc   func(learn.Classroom, learn.BoxID) learn.Box
 		mode      string
-		wantErr   bool
 		wantCards []learn.Card
 	}{{
 		name:      "kanji ok",
@@ -77,7 +76,6 @@ func TestCreateBoxFromLesson(t *testing.T) {
 		getFunc:   learn.Classroom.KanjiBox,
 		mode:      learn.DefaultKanjiMode,
 		wantCards: []learn.Card{},
-		wantErr:   true,
 	}, {
 		name:      "word ok",
 		boxID:     boxID,
@@ -92,7 +90,6 @@ func TestCreateBoxFromLesson(t *testing.T) {
 		getFunc:   learn.Classroom.WordBox,
 		mode:      learn.DefaultWordMode,
 		wantCards: []learn.Card{},
-		wantErr:   true,
 	}}
 
 	for _, c := range testCases {
@@ -102,8 +99,7 @@ func TestCreateBoxFromLesson(t *testing.T) {
 				jsondb.New(filepath.Join(testDataDir, jsondb.BaseDir)),
 			)
 			_, _ = creator.Load(cfg.DefaultLibrary, cfg.DefaultClassroom)
-			err := c.testFunc(&creator, c.boxID)
-			checkError(t, err, c.wantErr)
+			c.testFunc(&creator, c.boxID)
 
 			box := c.getFunc(creator.Classroom, c.boxID)
 			gotCards := box.Cards(c.mode, learn.AllLevel)

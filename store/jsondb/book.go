@@ -33,10 +33,7 @@ func storeBook(dirname string, book books.Book) error {
 	}
 
 	for _, name := range jsonBook.LessonNames {
-		lesson, ok := book.Lesson(name)
-		if ok {
-			jsonBook.LessonsByName[name] = lesson2json(lesson)
-		}
+		jsonBook.LessonsByName[name] = lesson2json(book.Lesson(name))
 	}
 
 	fileName := filepath.Join(dirname, jsonBook.ID.fileName())

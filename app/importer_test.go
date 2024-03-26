@@ -79,7 +79,7 @@ func TestImportWordLesson(t *testing.T) {
 				t.Errorf("ERROR: got- want+\n%s", diff)
 			}
 
-			lesson, _ := book.Lesson(lessonID.Name)
+			lesson := book.Lesson(lessonID.Name)
 			if diff := cmp.Diff(lesson.WordCards(), c.wantCards); diff != "" {
 				t.Errorf("ERROR: got- want+\n%s", diff)
 			}
@@ -151,7 +151,7 @@ func TestImportKanjiLesson(t *testing.T) {
 				t.Errorf("ERROR: got- want+\n%s", diff)
 			}
 
-			lesson, _ := book.Lesson(lessonID.Name)
+			lesson := book.Lesson(lessonID.Name)
 			if diff := cmp.Diff(lesson.KanjiCards(), c.wantCards); diff != "" {
 				t.Errorf("ERROR: got- want+\n%s", diff)
 			}

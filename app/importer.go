@@ -78,10 +78,7 @@ func (li *LibraryImporter) KanjiLesson(filename string, lessonid books.LessonID)
 func (li *LibraryImporter) doImport(typ, filename string, lessonid books.LessonID) (err error) {
 
 	book := li.Library.Book(lessonid.ID)
-	lesson, ok := book.Lesson(lessonid.Name)
-	if !ok {
-		lesson.Name = lessonid.Name
-	}
+	lesson := book.Lesson(lessonid.Name)
 
 	switch typ {
 	case learn.KanjiType:
