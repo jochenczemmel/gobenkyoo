@@ -9,10 +9,6 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/content/words"
 )
 
-const DBTypeJSON = "json"
-
-var DbTypes = []string{dbTypeJson}
-
 // KanjiImporter defines the interface to import kanji cards.
 type KanjiImporter interface {
 	ImportKanji(string) ([]kanjis.Card, error)
