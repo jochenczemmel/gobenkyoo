@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/jochenczemmel/gobenkyoo/cfg"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
@@ -59,7 +60,9 @@ func TestImportWordLesson(t *testing.T) {
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 
-			importer := store.NewWordImporter(c.csvImporter)
+			importer := store.NewWordLibraryImporter(
+				books.NewLibrary(cfg.DefaultLibrary),
+				c.csvImporter)
 			checkError(t, importer.Lesson(c.fileName, lessonID), c.wantErr)
 
 			gotNbooks := len(importer.Library.SortedBookIDs())
@@ -126,7 +129,9 @@ func TestImportKanjiLesson(t *testing.T) {
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 
-			importer := store.NewKanjiImporter(c.csvImporter)
+			importer := store.NewKanjiLibraryImporter(
+				books.NewLibrary(cfg.DefaultLibrary),
+				c.csvImporter)
 			checkError(t, importer.Lesson(c.fileName, lessonID), c.wantErr)
 
 			gotNbooks := len(importer.Library.SortedBookIDs())

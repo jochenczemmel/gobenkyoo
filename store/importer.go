@@ -1,7 +1,6 @@
 package store
 
 import (
-	"github.com/jochenczemmel/gobenkyoo/cfg"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 )
 
@@ -12,18 +11,20 @@ type LibraryImporter struct {
 	wordImporter  WordImporter
 }
 
-// NewKanjiImporter returns a library importer that can import a kanji file.
-func NewKanjiImporter(importer KanjiImporter) LibraryImporter {
+// NewKanjiLibraryImporter returns a library importer
+// that can import a kanji file.
+func NewKanjiLibraryImporter(library books.Library, importer KanjiImporter) LibraryImporter {
 	return LibraryImporter{
-		Library:       books.NewLibrary(cfg.DefaultLibrary),
+		Library:       library,
 		kanjiImporter: importer,
 	}
 }
 
-// NewWordImporter returns a library importer that can import a word file.
-func NewWordImporter(importer WordImporter) LibraryImporter {
+// NewWordLibraryImporter returns a library importer
+// that can import a word file.
+func NewWordLibraryImporter(library books.Library, importer WordImporter) LibraryImporter {
 	return LibraryImporter{
-		Library:      books.NewLibrary(cfg.DefaultLibrary),
+		Library:      library,
 		wordImporter: importer,
 	}
 }

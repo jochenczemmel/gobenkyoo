@@ -1,11 +1,12 @@
 package app_test
 
 import (
+	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/google/go-cmp/cmp"
 	"github.com/jochenczemmel/gobenkyoo/app"
+	"github.com/jochenczemmel/gobenkyoo/cfg"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
 	"github.com/jochenczemmel/gobenkyoo/content/words"
@@ -13,9 +14,19 @@ import (
 	"github.com/jochenczemmel/gobenkyoo/store/jsondb"
 )
 
-const testDataDir = "testdata"
+const (
+	testDataDir = "testdata"
+	storeDir    = "store"
+)
+
+var outDir = filepath.Join(testDataDir, storeDir, jsondb.BaseDir)
 
 func TestImportWordLesson(t *testing.T) {
+
+	err := os.RemoveAll(outDir)
+	if err != nil {
+		t.Fatalf("ERROR: test setup failed: %v", err)
+	}
 
 	bookID := books.ID{Title: "minna"}
 	lessonID := books.LessonID{Name: "lesson1", ID: bookID}
@@ -58,36 +69,21 @@ func TestImportWordLesson(t *testing.T) {
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 
-			importer := app.NewLibraryImporter(
-				jsondb.New(filepath.Join(testDataDir, jsondb.BaseDir)),
-			)
-			_, _ = importer.LoadLibrary("vhs")
+			importer := app.NewLibraryImporter(cfg.DefaultLibrary,
+				jsondb.New(outDir))
 
-			importer.SetWordImporter(c.importer)
-
-			err := importer.WordLesson(c.fileName, lessonID)
+			err := importer.Word(c.importer, c.fileName, lessonID)
 			checkError(t, err, c.wantErr)
-
-			gotNbooks := len(importer.Library.SortedBookIDs())
-			if gotNbooks != c.wantNBooks {
-				t.Errorf("ERROR: got %v, want %v",
-					gotNbooks, c.wantNBooks)
-			}
-
-			book := importer.Library.Book(bookID)
-			if diff := cmp.Diff(book.LessonNames(), c.wantLessonTitles); diff != "" {
-				t.Errorf("ERROR: got- want+\n%s", diff)
-			}
-
-			lesson := book.Lesson(lessonID.Name)
-			if diff := cmp.Diff(lesson.WordCards(), c.wantCards); diff != "" {
-				t.Errorf("ERROR: got- want+\n%s", diff)
-			}
 		})
 	}
 }
 
 func TestImportKanjiLesson(t *testing.T) {
+
+	err := os.RemoveAll(outDir)
+	if err != nil {
+		t.Fatalf("ERROR: test setup failed: %v", err)
+	}
 
 	bookID := books.ID{Title: "kanjidic"}
 	lessonID := books.LessonID{Name: "lesson1", ID: bookID}
@@ -130,31 +126,11 @@ func TestImportKanjiLesson(t *testing.T) {
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 
-			importer := app.NewLibraryImporter(
-				jsondb.New(filepath.Join(testDataDir, jsondb.BaseDir)),
-			)
-			_, _ = importer.LoadLibrary("vhs")
-
-			importer.SetKanjiImporter(c.importer)
-
-			err := importer.KanjiLesson(c.fileName, lessonID)
+			importer := app.NewLibraryImporter(cfg.DefaultLibrary,
+				jsondb.New(outDir))
+			err := importer.Kanji(c.importer, c.fileName, lessonID)
 			checkError(t, err, c.wantErr)
 
-			gotNbooks := len(importer.Library.SortedBookIDs())
-			if gotNbooks != c.wantNBooks {
-				t.Errorf("ERROR: got %v, want %v",
-					gotNbooks, c.wantNBooks)
-			}
-
-			book := importer.Library.Book(bookID)
-			if diff := cmp.Diff(book.LessonNames(), c.wantLessonTitles); diff != "" {
-				t.Errorf("ERROR: got- want+\n%s", diff)
-			}
-
-			lesson := book.Lesson(lessonID.Name)
-			if diff := cmp.Diff(lesson.KanjiCards(), c.wantCards); diff != "" {
-				t.Errorf("ERROR: got- want+\n%s", diff)
-			}
 		})
 	}
 }

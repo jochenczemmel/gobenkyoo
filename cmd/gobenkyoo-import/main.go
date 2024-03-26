@@ -29,19 +29,11 @@ func main() {
 // execute does the main work.
 func execute() error {
 
-	importer := app.NewLibraryImporter(
+	importer := app.NewLibraryImporter(cfg.DefaultLibrary,
 		jsondb.New(filepath.Join(optConfigDir, jsondb.BaseDir)),
 	)
 	if !optNoMinify {
 		jsondb.Minify = true
-	}
-
-	ok, err := importer.LoadLibrary(cfg.DefaultLibrary)
-	if err != nil {
-		return err
-	}
-	if !ok {
-		log.Printf("library %q found, create new", cfg.DefaultLibrary)
 	}
 
 	lessonID := books.LessonID{
@@ -53,30 +45,21 @@ func execute() error {
 		},
 	}
 
-	switch optType {
-
-	case learn.KanjiType:
-		importer.SetKanjiImporter(
+	if optType == learn.KanjiType {
+		return importer.Kanji(
 			csvimport.NewKanji(optSeparatorRune, optFieldSeparatorRune,
 				optHeaderLine, strings.Split(optFields, fieldSplitChar),
 			),
+			optFileName, lessonID,
 		)
-		err = importer.KanjiLesson(optFileName, lessonID)
-
-	default:
-		importer.SetWordImporter(
-			csvimport.NewWord(optSeparatorRune, optHeaderLine,
-				strings.Split(optFields, fieldSplitChar),
-			),
-		)
-		err = importer.WordLesson(optFileName, lessonID)
 	}
 
-	if err != nil {
-		return err
-	}
-
-	return importer.StoreLibrary()
+	return importer.Word(
+		csvimport.NewWord(optSeparatorRune, optHeaderLine,
+			strings.Split(optFields, fieldSplitChar),
+		),
+		optFileName, lessonID,
+	)
 }
 
 // getOptions gets the command line options and stores them
