@@ -59,8 +59,7 @@ func TestImportWordLesson(t *testing.T) {
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 
-			importer := store.NewWordImporter(
-				books.NewLibrary("testlib"), c.csvImporter)
+			importer := store.NewWordImporter(c.csvImporter)
 			checkError(t, importer.Lesson(c.fileName, lessonID), c.wantErr)
 
 			gotNbooks := len(importer.Library.SortedBookIDs())
@@ -127,8 +126,7 @@ func TestImportKanjiLesson(t *testing.T) {
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 
-			importer := store.NewKanjiImporter(
-				books.NewLibrary("testlib"), c.csvImporter)
+			importer := store.NewKanjiImporter(c.csvImporter)
 			checkError(t, importer.Lesson(c.fileName, lessonID), c.wantErr)
 
 			gotNbooks := len(importer.Library.SortedBookIDs())
