@@ -2,7 +2,6 @@ package app_test
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
@@ -19,20 +18,16 @@ type dummy struct {
 	storeRoomError string
 }
 
-func (d dummy) LoadClassroom(string) (learn.Classroom, error) {
+func (d dummy) LoadClassroom(string) (learn.Classroom, bool, error) {
 	result := learn.NewClassroom("")
 	if d.loadRoomError != "" {
-		return result, fmt.Errorf("%s", d.loadRoomError)
+		return result, true, fmt.Errorf("%s", d.loadRoomError)
 	}
 	if d.roomPathError != "" {
-		return result, &os.PathError{
-			Op:   "open",
-			Path: ".",
-			Err:  os.ErrNotExist,
-		}
+		return result, false, nil
 	}
 
-	return result, nil
+	return result, true, nil
 }
 
 func (d dummy) StoreClassroom(learn.Classroom) error {
@@ -43,20 +38,16 @@ func (d dummy) StoreClassroom(learn.Classroom) error {
 	return nil
 }
 
-func (d dummy) LoadLibrary(string) (books.Library, error) {
+func (d dummy) LoadLibrary(string) (books.Library, bool, error) {
 	var result books.Library
 	if d.loadError != "" {
-		return result, fmt.Errorf("%s", d.loadError)
+		return result, true, fmt.Errorf("%s", d.loadError)
 	}
 	if d.pathError != "" {
-		return result, &os.PathError{
-			Op:   "open",
-			Path: ".",
-			Err:  os.ErrNotExist,
-		}
+		return result, false, nil
 	}
 
-	return result, nil
+	return result, true, nil
 }
 
 func (d dummy) StoreLibrary(books.Library) error {

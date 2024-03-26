@@ -35,43 +35,49 @@ func (l DB) StoreClassroom(classroom learn.Classroom) error {
 }
 
 // LoadClassroom loads all boxes that the specified classroom contains.
-func (l DB) LoadClassroom(name string) (learn.Classroom, error) {
-	var room learn.Classroom
+func (l DB) LoadClassroom(name string) (room learn.Classroom, found bool, err error) {
 
 	baseDirName := filepath.Join(l.baseDir, classroomPath)
-	kanjiBoxes, err := readBoxes(filepath.Join(
+	kanjiBoxes, foundKanji, err := readBoxes(filepath.Join(
 		baseDirName, kanjiPath, url.PathEscape(name)))
 	if err != nil {
-		return room, fmt.Errorf("load classroom: %w", err)
+		return room, true, fmt.Errorf("load classroom: %w", err)
 	}
 
-	wordBoxes, err := readBoxes(filepath.Join(
+	wordBoxes, foundWord, err := readBoxes(filepath.Join(
 		baseDirName, wordPath, url.PathEscape(name)))
 	if err != nil {
-		return room, fmt.Errorf("load classroom: %w", err)
+		return room, true, fmt.Errorf("load classroom: %w", err)
 	}
 
 	room = learn.NewClassroom(name)
 	room.SetKanjiBoxes(kanjiBoxes...)
 	room.SetWordBoxes(wordBoxes...)
 
-	return room, nil
+	if !foundWord && !foundKanji {
+		return room, false, nil
+	}
+	return room, true, nil
 }
 
 // readBoxes reads all learn boxes that are found in the given directory.
-func readBoxes(dirname string) ([]learn.Box, error) {
+func readBoxes(dirname string) ([]learn.Box, bool, error) {
 	result := []learn.Box{}
 
 	dir, err := os.Open(dirname)
 	if err != nil {
-		return result, fmt.Errorf("open box directory: %w", err)
+		var pathErr *os.PathError
+		if errors.As(err, &pathErr) && os.IsNotExist(pathErr) {
+			return result, false, nil
+		}
+		return result, true, fmt.Errorf("open box directory: %w", err)
 	}
 	defer dir.Close()
 
 	errorList := []error{}
 	files, err := dir.ReadDir(readAllFiles)
 	if err != nil {
-		return result, fmt.Errorf("read directory files: %w", err)
+		return result, true, fmt.Errorf("read directory files: %w", err)
 	}
 	for _, file := range files {
 		if !strings.HasSuffix(file.Name(), jsonExtension) {
@@ -86,8 +92,8 @@ func readBoxes(dirname string) ([]learn.Box, error) {
 	}
 
 	if len(errorList) > 0 {
-		return result, fmt.Errorf("read box: %w", errors.Join(errorList...))
+		return result, true, fmt.Errorf("read box: %w", errors.Join(errorList...))
 	}
 
-	return result, nil
+	return result, true, nil
 }

@@ -17,42 +17,48 @@ import (
 func TestClassroomLoad(t *testing.T) {
 	baseDir := filepath.Join(testDataDir, "load")
 	testCases := []struct {
-		name     string
-		dir      string
-		roomName string
-		wantErr  bool
-		want     learn.Classroom
+		name               string
+		dir                string
+		roomName           string
+		wantErr, wantFound bool
+		want               learn.Classroom
 	}{{
-		name:     "ok",
-		dir:      baseDir,
-		roomName: testClassroomName,
-		want:     makeLearnClassroom(),
+		name:      "ok",
+		dir:       baseDir,
+		roomName:  testClassroomName,
+		wantFound: true,
+		want:      makeLearnClassroom(),
 	}, {
 		name:     "classroom not found",
 		dir:      baseDir,
 		roomName: "does not exist",
-		wantErr:  true,
 	}, {
 		name:     "dir not found",
 		dir:      "does/not/exist",
 		roomName: testClassroomName,
-		wantErr:  true,
 	}, {
-		name:     "no permission",
-		dir:      "/etc/sudoers.d",
-		roomName: testClassroomName,
-		wantErr:  true,
+		name:      "no permission",
+		dir:       "/etc/sudoers.d",
+		roomName:  testClassroomName,
+		wantFound: true,
+		wantErr:   true,
 	}, {
-		name:     "invalid json",
-		dir:      baseDir,
-		roomName: "invalid",
-		wantErr:  true,
+		name:      "invalid json",
+		dir:       baseDir,
+		roomName:  "invalid",
+		wantFound: true,
+		wantErr:   true,
 	}}
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 			lib := jsondb.New(c.dir)
-			got, err := lib.LoadClassroom(c.roomName)
+			got, found, err := lib.LoadClassroom(c.roomName)
+
+			if found != c.wantFound {
+				t.Errorf("ERROR: got %v, want %v", found, c.wantFound)
+			}
+
 			if c.wantErr {
 				if err == nil {
 					t.Fatalf("ERROR: error not detected")
@@ -62,6 +68,10 @@ func TestClassroomLoad(t *testing.T) {
 			}
 			if err != nil {
 				t.Errorf("ERROR: got error %v", err)
+			}
+
+			if !c.wantFound {
+				return
 			}
 
 			compareClassrom(t, got, c.want)

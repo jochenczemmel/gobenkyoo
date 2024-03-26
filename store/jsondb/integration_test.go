@@ -29,10 +29,15 @@ func TestIntegrationLibraryStoreLoad(t *testing.T) {
 		t.Errorf("ERROR: got error %v", err)
 	}
 
-	got, err := lib.LoadLibrary(testLibraryName)
+	got, found, err := lib.LoadLibrary(testLibraryName)
+	if !found {
+		t.Errorf("ERROR: library not found")
+	}
+
 	if err != nil {
 		t.Errorf("ERROR: got error %v", err)
 	}
+
 	if diff := cmp.Diff(got, bookLib, cmp.AllowUnexported(
 		books.Library{},
 		books.Book{},
@@ -59,7 +64,10 @@ func TestIntegrationClassroomStoreLoad(t *testing.T) {
 		t.Errorf("ERROR: got error %v", err)
 	}
 
-	got, err := lib.LoadClassroom(testClassroomName)
+	got, found, err := lib.LoadClassroom(testClassroomName)
+	if !found {
+		t.Errorf("ERROR: not found")
+	}
 	if err != nil {
 		t.Errorf("ERROR: got error %v", err)
 	}

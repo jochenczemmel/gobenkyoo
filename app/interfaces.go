@@ -45,7 +45,7 @@ type LoadStorer interface {
 // LibraryLoader defines the interface to load
 // kanji and word content.
 type LibraryLoader interface {
-	LoadLibrary(string) (books.Library, error)
+	LoadLibrary(string) (books.Library, bool, error)
 }
 
 // LibraryStorer defines the interface to store
@@ -56,7 +56,7 @@ type LibraryStorer interface {
 
 // ClassroomLoader defines the interface to load learn boxes.
 type ClassroomLoader interface {
-	LoadClassroom(string) (learn.Classroom, error)
+	LoadClassroom(string) (learn.Classroom, bool, error)
 }
 
 // ClassroomStorer defines the interface to store learn boxes.

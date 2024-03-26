@@ -1,9 +1,6 @@
 package app
 
 import (
-	"errors"
-	"os"
-
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 	"github.com/jochenczemmel/gobenkyoo/content/kanjis"
@@ -33,20 +30,18 @@ func (c *BoxCreator) Load(libname, roomname string) (found bool, err error) {
 		return false, ConfigurationError("no ClassroomLoadStorer defined")
 	}
 
-	c.Library, err = c.loadStorer.LoadLibrary(libname)
+	c.Library, _, err = c.loadStorer.LoadLibrary(libname)
 	if err != nil {
 		return false, err
 	}
 
-	c.Classroom, err = c.loadStorer.LoadClassroom(roomname)
+	c.Classroom, found, err = c.loadStorer.LoadClassroom(roomname)
 	if err == nil {
 		return true, nil
 	}
-
-	var pathErr *os.PathError
-	if errors.As(err, &pathErr) && os.IsNotExist(pathErr) {
-		c.Classroom = learn.NewClassroom(roomname)
+	if !found {
 		return false, nil
+
 	}
 
 	return false, err

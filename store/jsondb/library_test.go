@@ -16,16 +16,17 @@ func TestLibraryLoad(t *testing.T) {
 	baseDir := filepath.Join(testDataDir, "load")
 
 	testCases := []struct {
-		name    string
-		dir     string
-		libName string
-		wantErr bool
-		wantLib books.Library
+		name               string
+		dir                string
+		libName            string
+		wantErr, wantFound bool
+		wantLib            books.Library
 	}{{
-		name:    "ok",
-		dir:     baseDir,
-		libName: testLibraryName,
-		wantLib: makeBooksLibrary(),
+		name:      "ok",
+		dir:       baseDir,
+		libName:   testLibraryName,
+		wantFound: true,
+		wantLib:   makeBooksLibrary(),
 	}, {
 		name:    "library not found",
 		dir:     baseDir,
@@ -37,16 +38,21 @@ func TestLibraryLoad(t *testing.T) {
 		libName: testLibraryName,
 		wantErr: true,
 	}, {
-		name:    "invalid json",
-		dir:     baseDir,
-		libName: "invalid",
-		wantErr: true,
+		name:      "invalid json",
+		dir:       baseDir,
+		libName:   "invalid",
+		wantFound: true,
+		wantErr:   true,
 	}}
 
 	for _, c := range testCases {
 		t.Run(c.name, func(t *testing.T) {
 			lib := jsondb.New(c.dir)
-			got, err := lib.LoadLibrary(c.libName)
+			got, found, err := lib.LoadLibrary(c.libName)
+
+			if found != c.wantFound {
+				t.Errorf("ERROR: got %v, want %v", found, c.wantFound)
+			}
 			if c.wantErr {
 				if err == nil {
 					t.Fatalf("ERROR: error not detected")

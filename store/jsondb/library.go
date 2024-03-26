@@ -26,14 +26,19 @@ func (l DB) StoreLibrary(library books.Library) error {
 }
 
 // LoadLibrary loads all the books in the specified library.
-func (l DB) LoadLibrary(name string) (books.Library, error) {
+// If the library is not found, found is set to false.
+func (l DB) LoadLibrary(name string) (lib books.Library, found bool, err error) {
 	dirName := filepath.Join(l.baseDir, libraryPath, url.PathEscape(name))
-	library, err := readLibrary(name, dirName)
+	lib, err = readLibrary(name, dirName)
 	if err != nil {
-		return library, fmt.Errorf("load library: %w", err)
+		var pathErr *os.PathError
+		if errors.As(err, &pathErr) && os.IsNotExist(pathErr) {
+			return lib, false, err
+		}
+		return lib, true, fmt.Errorf("load library: %w", err)
 	}
 
-	return library, nil
+	return lib, true, nil
 }
 
 // readLibrary reads the json book files from the given directory

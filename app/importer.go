@@ -2,9 +2,6 @@
 package app
 
 import (
-	"errors"
-	"os"
-
 	"github.com/jochenczemmel/gobenkyoo/app/learn"
 	"github.com/jochenczemmel/gobenkyoo/content/books"
 )
@@ -43,13 +40,11 @@ func (li *LibraryImporter) LoadLibrary(name string) (found bool, err error) {
 		return false, ConfigurationError("no LibraryLoadStorer defined")
 	}
 
-	li.Library, err = li.loadStorer.LoadLibrary(name)
+	li.Library, found, err = li.loadStorer.LoadLibrary(name)
 	if err == nil {
 		return true, nil
 	}
-
-	var pathErr *os.PathError
-	if errors.As(err, &pathErr) && os.IsNotExist(pathErr) {
+	if !found {
 		return false, nil
 	}
 

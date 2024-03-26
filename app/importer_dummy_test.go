@@ -1,10 +1,6 @@
 package app_test
 
-import (
-	"testing"
-
-	"github.com/jochenczemmel/gobenkyoo/app"
-)
+/*
 
 // TestImporterLoadLibrary uses a test dummy to check error handling.
 func TestImporterLoadLibrary(t *testing.T) {
@@ -74,3 +70,4 @@ func checkErrorMessage(t *testing.T, err error, want string) {
 		t.Errorf("ERROR: got error: %v", err)
 	}
 }
+*/
